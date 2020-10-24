@@ -27,6 +27,7 @@ public class SpriteManager {
                 Garbage = true;
             }
         }
+
         if (Garbage){
             System.gc();
         }

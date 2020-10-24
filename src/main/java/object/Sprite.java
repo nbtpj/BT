@@ -14,6 +14,10 @@ abstract class Sprite extends Node {
     protected int map_y(){ return(int)Math.round(y/5);}
     /* bản đồ toàn bộ */
     protected BigMap current_map;
+    /* update lại toàn bộ bản đồ */
+    public void setCurrent_map(BigMap new_map){
+        this.current_map = new_map;
+    }
     /* vị trí, vận tốc vật thể */
     protected double x,y,Vx,Vy;
     /* vật thể còn tồn tại hay không */
