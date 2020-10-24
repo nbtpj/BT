@@ -4,10 +4,18 @@ import javafx.scene.Node;
 import java.util.*;
 
 abstract class Sprite extends Node {
+    /* thời điểm của vật thể */
+    final public double time_index(){
+        return this.current_map.time_index;
+    }
+    static final int SIZE_OF_EACH = 5;
+    /* vị trí ô trên bản đồ */
+    protected int map_x(){ return(int)Math.round(x/5);}
+    protected int map_y(){ return(int)Math.round(y/5);}
+    /* bản đồ toàn bộ */
+    protected BigMap current_map;
     /* vị trí, vận tốc vật thể */
     protected double x,y,Vx,Vy;
-    /* danh sách các vật thể mà vật thể này có thể tác động */
-    protected Set<Sprite> near_by = new HashSet<>();
     /* vật thể còn tồn tại hay không */
     protected boolean _Use;
     /**
@@ -25,12 +33,11 @@ abstract class Sprite extends Node {
         return Double.compare(sprite.x, x) == 0 &&
                 Double.compare(sprite.y, y) == 0 &&
                 Double.compare(sprite.Vx, Vx) == 0 &&
-                Double.compare(sprite.Vy, Vy) == 0 &&
-                near_by.equals(sprite.near_by);
+                Double.compare(sprite.Vy, Vy) == 0 ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, Vx, Vy, near_by);
+        return Objects.hash(x, y, Vx, Vy);
     }
 }

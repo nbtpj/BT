@@ -3,11 +3,12 @@ package object;
 import java.util.*;
 
 public class SpriteManager {
-    /* tất cả vật thể đang trong bản đồ */
-    public Set<Sprite> map = new HashSet<>();
+    /* thời gian */
+    public double time;
     /* tât cả các sự kiện đang diễn ra trong bản đồ */
     public Set<Event> events = new HashSet<>();
-
+    /* bản đồ lớn */
+    public BigMap map;
     /**
      * cập nhập lại toàn bộ sau 1 khoảng thời gian rất nhỏ t(s)
      * @param time là một khoảng thởi gian rất nhỏ ( 1s/ FPS )
@@ -15,13 +16,13 @@ public class SpriteManager {
     public void update(double time){
         boolean Garbage = false;
         List<Event> result_events = new ArrayList<>();
-        List<Sprite> result_map = new ArrayList<>();
-        for( Sprite game_obj : map){
+        BigMap new_map = new BigMap(time + this.time);
+        for( Sprite game_obj : map.data()){
             result_events.addAll(game_obj.Update(time));
         }
-        for( Sprite game_obj : map){
+        for( Sprite game_obj : map.data()){
             if (game_obj._Use){
-                result_map.add(game_obj);
+                new_map.addSprite(game_obj);
             } else {
                 Garbage = true;
             }
@@ -30,6 +31,6 @@ public class SpriteManager {
             System.gc();
         }
         events = (Set<Event>) result_events;
-        map = (Set<Sprite>) result_map;
+        map = new_map;
     }
 }

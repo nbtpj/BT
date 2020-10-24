@@ -5,8 +5,12 @@ import java.util.Set;
 
 public class Bomber extends Sprite {
     public String Name;
+
+
     public Set<Event> Update(double time){
-        Set<Sprite> new_near_by = new HashSet<>();
+        int x_t = this.map_x();
+        int y_t = this.map_y();
+
         Set<Event> new_event = new HashSet<>();
 
         return new_event;
