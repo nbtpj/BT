@@ -11,9 +11,9 @@ public class BigMap {
     };
     static final int Size_x = 100, Size_y =100;
     /* dữ liệu của bản đồ, là một tập hợp 2D các ô, mỗi ô chứa 1 lượng vật thể */
-    private Set<Sprite>[][] data ;
-    public Set<Sprite> data(){
-        Set<Sprite> result = new HashSet<>();
+    private Set<G_Obj>[][] data ;
+    public Set<G_Obj> data(){
+        Set<G_Obj> result = new HashSet<>();
         for(int i=0;i<Size_x;i++){
             for(int j=0;j<Size_y;j++){
                 result.addAll(data[i][j]);
@@ -22,7 +22,7 @@ public class BigMap {
         return result;
     }
     /* thêm vật thể */
-    void addSprite(Sprite in){
+    void addG_Obj(G_Obj in){
         if(data == null){
             data = new Set[Size_x][Size_y];
             for(int i=0;i<Size_x;i++){
@@ -35,11 +35,12 @@ public class BigMap {
         }
     }
     /* lấy vật thể tại 1 ô */
-    public Set<Sprite> get_Sprite(int x, int y){
+    public Set<G_Obj> get_G_Obj(int x, int y){
         if(data !=null && (x>=0 && x< Size_x)&&(y>=0 && y< Size_y)){
             return data[x][y];
         } else {
             return null;
         }
     }
+
 }

@@ -1,12 +1,14 @@
-package object;
+package event;
 
+import java.io.FileNotFoundException;
 import java.util.Objects;
+import object.*;
 
 /**
  * các sự kiện xảy ra - xử lí âm thanh, hình ảnh (được sinh ra sau khi đã xử lí các thông số  trên đối tượng chính)
  */
-abstract class Event {
-    /* loại sự kiện (tự quy định) */
+public abstract class Event {
+    /* loại sự kiện theo G_Obj (tùy, viết cũng được, không cũng không sao) */
     protected String type;
     /* link tới file chứa âm thanh, hình ảnh,... phục vụ sự kiện */
     protected String link_to_data_file;
@@ -16,7 +18,9 @@ abstract class Event {
     public Event(int x,int y){
         this.x = x;
         this.y = y;
+        type = "event";
     }
+    public abstract void render() throws FileNotFoundException;
 
 
     @Override

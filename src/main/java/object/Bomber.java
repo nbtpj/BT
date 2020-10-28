@@ -2,14 +2,20 @@ package object;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import event.Bomber.*;
+import event.Event;
 /**
  * bomber object (demo)
  */
-public class Bomber extends Sprite {
+public class Bomber extends G_Obj {
     public String Name;
     public boolean Set_Bomb = false;
     public int heal = 1000;
+
+    public Bomber(double x, double y, BigMap current_map) {
+        super(x, y, current_map);
+    }
+
     public void Is_Attacked(int ammount){
         heal -= ammount;
 
@@ -47,7 +53,10 @@ public class Bomber extends Sprite {
         int x_t = this.map_x();
         int y_t = this.map_y();
         Set<Event> new_event = new HashSet<>();
-        if (heal<=0) new_event.add(new Dead(x_t,y_t));
+        if (heal<=0) {
+            new_event.add(new Dead(x_t,y_t));
+            _Use = false;
+        }
         /**
          * events bla bla ...
          * cập nhập x, y tại đây.(nếu có)

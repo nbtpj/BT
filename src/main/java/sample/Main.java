@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import object.*;
 
 public class Main extends Application {
 
@@ -19,6 +20,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         //launch(args);
-        System.out.println("hello world");
+        //System.out.println("hello world");
+
     }
 }

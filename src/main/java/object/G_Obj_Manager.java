@@ -1,8 +1,13 @@
 package object;
-
+import event.*;
 import java.util.*;
 
-public class SpriteManager {
+/**
+ * lớp quản lí
+ * các game object (G_Obj) sẽ KHÔNG BỊ COPY
+ * các map sẽ BỊ CẬP NHẬP (XÓA VÀ TẠO MỚI) LIÊN TỤC
+ */
+public class G_Obj_Manager {
     /* thời gian */
     public double time;
     /* tât cả các sự kiện đang diễn ra trong bản đồ */
@@ -17,15 +22,21 @@ public class SpriteManager {
         boolean Garbage = false;
         List<Event> result_events = new ArrayList<>();
         BigMap new_map = new BigMap(time + this.time);
-        for( Sprite game_obj : map.data()){
+        /* Lấy sự kiện và cập nhập vật thể */
+        for( G_Obj game_obj : map.data()){
             result_events.addAll(game_obj.Update(time));
         }
-        for( Sprite game_obj : map.data()){
+        /* tạo một map mới tại thời điểm mới */
+        for( G_Obj game_obj : map.data()){
             if (game_obj._Use){
-                new_map.addSprite(game_obj);
+                new_map.addG_Obj(game_obj);
             } else {
                 Garbage = true;
             }
+        }
+        /* cập nhập lại toàn bộ map cho vật thể */
+        for( G_Obj game_obj: new_map.data()){
+            game_obj.setCurrent_map(new_map);
         }
 
         if (Garbage){
