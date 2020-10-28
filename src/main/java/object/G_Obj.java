@@ -10,10 +10,10 @@ abstract public class G_Obj{
     /* vị trí, vận tốc vật thể */
     protected double x,y,Vx,Vy;
     /* vật thể còn tồn tại hay không */
-    protected boolean _Use;
+    public boolean _Use;
     /* vị trí ô trên bản đồ */
-    protected int map_x(){ return(int)Math.round(x/5);}
-    protected int map_y(){ return(int)Math.round(y/5);}
+    protected int map_x(){ return(int)Math.round(x/SIZE_OF_EACH);}
+    protected int map_y(){ return(int)Math.round(y/SIZE_OF_EACH);}
     /* bản đồ toàn bộ */
     protected BigMap current_map;
 

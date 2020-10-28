@@ -22,7 +22,7 @@ public class BigMap {
         return result;
     }
     /* thêm vật thể */
-    void addG_Obj(G_Obj in){
+    public void addG_Obj(G_Obj in){
         if(data == null){
             data = new Set[Size_x][Size_y];
             for(int i=0;i<Size_x;i++){

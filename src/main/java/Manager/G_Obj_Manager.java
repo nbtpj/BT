@@ -1,7 +1,7 @@
-package object;
+package manager;
 import event.*;
 import java.util.*;
-
+import object.*;
 /**
  * lớp quản lí
  * các game object (G_Obj) sẽ KHÔNG BỊ COPY
