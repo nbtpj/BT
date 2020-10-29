@@ -1,7 +1,9 @@
 package object;
 import javafx.scene.Node;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+
 import event.*;
 abstract public class G_Obj{
 
@@ -37,10 +39,10 @@ abstract public class G_Obj{
 
     /**
      * cập nhập thông số của vật thể, trả về một chuổi sự kiện mà vật thể tạo ra sau đó t(s)
-     * @param time là một khoảng thởi gian rất nhỏ ( 1s/ FPS )
+     * @param t là một khoảng thởi gian rất nhỏ ( 1s/ FPS )
      * @return một chuổi các sự kiện
      */
-    abstract public Set<Event> Update(double time);
+    abstract public List<Event> Update(double t);
 
     @Override
     public boolean equals(Object o) {

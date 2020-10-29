@@ -1,7 +1,7 @@
 package object;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BigMap {
     /* thời gian của bản đồ */
@@ -11,9 +11,9 @@ public class BigMap {
     };
     static final int Size_x = 100, Size_y =100;
     /* dữ liệu của bản đồ, là một tập hợp 2D các ô, mỗi ô chứa 1 lượng vật thể */
-    private Set<G_Obj>[][] data ;
-    public Set<G_Obj> data(){
-        Set<G_Obj> result = new HashSet<>();
+    private List<G_Obj>[][] data ;
+    public List<G_Obj> data(){
+        List<G_Obj> result = new ArrayList<>();
         for(int i=0;i<Size_x;i++){
             for(int j=0;j<Size_y;j++){
                 result.addAll(data[i][j]);
@@ -24,10 +24,10 @@ public class BigMap {
     /* thêm vật thể */
     public void addG_Obj(G_Obj in){
         if(data == null){
-            data = new Set[Size_x][Size_y];
+            data = new List[Size_x][Size_y];
             for(int i=0;i<Size_x;i++){
                 for(int j=0;j<Size_y;j++){
-                    data[i][j] = new HashSet<>();
+                    data[i][j] = new ArrayList<>();
                 }
             }
         } else {
@@ -35,12 +35,35 @@ public class BigMap {
         }
     }
     /* lấy vật thể tại 1 ô */
-    public Set<G_Obj> get_G_Obj(int x, int y){
+    public List<G_Obj> get_G_Obj(int x, int y){
         if(data !=null && (x>=0 && x< Size_x)&&(y>=0 && y< Size_y)){
             return data[x][y];
         } else {
             return null;
         }
+    }
+    public List<G_Obj> get_G_Obj(Pos pos){
+        int x= pos.x,y=pos.y;
+        if(data !=null && (x>=0 && x< Size_x)&&(y>=0 && y< Size_y)){
+            return data[x][y];
+        } else {
+            return null;
+        }
+    }
+    /* trả về lượng máu bị trừ trong 1 ô */
+    static public int lost_heal(List<G_Obj> cell){
+        int result =0;
+        for (Object x: cell
+             ) {
+            if(x instanceof object.Enemy ){
+                result+=5;
+            } else {
+                if (x instanceof object.Fire) {
+                    result += 3;
+                }
+            }
+        }
+        return result;
     }
 
 }
