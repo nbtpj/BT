@@ -13,6 +13,10 @@ public class Bomb extends G_Obj{
         this.time = 4;
     }
 
+    public Bomb(Pos pos) {
+        super(pos);
+    }
+
     @Override
     public List<Event> Update(double t) {
         this.time -=t;

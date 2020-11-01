@@ -1,6 +1,9 @@
 package manager;
 import event.*;
 import java.util.*;
+
+import event.Bomb.Explose;
+import event.Bomber.Set_Bomb;
 import object.*;
 /**
  * lớp quản lí
@@ -21,12 +24,23 @@ public class G_Obj_Manager {
     public void update(double time){
         boolean Garbage = false;
         List<Event> result_events = new ArrayList<>();
+        List<Event> temp;
         BigMap new_map = new BigMap(time + this.time);
-        /* Lấy sự kiện và cập nhập vật thể */
+        /* Lấy sự kiện, cập nhập vật thể,  thêm các vật thể mới vào new map*/
         for( G_Obj game_obj : map.data()){
-            result_events.addAll(game_obj.Update(time));
+            temp = game_obj.Update(time);
+            for (Event e:temp){
+                if (e instanceof Explose){
+                    new_map.addG_Obj(new Fire(e.pos()));
+                } else {
+                    if(e instanceof Set_Bomb){
+                        new_map.addG_Obj(new Bomb(e.pos()));
+                    }
+                }
+            };
+            result_events.addAll(temp);
         }
-        /* tạo một map mới tại thời điểm mới */
+        /* add các vật thể cũ (còn tồn tại) vào map mới sau update */
         for( G_Obj game_obj : map.data()){
             if (game_obj._Use){
                 new_map.addG_Obj(game_obj);

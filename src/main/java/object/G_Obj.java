@@ -30,6 +30,14 @@ abstract public class G_Obj{
         Vy = 0;
         this.current_map = current_map;
     }
+    public G_Obj(Pos pos) {
+        this.x = pos.x;
+        this.y = pos.y;
+        _Use = true;
+        Vx = 0;
+        Vy = 0;
+        this.current_map = null;
+    }
 
     /* update lại toàn bộ bản đồ */
     public void setCurrent_map(BigMap new_map){

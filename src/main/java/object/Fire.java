@@ -10,6 +10,10 @@ public class Fire extends G_Obj {
         super(x, y, current_map);
     }
 
+    public Fire(Pos pos) {
+        super(pos);
+    }
+
     @Override
     public List<Event> Update(double time) {
         List<Event> result = new ArrayList<>();

@@ -24,7 +24,9 @@ public abstract class Event {
         this.name = name;
     }
     public abstract void render() throws FileNotFoundException;
-
+    public Pos pos(){
+        return new Pos(x,y);
+    }
 
     @Override
     public boolean equals(Object o) {

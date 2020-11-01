@@ -80,7 +80,12 @@ public class BigMap {
             }
         }
         return "Safe";
-
+    }
+    /* load from file */
+    static public BigMap Load(String filename){
+        filename="/data/map/"+filename;
+        BigMap result = new BigMap(0);
+        return result;
     }
 
 }
