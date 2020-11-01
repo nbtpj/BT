@@ -6,8 +6,8 @@ import java.util.Objects;
 
 import event.*;
 abstract public class G_Obj{
-
-    static final int SIZE_OF_EACH = 5;
+    static double size=4.0;
+    static public final int SIZE_OF_EACH = 5;
 
     /* vị trí, vận tốc vật thể */
     protected double x,y,Vx,Vy;
@@ -16,6 +16,9 @@ abstract public class G_Obj{
     /* vị trí ô trên bản đồ */
     protected int map_x(){ return(int)Math.round(x/SIZE_OF_EACH);}
     protected int map_y(){ return(int)Math.round(y/SIZE_OF_EACH);}
+    protected Pos pos() {
+        return new Pos(x, y);
+    }
     /* bản đồ toàn bộ */
     protected BigMap current_map;
 
@@ -43,7 +46,9 @@ abstract public class G_Obj{
      * @return một chuổi các sự kiện
      */
     abstract public List<Event> Update(double t);
-
+    public double getDistanceTo(G_Obj x){
+        return Math.sqrt((x.x-this.x)*(x.x-this.x)+(x.y-this.y)*(x.y-this.y));
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

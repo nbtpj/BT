@@ -1,5 +1,7 @@
 package object;
 
+import event.Event;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +66,21 @@ public class BigMap {
             }
         }
         return result;
+    }
+    /* kiểm tra di chuyển hợp lệ */
+    public String valid(Pos pos){
+        List<G_Obj> cell =this.get_G_Obj(pos);
+        for( G_Obj i: cell){
+            if (i instanceof Bomb|| i instanceof Wall){
+                return "Invalid";
+            } else {
+                if(i instanceof Fire){
+                    return "Dangerous";
+                }
+            }
+        }
+        return "Safe";
+
     }
 
 }

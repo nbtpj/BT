@@ -1,7 +1,7 @@
 package user_control;
 
 public class Commands {
-    private String direction;
+    private String direction;/* left,right,top,bottom,none */
     private boolean set_bomb;
 
     public String getDirection() {
