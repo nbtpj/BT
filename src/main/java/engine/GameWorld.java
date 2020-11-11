@@ -3,8 +3,6 @@ package engine;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -81,7 +79,7 @@ public abstract class GameWorld {
         final Duration oneFrameAmt = Duration.millis(1000 / (float) getFramesPerSecond());
         final KeyFrame oneFrame = new KeyFrame(oneFrameAmt, actionEvent -> {
                     updateSprites();
-                    checkCollisions();
+                    checkCollision();
                     cleanupSprites();
                 });
 
@@ -98,24 +96,15 @@ public abstract class GameWorld {
         }
     }
 
-    protected void handleUpdate(Sprite sprite) {
-    }
+    protected void handleUpdate(Sprite sprite) {}
 
-    protected void checkCollisions() {
-        spriteManager.resetCollisionList();
-
-        for (Sprite spriteA : spriteManager.getCollisionList()) {
-            for (Sprite spriteB : spriteManager.getGameActorsList()) {
-                if (handleCollision(spriteA, spriteB)) {
-                    break;
-                }
-            }
+    protected void checkCollision() {
+        for (Sprite sprite : spriteManager.getGameActorsList()) {
+            handleCollision(sprite);
         }
     }
 
-    protected boolean handleCollision(Sprite spriteA, Sprite spriteB) {
-        return false;
-    }
+    protected void handleCollision(Sprite sprite) {}
 
     protected void cleanupSprites() {
         spriteManager.cleanupSprites();

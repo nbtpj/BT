@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 public class App extends Application {
 
-    GameWorld gameWorld = new TheGame(60, "Bomb IT");
+    public static GameWorld gameWorld = new TheGame(60, "Bomb IT");
 
     @Override
     public void start(Stage stage) {

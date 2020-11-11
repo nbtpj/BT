@@ -1,6 +1,5 @@
 package object;
 
-import engine.GameWorld;
 import engine.ImageClass;
 import engine.Sprite;
 import interfaces.Collision;
@@ -13,17 +12,7 @@ public class Wall extends Sprite implements Collision {
         node.setTranslateX(x-r);
         node.setTranslateY(y-r);
         collisionBound = new Circle();
-        this.setupCircleCBound(collisionBound, x, y, r);
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void handleDeath(GameWorld gameWorld) {
-
+        this.setupCircleCBound(collisionBound, x - r, y - r, r);
     }
 
     @Override

@@ -5,9 +5,10 @@ import engine.ImageClass;
 import engine.Sprite;
 import interfaces.Collision;
 import javafx.scene.shape.Circle;
+import maxxam.App;
 
 public class Player extends Sprite implements Collision {
-    public final double velocity = 10;
+    public final double velocity = 1;
     public boolean pressA;
     public boolean pressS;
     public boolean pressD;
@@ -18,7 +19,7 @@ public class Player extends Sprite implements Collision {
         node.setTranslateX(x - r);
         node.setTranslateY(y - r);
         collisionBound = new Circle();
-        this.setupCircleCBound(collisionBound, x, y, r);
+        this.setupCircleCBound(collisionBound, x - r, y - r, r);
     }
 
     @Override
@@ -40,24 +41,32 @@ public class Player extends Sprite implements Collision {
 
         node.setTranslateX(node.getTranslateX() + vX);
         node.setTranslateY(node.getTranslateY() + vY);
-        System.out.println("x: " + node.getTranslateX() + " ; y: " + node.getTranslateY());
+        collisionBound.setTranslateX(node.getTranslateX() + vX);
+        collisionBound.setTranslateY(node.getTranslateY() + vY);
     }
+
+    @Override
+    public void executeCollision() {
+        boolean collideWall = false;
+        for(Sprite sprite: App.gameWorld.getSpriteManager().getGameActorsList()) {
+            if (sprite instanceof Wall) {
+                if (collide((Collision)sprite)) {
+                    collideWall = true;
+                    break;
+                }
+            }
+        }
+        if (collideWall) {
+            node.setTranslateX(node.getTranslateX() - vX);
+            node.setTranslateY(node.getTranslateY() - vY);
+            collisionBound.setTranslateX(node.getTranslateX() - vX);
+            collisionBound.setTranslateY(node.getTranslateY() - vY);
+        }
+    }
+
 
     @Override
     public void handleDeath(GameWorld gameWorld) {
 
-    }
-
-    @Override
-    public boolean collide(Collision other) {
-        Circle tC = this.collisionBound;
-        Circle oC = ((Sprite) other).collisionBound;
-        double tR = tC.getRadius();
-        double oR = oC.getRadius();
-        double tX = tC.getTranslateX();
-        double tY = tC.getTranslateY();
-        double oX = oC.getTranslateX();
-        double oY = oC.getTranslateY();
-        return (tX - oX) * (tX - oX) + (tY - oY) * (tY - oY) < (tR + oR) * (tR + oR);
     }
 }

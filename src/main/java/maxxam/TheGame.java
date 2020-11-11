@@ -36,8 +36,13 @@ public class TheGame extends GameWorld {
     }
 
     @Override
-    protected void handleUpdate(Sprite sprite){
+    protected void handleUpdate(Sprite sprite) {
         sprite.update();
+    }
+
+    @Override
+    protected void handleCollision(Sprite sprite) {
+        sprite.executeCollision();
     }
 
 
