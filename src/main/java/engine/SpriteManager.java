@@ -13,6 +13,7 @@ public class SpriteManager {
     // CLEAN_UP_SPRITES_SET is used to avoid the case that a sprite is removed when COLLISION_LIST is being checked
     // But I also create removeSprites method in case of necessity
     private final static Set<Sprite> CLEAN_UP_SPRITES_SET = new HashSet<>();
+    private final static Set<Sprite> ADD_SPRITES_SET = new HashSet<>();
 
 //#####################################################################################################################
 // getter and setter
@@ -44,6 +45,14 @@ public class SpriteManager {
         }
     }
 
+    public void addSpritesToBeAdded(Sprite... sprites) {
+        if (sprites.length > 1) {
+            ADD_SPRITES_SET.addAll(Arrays.asList(sprites));
+        } else {
+            ADD_SPRITES_SET.add(sprites[0]);
+        }
+    }
+
     public void resetCollisionList() {
         COLLISION_LIST.clear();
 
@@ -57,5 +66,10 @@ public class SpriteManager {
     public void cleanupSprites() {
         GAME_ACTORS_LIST.removeAll(CLEAN_UP_SPRITES_SET);
         CLEAN_UP_SPRITES_SET.clear();
+    }
+
+    public void addUpdateSprites() {
+        GAME_ACTORS_LIST.addAll(ADD_SPRITES_SET);
+        ADD_SPRITES_SET.clear();
     }
 }

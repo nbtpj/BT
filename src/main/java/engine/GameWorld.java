@@ -37,7 +37,7 @@ public abstract class GameWorld {
     protected static Timeline getGameLoop() {
         return gameLoop;
     }
-    protected int getFramesPerSecond() {
+    public int getFramesPerSecond() {
         return framesPerSecond;
     }
     protected String getWindowTile() {
@@ -79,6 +79,7 @@ public abstract class GameWorld {
         final Duration oneFrameAmt = Duration.millis(1000 / (float) getFramesPerSecond());
         final KeyFrame oneFrame = new KeyFrame(oneFrameAmt, actionEvent -> {
                     updateSprites();
+                    addUpdateSprites();
                     checkCollision();
                     cleanupSprites();
                 });
@@ -97,6 +98,10 @@ public abstract class GameWorld {
     }
 
     protected void handleUpdate(Sprite sprite) {}
+
+    protected void addUpdateSprites() {
+        spriteManager.addUpdateSprites();
+    }
 
     protected void checkCollision() {
         for (Sprite sprite : spriteManager.getGameActorsList()) {
@@ -118,5 +123,17 @@ public abstract class GameWorld {
     public void shutdown() {
         getGameLoop().stop();
         getSoundManager().shutdown();
+    }
+
+    public void spawn(Sprite sprite) {
+//        getSpriteManager().addSprites(sprite);
+        getSpriteManager().addSpritesToBeAdded(sprite);
+        getSceneNodes().getChildren().add(sprite.node);
+    }
+
+    public void destroy(Sprite sprite) {
+//        getSpriteManager().removeSprites(sprite);
+        getSpriteManager().addSpritesToBeRemoved(sprite);
+        getSceneNodes().getChildren().remove(sprite.node);
     }
 }

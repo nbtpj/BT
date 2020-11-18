@@ -16,10 +16,10 @@ public class Player extends Sprite implements Collision {
 
     public Player(ImageClass imageClass, String id, double height, double width, double x, double y, double r) {
         node = imageClass.getImageView(id, height, width);
-        node.setTranslateX(x - r);
-        node.setTranslateY(y - r);
+        node.setTranslateX(x);
+        node.setTranslateY(y);
         collisionBound = new Circle();
-        this.setupCircleCBound(collisionBound, x - r, y - r, r);
+        this.setupCircleCBound(collisionBound, x, y, r);
     }
 
     @Override
@@ -55,6 +55,11 @@ public class Player extends Sprite implements Collision {
                     break;
                 }
             }
+            if (sprite instanceof Explore) {
+                if (collide((Collision)sprite)) {
+                    App.gameWorld.destroy(sprite);
+                }
+            }
         }
         if (collideWall) {
             node.setTranslateX(node.getTranslateX() - vX);
@@ -66,7 +71,7 @@ public class Player extends Sprite implements Collision {
 
 
     @Override
-    public void handleDeath(GameWorld gameWorld) {
+    public void handleDeath() {
 
     }
 }

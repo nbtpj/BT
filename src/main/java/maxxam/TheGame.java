@@ -11,12 +11,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import object.Background;
+import object.Bomb;
 import object.Player;
 import object.Wall;
 
 public class TheGame extends GameWorld {
 
-    ImageClass imageClass = getImageClass();
     Player player;
 
     public TheGame(int fps, String title) {
@@ -68,7 +68,15 @@ public class TheGame extends GameWorld {
             } else if (keyEvent.getCode() == KeyCode.W) {
                 player.pressW = true;
             }
+            if (keyEvent.getCode() == KeyCode.SPACE) {
+                Bomb bomb = new Bomb(getImageClass(), "bomb", 80, 80, player.node.getTranslateX(), player.node.getTranslateY(), 40);
+                spawn(bomb);
+            }
         };
+        EventHandler<KeyEvent> storeBomb = keyEvent -> {
+        };
+
+        stage.getScene().setOnKeyPressed(storeBomb);
         stage.getScene().setOnKeyPressed(playerMovePress);
 
         EventHandler<KeyEvent> playerMoveRelease = keyEvent -> {
@@ -86,19 +94,16 @@ public class TheGame extends GameWorld {
     }
 
     private void initBackground() {
-        Background background = new Background(imageClass, "ground", 720, 1080);
-        getSpriteManager().addSprites(background);
-        getSceneNodes().getChildren().add(background.node);
+        Background background = new Background(getImageClass(), "ground", 720, 1080);
+        spawn(background);
     }
     private void initPlayer() {
-        Player player = new Player(imageClass, "player", 80, 80, 40, 40, 40);
+        Player player = new Player(getImageClass(), "player", 80, 80, 0, 0, 40);
         this.player = player;
-        getSpriteManager().addSprites(player);
-        getSceneNodes().getChildren().add(player.node);
+        spawn(player);
     }
     private void initWall() {
-        Wall wall = new Wall(imageClass, "wall", 80, 80, 120, 120, 40);
-        getSpriteManager().addSprites(wall);
-        getSceneNodes().getChildren().add(wall.node);
+        Wall wall = new Wall(getImageClass(), "wall", 80, 80, 80, 80, 40);
+        spawn(wall);
     }
 }

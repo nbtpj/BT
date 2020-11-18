@@ -16,6 +16,7 @@ public class ImageClass {
         loadImage("ground", getClass().getResource("/maxxam/images/Ground.png"));
         loadImage("wall", getClass().getResource("/maxxam/images/Wall.png"));
         loadImage("bomb", getClass().getResource("/maxxam/images/Bomb.png"));
+        loadImage("explore", getClass().getResource("/maxxam/images/Explore.png"));
     }
 
     public void loadImage(String id, URL url) {

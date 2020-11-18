@@ -13,7 +13,7 @@ public abstract class Sprite {
     public double vY = 0;
     public void update() {}
     public void executeCollision() {}
-    public void handleDeath(GameWorld gameWorld) {}
+    public void handleDeath() {}
 
 //    public void handleDeath(GameWorld gameWorld) {
 //        gameWorld.getSpriteManager().addSpritesToBeRemoved(this);
