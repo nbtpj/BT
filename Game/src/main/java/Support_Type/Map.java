@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Map {
-    private Canvas static_objects;
-    private Canvas movable_objects;
-    private Canvas bombs_;
-    private Canvas flame_;
-    private List<Gobject>[][] data;
-    private int N_WIDTH,N_HEIGHT;
+    public Canvas static_objects;
+    public Canvas movable_objects;
+    public Canvas bombs_;
+    public Canvas flame_;
+    public List<Gobject>[][] data;
+    public int N_WIDTH,N_HEIGHT;
     private Map(Gobject gobject){
         static_objects = new Canvas(Screen.WIDTH,Screen.HEIGHT);
         movable_objects = new Canvas(Screen.WIDTH,Screen.HEIGHT);

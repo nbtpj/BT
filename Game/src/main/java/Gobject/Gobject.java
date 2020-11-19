@@ -1,5 +1,6 @@
 package Gobject;
 
+import Support_Type.Map;
 import Support_Type.Pos;
 import javafx.scene.image.Image;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class Gobject {
+    public Map current_map;
     public double index;
     @Override
     public boolean equals(Object o) {

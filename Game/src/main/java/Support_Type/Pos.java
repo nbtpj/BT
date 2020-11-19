@@ -54,7 +54,7 @@ public class Pos {
         return Objects.hash(x, y);
     }
 
-    static List<Pos> find_way (Pos begin, Pos end, Map map) {
+    public static List<Pos> find_way (Pos begin, Pos end, Map map) {
         List<Pos> way = new ArrayList<Pos>(), temp;
         if (begin.equals(end)) {
             way.add(end);
