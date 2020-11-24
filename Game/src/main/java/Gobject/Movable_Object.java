@@ -9,12 +9,7 @@ import java.util.List;
 
 
 public abstract class Movable_Object extends Gobject {
-    protected String link_to_front,
-            link_to_back,
-            link_to_left,
-            link_to_right;
     protected int n_front, n_back, n_left,n_right;
-    protected double V_x = 1, V_y = 1;
     protected int W = Pos.SIZE, H = Pos.SIZE * 2;
     protected  Image[] front;
     protected  Image[] back;
@@ -31,6 +26,10 @@ public abstract class Movable_Object extends Gobject {
     public Movable_Object(double index,String name, double x, double y) {
         super(index, name, x, y);
 
+    }
+
+    public Movable_Object(int i, String name, Pos pos) {
+        super(i,name,pos);
     }
 
 
@@ -79,11 +78,9 @@ public abstract class Movable_Object extends Gobject {
             if(target.equals(this.pos())){
                 return;
             }
-            this.list_pos = Pos.find_way(this.pos(), target, current_map);
-            //  System.out.println(list_pos);
-            move_2 =Pos.Pos2move(x,y,V_x*current_frames.length,V_y*current_frames.length,list_pos);
+            this.list_pos = Pos.find_way(this.pos(), target, current_map, new ArrayList<>());
+            move_2 =Pos.Pos2move(x,y,v_y*back.length,v_y*front.length,v_x*left.length,v_y*right.length,list_pos);
             current_frame=-1;
-            //  System.out.println(move_2);
         }catch (Exception e){
             System.out.println("not found!");
         }

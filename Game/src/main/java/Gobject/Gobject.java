@@ -10,6 +10,7 @@ import java.util.Objects;
 public abstract class Gobject {
     public Map current_map;
     public double index;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -28,8 +29,9 @@ public abstract class Gobject {
         return Objects.hash(index, name, x, y, v_x, v_y);
     }
 
-    String name;
-    protected double x,y,v_x,v_y;
+    public final String name;// name of game object
+    public double x,y;// current position
+    public double v_x,v_y; // current velocity
     public Pos pos(){
         return new Pos(x,y);
     }
