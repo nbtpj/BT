@@ -1,17 +1,17 @@
 package object;
 
-import engine.ImageClass;
+import engine.Images;
 import engine.Sprite;
 import interfaces.Collision;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 public class Wall extends Sprite implements Collision {
 
-    public Wall(ImageClass imageClass, String id, double height, double width, double x, double y, double r) {
-        node = imageClass.getImageView(id, height, width);
+    public Wall(double height, double width, double x, double y) {
+        node = Images.wall.getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
-        collisionBound = new Circle();
-        this.setupCircleCBound(collisionBound, x, y, r);
+        collisionBound = new Rectangle();
+        this.setupRectangleBound((Rectangle)collisionBound, x, y, height, width);
     }
 }

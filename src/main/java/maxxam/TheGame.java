@@ -1,7 +1,6 @@
 package maxxam;
 
 import engine.GameWorld;
-import engine.ImageClass;
 import engine.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -10,14 +9,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import object.Background;
-import object.Bomb;
-import object.Player;
-import object.Wall;
+import object.*;
+
+import java.io.File;
+import java.util.Scanner;
 
 public class TheGame extends GameWorld {
 
     Player player;
+    Scanner map;
+    char[][] sprite_map;
+    int level;
+    int height;
+    int width;
 
     public TheGame(int fps, String title) {
         super(fps, title);
@@ -49,9 +53,52 @@ public class TheGame extends GameWorld {
 //#####################################################################################################################
 // internal method
     private void generateMap(Stage stage) {
+
+        try {
+            File file = new File(getClass().getResource("/maxxam/map/level1.txt").toURI());
+            System.out.println(file);
+            map = new Scanner(file);
+        } catch (Exception e) {
+            System.out.println("can not find level-text file");
+        }
+
+        level = map.nextInt();
+        height = map.nextInt();
+        width = map.nextInt();
+
+        sprite_map = new char[height][width];
+
+        String s = map.nextLine();
+
+        System.out.println(level);
+        System.out.println(height);
+        System.out.println(width);
+
         initBackground();
-        initWall();
-        initPlayer();
+
+        for (int i = 0; i < height; i++) {
+            s = map.nextLine();
+            for (int j = 0; j < width; j++) {
+                sprite_map[i][j] = s.charAt(j);
+            }
+        }
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                char c = sprite_map[i][j];
+                if (c == '#') {
+                    initWall(i, j);
+                }
+                if (c == 'p') {
+                    initPlayer(i, j);
+                }
+                if (c == '*') {
+                    initBox(i, j);
+                }
+                System.out.print(c);
+            }
+            System.out.println("");
+        }
 
         setInput(stage);
     }
@@ -69,8 +116,8 @@ public class TheGame extends GameWorld {
                 player.pressW = true;
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {
-                Bomb bomb = new Bomb(getImageClass(), "bomb", 80, 80, player.node.getTranslateX(), player.node.getTranslateY(), 40);
-                spawn(bomb);
+                initBomb((int) (player.node.getTranslateY() / scale + 0.5f),
+                        (int) (player.node.getTranslateX() / scale + 0.5f));
             }
         };
         EventHandler<KeyEvent> storeBomb = keyEvent -> {
@@ -94,16 +141,28 @@ public class TheGame extends GameWorld {
     }
 
     private void initBackground() {
-        Background background = new Background(getImageClass(), "ground", 720, 1080);
+        Background background = new Background(height * scale, width * scale);
         spawn(background);
     }
-    private void initPlayer() {
-        Player player = new Player(getImageClass(), "player", 80, 80, 0, 0, 40);
+
+    private void initPlayer(int y, int x) {
+        Player player = new Player(scale, scale, x * scale, y * scale);
         this.player = player;
         spawn(player);
     }
-    private void initWall() {
-        Wall wall = new Wall(getImageClass(), "wall", 80, 80, 80, 80, 40);
+
+    private void initWall(int y, int x) {
+        Wall wall = new Wall(scale, scale, x * scale, y * scale);
         spawn(wall);
+    }
+
+    private void initBox(int y, int x) {
+        Box box = new Box(scale, scale, x * scale, y * scale);
+        spawn(box);
+    }
+
+    private void initBomb(int y, int x) {
+        Bomb box = new Bomb(scale, scale, x * scale, y * scale, scale / 2);
+        spawn(box);
     }
 }

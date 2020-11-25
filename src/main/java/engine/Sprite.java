@@ -1,21 +1,16 @@
 package engine;
 
 import javafx.scene.Node;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 
 public abstract class Sprite {
 
     public Node node;
-    public String tag;
-    public Circle collisionBound;
+    public Shape collisionBound;
 
     public double vX = 0;
     public double vY = 0;
     public void update() {}
     public void executeCollision() {}
     public void handleDeath() {}
-
-//    public void handleDeath(GameWorld gameWorld) {
-//        gameWorld.getSpriteManager().addSpritesToBeRemoved(this);
-//    }
 }

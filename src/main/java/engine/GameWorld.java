@@ -15,10 +15,11 @@ public abstract class GameWorld {
     private static Timeline gameLoop;
     private final int framesPerSecond;
     private final String windowTile;
+    protected static double scale = 32;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
-    private final ImageClass imageClass = new ImageClass();
+//    private final ImageClass imageClass = new ImageClass();
 
     private Scene gameSurface;
     private Group sceneNodes;
@@ -43,15 +44,18 @@ public abstract class GameWorld {
     protected String getWindowTile() {
         return windowTile;
     }
+    public double getScale() {
+        return scale;
+    }
     public SoundManager getSoundManager() {
         return soundManager;
     }
     public SpriteManager getSpriteManager() {
         return spriteManager;
     }
-    public ImageClass getImageClass() {
-        return imageClass;
-    }
+//    public ImageClass getImageClass() {
+//        return imageClass;
+//    }
     public Scene getGameSurface() {
         return gameSurface;
     }

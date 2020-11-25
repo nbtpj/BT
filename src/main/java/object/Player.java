@@ -1,11 +1,12 @@
 package object;
 
-import engine.GameWorld;
-import engine.ImageClass;
+import engine.Images;
 import engine.Sprite;
 import interfaces.Collision;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import maxxam.App;
+
+import java.util.Date;
 
 public class Player extends Sprite implements Collision {
     public final double velocity = 1;
@@ -14,12 +15,12 @@ public class Player extends Sprite implements Collision {
     public boolean pressD;
     public boolean pressW;
 
-    public Player(ImageClass imageClass, String id, double height, double width, double x, double y, double r) {
-        node = imageClass.getImageView(id, height, width);
+    public Player(double height, double width, double x, double y) {
+        node = Images.player_down[0].getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
-        collisionBound = new Circle();
-        this.setupCircleCBound(collisionBound, x, y, r);
+        collisionBound = new Rectangle();
+        this.setupRectangleBound((Rectangle) collisionBound, x, y, height - 1, width - 6);
     }
 
     @Override
@@ -39,10 +40,29 @@ public class Player extends Sprite implements Collision {
             vY += velocity;
         }
 
-        node.setTranslateX(node.getTranslateX() + vX);
-        node.setTranslateY(node.getTranslateY() + vY);
-        collisionBound.setTranslateX(node.getTranslateX() + vX);
-        collisionBound.setTranslateY(node.getTranslateY() + vY);
+        double x = node.getTranslateX();
+        double y = node.getTranslateY();
+        if (vY < 0) {
+            App.gameWorld.getSceneNodes().getChildren().remove(node);
+            node = Images.player_up[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+            App.gameWorld.getSceneNodes().getChildren().add(node);
+        } else if (vY > 0) {
+            App.gameWorld.getSceneNodes().getChildren().remove(node);
+            node = Images.player_down[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+            App.gameWorld.getSceneNodes().getChildren().add(node);
+        } else if (vX < 0) {
+            App.gameWorld.getSceneNodes().getChildren().remove(node);
+            node = Images.player_left[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+            App.gameWorld.getSceneNodes().getChildren().add(node);
+        } else if (vX > 0) {
+            App.gameWorld.getSceneNodes().getChildren().remove(node);
+            node = Images.player_right[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+            App.gameWorld.getSceneNodes().getChildren().add(node);
+        }
+        node.setTranslateX(x + vX);
+        node.setTranslateY(y + vY);
+        collisionBound.setTranslateX(x + vX);
+        collisionBound.setTranslateY(y + vY);
     }
 
     @Override
@@ -68,7 +88,6 @@ public class Player extends Sprite implements Collision {
             collisionBound.setTranslateY(node.getTranslateY() - vY);
         }
     }
-
 
     @Override
     public void handleDeath() {
