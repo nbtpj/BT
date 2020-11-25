@@ -18,7 +18,6 @@ public class TheGame extends GameWorld {
 
     Player player;
     Scanner map;
-    char[][] sprite_map;
     int level;
     int height;
     int width;
@@ -162,7 +161,7 @@ public class TheGame extends GameWorld {
     }
 
     private void initBomb(int y, int x) {
-        Bomb box = new Bomb(scale, scale, x * scale, y * scale, scale / 2);
+        Bomb box = new Bomb(scale, scale, x * scale, y * scale, player.bomb_power);
         spawn(box);
     }
 }

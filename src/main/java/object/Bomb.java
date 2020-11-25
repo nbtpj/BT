@@ -3,7 +3,6 @@ package object;
 import engine.Images;
 import engine.Sprite;
 import interfaces.Collision;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
@@ -11,13 +10,23 @@ import java.util.Date;
 
 public class Bomb extends Sprite implements Collision {
     public double deathTime = 3;
+    private int bomb_power;
 
-    public Bomb(double height, double width, double x, double y, double r) {
+    public Bomb(double height, double width, double x, double y) {
         node = Images.bomb[0].getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();
         this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
+    }
+
+    public Bomb(double height, double width, double x, double y, int bomb_power) {
+        node = Images.bomb[0].getImageView(height, width);
+        node.setTranslateX(x);
+        node.setTranslateY(y);
+        collisionBound = new Rectangle();
+        this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
+        this.bomb_power = bomb_power;
     }
 
     @Override
@@ -43,18 +52,93 @@ public class Bomb extends Sprite implements Collision {
         double scale = App.gameWorld.getScale();
 
         Explore explore;
+
         explore = new Explore(scale, scale,
-                this.node.getTranslateX(), this.node.getTranslateY(), scale / 2, 1, 0, 3);
+                this.node.getTranslateX(),
+                this.node.getTranslateY(),
+                0, 0, true);
         App.gameWorld.spawn(explore);
-        explore = new Explore(scale, scale,
-                this.node.getTranslateX(), this.node.getTranslateY(), scale / 2, 0, 1, 3);
-        App.gameWorld.spawn(explore);
-        explore = new Explore(scale, scale,
-                this.node.getTranslateX(), this.node.getTranslateY(), scale / 2, -1, 0, 3);
-        App.gameWorld.spawn(explore);
-        explore = new Explore(scale, scale,
-                this.node.getTranslateX(), this.node.getTranslateY(), scale / 2, 0, -1, 3);
-        App.gameWorld.spawn(explore);
+
+        for (int i = 1; i <= bomb_power; i++) {
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale)][(int)(this.node.getTranslateX()/scale) + i] == '#') {
+                break;
+            }
+            if (i == bomb_power) {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX() + scale * i,
+                        this.node.getTranslateY(),
+                        1, 0, true);
+            } else {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX() + scale * i,
+                        this.node.getTranslateY(),
+                        1, 0, false);
+            }
+            App.gameWorld.spawn(explore);
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale)][(int)(this.node.getTranslateX()/scale) + i] == '*') {
+                break;
+            }
+        }
+        for (int i = 1; i <= bomb_power; i++) {
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale)][(int)(this.node.getTranslateX()/scale) - i] == '#') {
+                break;
+            }
+            if (i == bomb_power) {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX() - scale * i,
+                        this.node.getTranslateY(),
+                        -1, 0, true);
+            } else {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX() - scale * i,
+                        this.node.getTranslateY(),
+                        -1, 0, false);
+            }
+            App.gameWorld.spawn(explore);
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale)][(int)(this.node.getTranslateX()/scale) - i] == '*') {
+                break;
+            }
+        }
+        for (int i = 1; i <= bomb_power; i++) {
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale) + i][(int)(this.node.getTranslateX()/scale)] == '#') {
+                break;
+            }
+            if (i == bomb_power) {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX(),
+                        this.node.getTranslateY() + scale * i,
+                        0, 1, true);
+            } else {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX(),
+                        this.node.getTranslateY() + scale * i,
+                        0, 1, false);
+            }
+            App.gameWorld.spawn(explore);
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale) + i][(int)(this.node.getTranslateX()/scale)] == '*') {
+                break;
+            }
+        }
+        for (int i = 1; i <= bomb_power; i++) {
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale) - i][(int)(this.node.getTranslateX()/scale)] == '#') {
+                break;
+            }
+            if (i == bomb_power) {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX(),
+                        this.node.getTranslateY() - scale * i,
+                        0, -1, true);
+            } else {
+                explore = new Explore(scale, scale,
+                        this.node.getTranslateX(),
+                        this.node.getTranslateY() - scale * i,
+                        0, -1, false);
+            }
+            App.gameWorld.spawn(explore);
+            if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale) - i][(int)(this.node.getTranslateX()/scale)] == '*') {
+                break;
+            }
+        }
 
         App.gameWorld.destroy(this);
     }

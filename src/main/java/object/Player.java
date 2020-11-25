@@ -15,12 +15,14 @@ public class Player extends Sprite implements Collision {
     public boolean pressD;
     public boolean pressW;
 
+    public int bomb_power = 3;
+
     public Player(double height, double width, double x, double y) {
         node = Images.player_down[0].getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();
-        this.setupRectangleBound((Rectangle) collisionBound, x, y, height - 1, width - 6);
+        this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width - 8);
     }
 
     @Override

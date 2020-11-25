@@ -16,10 +16,10 @@ public abstract class GameWorld {
     private final int framesPerSecond;
     private final String windowTile;
     protected static double scale = 32;
+    public char[][] sprite_map;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
-//    private final ImageClass imageClass = new ImageClass();
 
     private Scene gameSurface;
     private Group sceneNodes;

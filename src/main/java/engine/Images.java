@@ -57,57 +57,78 @@ public class Images {
     |--------------------------------------------------------------------------
      */
     //BALLOON
-    public static Images balloom_left1 = new Images(DEFAULT_SIZE, 9, 0, ImageSheet.tiles, 16, 16);
-    public static Images balloom_left2 = new Images(DEFAULT_SIZE, 9, 1, ImageSheet.tiles, 16, 16);
-    public static Images balloom_left3 = new Images(DEFAULT_SIZE, 9, 2, ImageSheet.tiles, 16, 16);
-    public static Images balloom_right1 = new Images(DEFAULT_SIZE, 10, 0, ImageSheet.tiles, 16, 16);
-    public static Images balloom_right2 = new Images(DEFAULT_SIZE, 10, 1, ImageSheet.tiles, 16, 16);
-    public static Images balloom_right3 = new Images(DEFAULT_SIZE, 10, 2, ImageSheet.tiles, 16, 16);
-    public static Images balloom_dead = new Images(DEFAULT_SIZE, 9, 3, ImageSheet.tiles, 16, 16);
+    public static Images[] balloon_left = {
+            new Images(DEFAULT_SIZE, 9, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 9, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 9, 2, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] balloon_right = {
+            new Images(DEFAULT_SIZE, 10, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 10, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 10, 2, ImageSheet.tiles, 16, 16)
+    };
+    public static Images balloon_dead =
+            new Images(DEFAULT_SIZE, 9, 3, ImageSheet.tiles, 16, 16);
     //ONEAL
-    public static Images oneal_left1 = new Images(DEFAULT_SIZE, 11, 0, ImageSheet.tiles, 16, 16);
-    public static Images oneal_left2 = new Images(DEFAULT_SIZE, 11, 1, ImageSheet.tiles, 16, 16);
-    public static Images oneal_left3 = new Images(DEFAULT_SIZE, 11, 2, ImageSheet.tiles, 16, 16);
-    public static Images oneal_right1 = new Images(DEFAULT_SIZE, 12, 0, ImageSheet.tiles, 16, 16);
-    public static Images oneal_right2 = new Images(DEFAULT_SIZE, 12, 1, ImageSheet.tiles, 16, 16);
-    public static Images oneal_right3 = new Images(DEFAULT_SIZE, 12, 2, ImageSheet.tiles, 16, 16);
-    public static Images oneal_dead = new Images(DEFAULT_SIZE, 11, 3, ImageSheet.tiles, 16, 16);
+    public static Images[] oneal_left = {
+            new Images(DEFAULT_SIZE, 11, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 11, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 11, 2, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] oneal_right = {
+            new Images(DEFAULT_SIZE, 12, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 12, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 12, 2, ImageSheet.tiles, 16, 16)
+    };
+    public static Images oneal_dead =
+            new Images(DEFAULT_SIZE, 11, 3, ImageSheet.tiles, 16, 16);
     //Doll
-    public static Images doll_left1 = new Images(DEFAULT_SIZE, 13, 0, ImageSheet.tiles, 16, 16);
-    public static Images doll_left2 = new Images(DEFAULT_SIZE, 13, 1, ImageSheet.tiles, 16, 16);
-    public static Images doll_left3 = new Images(DEFAULT_SIZE, 13, 2, ImageSheet.tiles, 16, 16);
-    public static Images doll_right1 = new Images(DEFAULT_SIZE, 14, 0, ImageSheet.tiles, 16, 16);
-    public static Images doll_right2 = new Images(DEFAULT_SIZE, 14, 1, ImageSheet.tiles, 16, 16);
-    public static Images doll_right3 = new Images(DEFAULT_SIZE, 14, 2, ImageSheet.tiles, 16, 16);
+    public static Images[] doll_left = {
+            new Images(DEFAULT_SIZE, 13, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 13, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 13, 2, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] doll_right = {
+            new Images(DEFAULT_SIZE, 14, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 14, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 14, 2, ImageSheet.tiles, 16, 16)
+    };
     public static Images doll_dead = new Images(DEFAULT_SIZE, 13, 3, ImageSheet.tiles, 16, 16);
     //Minvo
-    public static Images minvo_left1 = new Images(DEFAULT_SIZE, 8, 5, ImageSheet.tiles, 16, 16);
-    public static Images minvo_left2 = new Images(DEFAULT_SIZE, 8, 6, ImageSheet.tiles, 16, 16);
-    public static Images minvo_left3 = new Images(DEFAULT_SIZE, 8, 7, ImageSheet.tiles, 16, 16);
-    public static Images minvo_right1 = new Images(DEFAULT_SIZE, 9, 5, ImageSheet.tiles, 16, 16);
-    public static Images minvo_right2 = new Images(DEFAULT_SIZE, 9, 6, ImageSheet.tiles, 16, 16);
-    public static Images minvo_right3 = new Images(DEFAULT_SIZE, 9, 7, ImageSheet.tiles, 16, 16);
+    public static Images[] minvo_left = {
+            new Images(DEFAULT_SIZE, 8, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 8, 6, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 8, 7, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] minvo_right = {
+            new Images(DEFAULT_SIZE, 9, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 9, 6, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 9, 7, ImageSheet.tiles, 16, 16)
+    };
     public static Images minvo_dead = new Images(DEFAULT_SIZE, 8, 8, ImageSheet.tiles, 16, 16);
     //Kondoria
-    public static Images kondoria_left1 = new Images(DEFAULT_SIZE, 10, 5, ImageSheet.tiles, 16, 16);
-    public static Images kondoria_left2 = new Images(DEFAULT_SIZE, 10, 6, ImageSheet.tiles, 16, 16);
-    public static Images kondoria_left3 = new Images(DEFAULT_SIZE, 10, 7, ImageSheet.tiles, 16, 16);
-    public static Images kondoria_right1 = new Images(DEFAULT_SIZE, 11, 5, ImageSheet.tiles, 16, 16);
-    public static Images kondoria_right2 = new Images(DEFAULT_SIZE, 11, 6, ImageSheet.tiles, 16, 16);
-    public static Images kondoria_right3 = new Images(DEFAULT_SIZE, 11, 7, ImageSheet.tiles, 16, 16);
+    public static Images[] kondoria_left = {
+            new Images(DEFAULT_SIZE, 10, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 10, 6, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 10, 7, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] kondoria_right = {
+            new Images(DEFAULT_SIZE, 11, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 11, 6, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 11, 7, ImageSheet.tiles, 16, 16)
+    };
     public static Images kondoria_dead = new Images(DEFAULT_SIZE, 10, 8, ImageSheet.tiles, 16, 16);
     //ALL
-    public static Images mob_dead1 = new Images(DEFAULT_SIZE, 15, 0, ImageSheet.tiles, 16, 16);
-    public static Images mob_dead2 = new Images(DEFAULT_SIZE, 15, 1, ImageSheet.tiles, 16, 16);
-    public static Images mob_dead3 = new Images(DEFAULT_SIZE, 15, 2, ImageSheet.tiles, 16, 16);
+    public static Images[] mob_dead = {
+            new Images(DEFAULT_SIZE, 15, 0, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 15, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 15, 2, ImageSheet.tiles, 16, 16)
+    };
     /*
     |--------------------------------------------------------------------------
     | Bomb Sprites
     |--------------------------------------------------------------------------
      */
-    public static Images bomb_0 = new Images(DEFAULT_SIZE, 0, 3, ImageSheet.tiles, 15, 15);
-    public static Images bomb_1 = new Images(DEFAULT_SIZE, 1, 3, ImageSheet.tiles, 13, 15);
-    public static Images bomb_2 = new Images(DEFAULT_SIZE, 2, 3, ImageSheet.tiles, 12, 14);
     public static Images[] bomb = {
             new Images(DEFAULT_SIZE, 0, 3, ImageSheet.tiles, 15, 15),
             new Images(DEFAULT_SIZE, 1, 3, ImageSheet.tiles, 13, 15),
@@ -118,35 +139,51 @@ public class Images {
     | FlameSegment Sprites
     |--------------------------------------------------------------------------
      */
-    public static Images bomb_exploded = new Images(DEFAULT_SIZE, 0, 4, ImageSheet.tiles, 16, 16);
-    public static Images bomb_exploded1 = new Images(DEFAULT_SIZE, 0, 5, ImageSheet.tiles, 16, 16);
-    public static Images bomb_exploded2 = new Images(DEFAULT_SIZE, 0, 6, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical = new Images(DEFAULT_SIZE, 1, 5, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical1 = new Images(DEFAULT_SIZE, 2, 5, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical2 = new Images(DEFAULT_SIZE, 3, 5, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal = new Images(DEFAULT_SIZE, 1, 7, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal1 = new Images(DEFAULT_SIZE, 1, 8, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal2 = new Images(DEFAULT_SIZE, 1, 9, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal_left_last = new Images(DEFAULT_SIZE, 0, 7, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal_left_last1 = new Images(DEFAULT_SIZE, 0, 8, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal_left_last2 = new Images(DEFAULT_SIZE, 0, 9, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal_right_last = new Images(DEFAULT_SIZE, 2, 7, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal_right_last1 = new Images(DEFAULT_SIZE, 2, 8, ImageSheet.tiles, 16, 16);
-    public static Images explosion_horizontal_right_last2 = new Images(DEFAULT_SIZE, 2, 9, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical_top_last = new Images(DEFAULT_SIZE, 1, 4, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical_top_last1 = new Images(DEFAULT_SIZE, 2, 4, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical_top_last2 = new Images(DEFAULT_SIZE, 3, 4, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical_down_last = new Images(DEFAULT_SIZE, 1, 6, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical_down_last1 = new Images(DEFAULT_SIZE, 2, 6, ImageSheet.tiles, 16, 16);
-    public static Images explosion_vertical_down_last2 = new Images(DEFAULT_SIZE, 3, 6, ImageSheet.tiles, 16, 16);
+    public static Images[] bomb_exploded = {
+            new Images(DEFAULT_SIZE, 0, 4, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 0, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 0, 6, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] explosion_vertical = {
+            new Images(DEFAULT_SIZE, 1, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 2, 5, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 3, 5, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] explosion_horizontal = {
+            new Images(DEFAULT_SIZE, 1, 7, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 1, 8, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 1, 9, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] explosion_horizontal_left_last = {
+            new Images(DEFAULT_SIZE, 0, 7, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 0, 8, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 0, 9, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] explosion_horizontal_right_last = {
+            new Images(DEFAULT_SIZE, 2, 7, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 2, 8, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 2, 9, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] explosion_vertical_top_last = {
+            new Images(DEFAULT_SIZE, 1, 4, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 2, 4, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 3, 4, ImageSheet.tiles, 16, 16)
+    };
+    public static Images[] explosion_vertical_down_last = {
+            new Images(DEFAULT_SIZE, 1, 6, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 2, 6, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 3, 6, ImageSheet.tiles, 16, 16)
+    };
     /*
     |--------------------------------------------------------------------------
     | Brick FlameSegment
     |--------------------------------------------------------------------------
      */
-    public static Images brick_exploded = new Images(DEFAULT_SIZE, 7, 1, ImageSheet.tiles, 16, 16);
-    public static Images brick_exploded1 = new Images(DEFAULT_SIZE, 7, 2, ImageSheet.tiles, 16, 16);
-    public static Images brick_exploded2 = new Images(DEFAULT_SIZE, 7, 3, ImageSheet.tiles, 16, 16);
+    public static Images[] brick_exploded = {
+            new Images(DEFAULT_SIZE, 7, 1, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 7, 2, ImageSheet.tiles, 16, 16),
+            new Images(DEFAULT_SIZE, 7, 3, ImageSheet.tiles, 16, 16)
+    };
     /*
     |--------------------------------------------------------------------------
     | Powerups
