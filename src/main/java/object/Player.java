@@ -15,7 +15,12 @@ public class Player extends Sprite implements Collision {
     public boolean pressD;
     public boolean pressW;
 
-    public int bomb_power = 3;
+    public int power_flames = 1;
+
+    public int power_bomb = 1;
+
+    public double power_speed = 1;
+    public double time_power_speed = 0;
 
     public Player(double height, double width, double x, double y) {
         node = Images.player_down[0].getImageView(height, width);
@@ -41,6 +46,14 @@ public class Player extends Sprite implements Collision {
         if (pressS) {
             vY += velocity;
         }
+
+        time_power_speed -= 1f/App.gameWorld.getFramesPerSecond();
+        if (time_power_speed < 0) {
+            power_speed = 1;
+        }
+
+        vX *= power_speed;
+        vY *= power_speed;
 
         double x = node.getTranslateX();
         double y = node.getTranslateY();

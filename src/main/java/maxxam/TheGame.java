@@ -115,8 +115,10 @@ public class TheGame extends GameWorld {
                 player.pressW = true;
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {
-                initBomb((int) (player.node.getTranslateY() / scale + 0.5f),
-                        (int) (player.node.getTranslateX() / scale + 0.5f));
+                if (count_bombs() < player.power_bomb) {
+                    initBomb((int) (player.node.getTranslateY() / scale + 0.5f),
+                            (int) (player.node.getTranslateX() / scale + 0.5f));
+                }
             }
         };
         EventHandler<KeyEvent> storeBomb = keyEvent -> {
@@ -137,6 +139,16 @@ public class TheGame extends GameWorld {
             }
         };
         stage.getScene().setOnKeyReleased(playerMoveRelease);
+    }
+
+    private int count_bombs() {
+        int cnt = 0;
+        for (Sprite sprite: getSpriteManager().getGameActorsList()) {
+            if (sprite instanceof Bomb) {
+                cnt ++;
+            }
+        }
+        return cnt;
     }
 
     private void initBackground() {
@@ -161,7 +173,7 @@ public class TheGame extends GameWorld {
     }
 
     private void initBomb(int y, int x) {
-        Bomb box = new Bomb(scale, scale, x * scale, y * scale, player.bomb_power);
+        Bomb box = new Bomb(scale, scale, x * scale, y * scale, player.power_flames);
         spawn(box);
     }
 }

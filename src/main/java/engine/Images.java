@@ -189,13 +189,13 @@ public class Images {
     | Powerups
     |--------------------------------------------------------------------------
      */
-    public static Images powerup_bombs = new Images(DEFAULT_SIZE, 0, 10, ImageSheet.tiles, 16, 16);
-    public static Images powerup_flames = new Images(DEFAULT_SIZE, 1, 10, ImageSheet.tiles, 16, 16);
-    public static Images powerup_speed = new Images(DEFAULT_SIZE, 2, 10, ImageSheet.tiles, 16, 16);
-    public static Images powerup_wallpass = new Images(DEFAULT_SIZE, 3, 10, ImageSheet.tiles, 16, 16);
-    public static Images powerup_detonator = new Images(DEFAULT_SIZE, 4, 10, ImageSheet.tiles, 16, 16);
-    public static Images powerup_bombpass = new Images(DEFAULT_SIZE, 5, 10, ImageSheet.tiles, 16, 16);
-    public static Images powerup_flamepass = new Images(DEFAULT_SIZE, 6, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_bombs = new Images(DEFAULT_SIZE, 0, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_flames = new Images(DEFAULT_SIZE, 1, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_speed = new Images(DEFAULT_SIZE, 2, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_wall_pass = new Images(DEFAULT_SIZE, 3, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_detonator = new Images(DEFAULT_SIZE, 4, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_bomb_pass = new Images(DEFAULT_SIZE, 5, 10, ImageSheet.tiles, 16, 16);
+    public static Images power_up_flame_pass = new Images(DEFAULT_SIZE, 6, 10, ImageSheet.tiles, 16, 16);
     public final int SIZE;
     public int[] _pixels;
     protected int _realWidth;

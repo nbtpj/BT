@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class Bomb extends Sprite implements Collision {
     public double deathTime = 3;
-    private int bomb_power;
+    private int power;
 
     public Bomb(double height, double width, double x, double y) {
         node = Images.bomb[0].getImageView(height, width);
@@ -20,13 +20,13 @@ public class Bomb extends Sprite implements Collision {
         this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
     }
 
-    public Bomb(double height, double width, double x, double y, int bomb_power) {
+    public Bomb(double height, double width, double x, double y, int power) {
         node = Images.bomb[0].getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();
         this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
-        this.bomb_power = bomb_power;
+        this.power = power;
     }
 
     @Override
@@ -59,11 +59,11 @@ public class Bomb extends Sprite implements Collision {
                 0, 0, true);
         App.gameWorld.spawn(explore);
 
-        for (int i = 1; i <= bomb_power; i++) {
+        for (int i = 1; i <= power; i++) {
             if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale)][(int)(this.node.getTranslateX()/scale) + i] == '#') {
                 break;
             }
-            if (i == bomb_power) {
+            if (i == power) {
                 explore = new Explore(scale, scale,
                         this.node.getTranslateX() + scale * i,
                         this.node.getTranslateY(),
@@ -79,11 +79,11 @@ public class Bomb extends Sprite implements Collision {
                 break;
             }
         }
-        for (int i = 1; i <= bomb_power; i++) {
+        for (int i = 1; i <= power; i++) {
             if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale)][(int)(this.node.getTranslateX()/scale) - i] == '#') {
                 break;
             }
-            if (i == bomb_power) {
+            if (i == power) {
                 explore = new Explore(scale, scale,
                         this.node.getTranslateX() - scale * i,
                         this.node.getTranslateY(),
@@ -99,11 +99,11 @@ public class Bomb extends Sprite implements Collision {
                 break;
             }
         }
-        for (int i = 1; i <= bomb_power; i++) {
+        for (int i = 1; i <= power; i++) {
             if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale) + i][(int)(this.node.getTranslateX()/scale)] == '#') {
                 break;
             }
-            if (i == bomb_power) {
+            if (i == power) {
                 explore = new Explore(scale, scale,
                         this.node.getTranslateX(),
                         this.node.getTranslateY() + scale * i,
@@ -119,11 +119,11 @@ public class Bomb extends Sprite implements Collision {
                 break;
             }
         }
-        for (int i = 1; i <= bomb_power; i++) {
+        for (int i = 1; i <= power; i++) {
             if (App.gameWorld.sprite_map[(int)(this.node.getTranslateY()/scale) - i][(int)(this.node.getTranslateX()/scale)] == '#') {
                 break;
             }
-            if (i == bomb_power) {
+            if (i == power) {
                 explore = new Explore(scale, scale,
                         this.node.getTranslateX(),
                         this.node.getTranslateY() - scale * i,

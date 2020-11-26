@@ -6,6 +6,8 @@ import engine.Sprite;
 import interfaces.Collision;
 import maxxam.App;
 
+import java.util.Date;
+
 public class Box extends Wall{
     public Box(double height, double width, double x, double y) {
         super(height, width, x, y);
@@ -23,17 +25,29 @@ public class Box extends Wall{
                     break;
                 }
             }
-            if (sprite instanceof Explore) {
-                if (collide((Collision)sprite)) {
-                    App.gameWorld.destroy(sprite);
-                }
-            }
         }
     }
 
     @Override
     public void handleDeath() {
-        App.gameWorld.sprite_map[(int)(node.getTranslateY()/App.gameWorld.getScale())][(int)(node.getTranslateX()/App.gameWorld.getScale())] = ' ';
+        int rand = ((int) (new Date().getTime() / 100) % 4 + 4) % 4;
+        switch (rand) {
+            case 0:
+                PowerUpFlames powerUpFlames = new PowerUpFlames(App.gameWorld.getScale(), App.gameWorld.getScale(),
+                        node.getTranslateX(), node.getTranslateY());
+                App.gameWorld.spawn(powerUpFlames);
+                break;
+            case 1:
+                PowerUpSpeed powerUpSpeed = new PowerUpSpeed(App.gameWorld.getScale(), App.gameWorld.getScale(),
+                        node.getTranslateX(), node.getTranslateY());
+                App.gameWorld.spawn(powerUpSpeed);
+                break;
+            case 2:
+                PowerUpBombs powerUpBombs = new PowerUpBombs(App.gameWorld.getScale(), App.gameWorld.getScale(),
+                        node.getTranslateX(), node.getTranslateY());
+                App.gameWorld.spawn(powerUpBombs);
+        }
+        App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
         App.gameWorld.destroy(this);
     }
 

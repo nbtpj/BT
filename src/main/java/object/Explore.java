@@ -1,22 +1,25 @@
 package object;
 
 import engine.Images;
+import engine.Sprite;
 import interfaces.Collision;
+import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
 import java.util.Date;
 
-public class Explore extends Bomb implements Collision {
+public class Explore extends Sprite implements Collision {
     private double sX;
     private double sY;
     private boolean is_terminal;
+    private double deathTime = 1;
 
     public Explore(double height, double width, double x, double y, double sX, double sY, boolean is_terminal) {
-        super(height, width, x, y);
+        collisionBound = new Rectangle();
+        this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
         this.sX = sX;
         this.sY = sY;
         this.is_terminal = is_terminal;
-        this.deathTime = 1;
 
         if (sX == 0 && sY == 0) {
             node = Images.bomb_exploded[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
