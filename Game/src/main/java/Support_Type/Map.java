@@ -2,6 +2,7 @@ package Support_Type;
 
 
 import Gobject.*;
+import Loader.Data;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
@@ -31,7 +32,7 @@ public class Map {
     }
     public Map(double time_index) throws Exception {
         this.time_index = time_index;
-        this.background = new Image(new FileInputStream("data\\map.jpg"));
+        this.background = Data.getInstance().wall;
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
@@ -76,7 +77,7 @@ public class Map {
             Pos pos = x.pos();
             data[pos.x][pos.y].add(x);
         } catch (Exception e) {
-            System.out.println("out of range of map");
+            System.err.println(e.getMessage());
         }
 
     }
@@ -101,38 +102,56 @@ public class Map {
 
         List<Gobject> delete;
         Frame.getGraphicsContext2D().drawImage(this.background, 0, 0);
-        List<Gobject> New = new ArrayList<Gobject>(), New_Pos = new ArrayList<>();
-        List<List<Gobject>> Old_Pos = new ArrayList<List<Gobject>>();
-        List<Gobject> New_;
+        List<Gobject> New = new ArrayList<>(), New_Pos = new ArrayList<>();
+        List<List<Gobject>> Old_Pos = new ArrayList<>();
+        List<Gobject> new_,delete_;
+        /**
+         * update all Object in map
+         */
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
+                delete_ = new ArrayList<>();
                 for (Gobject m : data[i][j]) {
                     if (m.index>=0) {
-                        New_ = m.update(t);
-                        if (New_ != null && !New_.isEmpty()) {
-                            New.addAll(New_);
+                        new_ = m.update(t);
+                        if (new_ != null && !new_.isEmpty()) {
+                            New.addAll(new_);
                         }
+                    } else {
+                        delete_.add(m);
                     }
+                    /**
+                     * check the current valid current position of object
+                     */
                     if (!m.pos().equals(i, j)) {
                         New_Pos.add(m);
                         Old_Pos.add(data[i][j]);
                     }
                 }
+                data[i][j].removeAll(delete_);
+                delete_.clear();
             }
         }
+        /**
+         * add new objects (came from updating objects) to the map
+         */
         for (Gobject o : New) {
             this.AddGobject(o);
         }
+        /**
+         * replace objects that have invalid position 
+         */
         for (int i = 0; i < New_Pos.size(); i++) {
             Gobject o = New_Pos.get(i);
             this.get(o.pos()).add(o);
             Old_Pos.get(i).remove(o);
         }
+        /**
+         * render the image of all objects on the Frame
+         */
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
-                delete = new ArrayList<>();
                 for (Gobject m : data[i][j]) {
-                    if (m.index>=0) {
                         if (m.render() != null) {
                             if (m instanceof Bomber) {
                                 Frame.getGraphicsContext2D().drawImage(m.render(), m.x , m.y - Pos.SIZE/2+Pos.SIZE/5);
@@ -144,19 +163,7 @@ public class Map {
                                 }
                             }
                         }
-                    } else {
-                        delete.add(m);
-                    }
                 }
-                boolean deleted = data[i][j].removeAll(delete);
-
-                if (deleted) {
-                    for (Gobject e : delete) {
-                        System.out.println("deleted :" + e.name);
-                    }
-                }
-
-                delete.clear();
             }
         }
         return Frame;

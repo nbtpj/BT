@@ -6,12 +6,12 @@ import javafx.scene.image.Image;
 import java.util.List;
 
 public class Fire extends Gobject {
-    public Fire(double index, String name, double x, double y) {
-        super(index, name, x, y);
+    public Fire( double x, double y) {
+        super(1, "fire", x, y);
     }
 
-    public Fire(double index, String name, Pos pos) {
-        super(index, name, pos);
+    public Fire( Pos pos) {
+        super(1, "fire", pos);
     }
 
     @Override

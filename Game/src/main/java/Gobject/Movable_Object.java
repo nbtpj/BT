@@ -49,7 +49,6 @@ public abstract class Movable_Object extends Gobject {
                 direction = "left";
                 move_2.add("left");
                 current_frame = -1;
-
                 break;
             case "right":
                 direction = "right";

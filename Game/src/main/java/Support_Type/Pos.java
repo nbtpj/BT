@@ -14,14 +14,7 @@ public class Pos {
         this.x = x;
         this.y = y;
     }
-    public List<Pos> around(){
-        List<Pos> rs = new ArrayList<>();
-        rs.add(this.left());
-        rs.add(this.right());
-        rs.add(this.up());
-        rs.add(this.down());
-        return rs;
-    }
+
 
     public double get_center_X(){
         return this.x*Pos.SIZE+SIZE/2;
@@ -61,36 +54,107 @@ public class Pos {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+    public List<Pos> around(){
+        List<Pos> rs = new ArrayList<>();
+        rs.add(this.left());
+        rs.add(this.right());
+        rs.add(this.up());
+        rs.add(this.down());
+        return rs;
+    }
+    
+    public static List<Pos> find_way_1(Pos begin, Pos end, Map map, List<Pos> before){
+        if(begin.equals(end)){
+            return new ArrayList<>();
+        }
+        List<Pos> around = new ArrayList<>();
+        List<Double> length = new ArrayList<>();
+        if(map.Check(begin.left()).equals("Valid") && (before == null ||!before.contains(begin.left()))){
+            around.add(begin.left());
+            length.add(begin.left().LengthTo(end));
+        }
+        if(map.Check(begin.right()).equals("Valid") && (before == null ||!before.contains(begin.left()))){
+            around.add(begin.right());
+            length.add(begin.right().LengthTo(end));
+        }
+        if(map.Check(begin.up()).equals("Valid") && (before == null ||!before.contains(begin.left()))){
+            around.add(begin.up());
+            length.add(begin.up().LengthTo(end));
+        }
+        if(map.Check(begin.down()).equals("Valid") && (before == null ||!before.contains(begin.left()))){
+            around.add(begin.down());
+            length.add(begin.down().LengthTo(end));
+        }
+        for(int i=0;i<length.size()-1;i++){
+            for(int j=i+1;j<length.size();j++){
+                if(length.get(i).compareTo(length.get(j))>0){
+                    Collections.swap(length,i,j);
+                    Collections.swap(around,i,j);
+                }
+            }
+        }
+        List<Pos> t,t_before;
+        for(Pos o : around){
+            t_before = new ArrayList<>(before);
+            t_before.add(o);
+            t = Pos.find_way(o,end,map,t_before);
+            if(t !=null){
+                t.add(o);
+                return t;
+            }
 
-    public static List<Pos> find_way (Pos begin, Pos end, Map map,List<Pos> traveled) {
-        List<Pos> way = new ArrayList<>(), temp,travel_temp;
+        }
+
+        
+        return null;
+        
+    }
+    
+    
+    
+    
+    
+    public static List<Pos> find_way(Pos begin, Pos end, Map map, List<Pos> before) {
+        List<Pos> way = new ArrayList<>(), temp;
+        if(map.Check(end).equals("Invalid")) {
+            return way;
+        }
         if (begin.equals(end)) {
             way.add(end);
             return way;
         }
-        Pos[] next_step = begin.around().toArray(new Pos[4]);
-        for(int i=0;i<3;i++){
-            for(int j=0;j<4;j++){
-                if(next_step[i].LengthTo(end)>next_step[j].LengthTo(end)){
-                    Pos t = next_step[i];
-                    next_step[i] = next_step[j];
-                    next_step[j] = t;
+        List<Pos> list = new ArrayList<>();
+        if(!map.Check(begin.left()).equals("Invalid") && !before.contains(begin.left())) list.add(begin.left());
+        if(!map.Check(begin.right()).equals("Invalid") && !before.contains(begin.right())) list.add(begin.right());
+        if(!map.Check(begin.up()).equals("Invalid") && !before.contains(begin.up())) list.add(begin.up());
+        if(!map.Check(begin.down()).equals("Invalid") && !before.contains(begin.down())) list.add(begin.down());
+        if(list.isEmpty()) return way;
+        Pos[] L = list.toArray(new Pos[list.size()]);
+        /** L is always valid */
+        for(int i=0;i<L.length-1; i++){
+            for(int j=i+1;j<L.length;j++){
+                if(L[i].LengthTo(end)>L[j].LengthTo(end)){
+                    Pos x = L[i];
+                    L[i] = L[j];
+                    L[j] = x;
                 }
             }
         }
-        for( Pos pos : next_step){
-            if(map.Check(pos).equals("Valid") && !traveled.contains(pos)){
-                travel_temp = new ArrayList<>(traveled);
-                travel_temp.add(pos);
-                temp = find_way(pos,end,map,travel_temp);
-                if(temp!=null && temp.contains(end)){
+        List<Pos> t;
+        for(int i=0;i<L.length;i++){
+            try{
+                t = new ArrayList<Pos>(before);
+                t.add(L[i]);
+                temp = Pos.find_way(L[i],end,map,t);
+                if(temp!=null && temp.contains(end) /*&& !temp.contains(L[i])*/){
+                    way.add(L[i]);
                     way.addAll(temp);
-                    way.add(pos);
                     return way;
                 }
-            }
+            } catch (Exception e){};
         }
         return null;
+
     }
 
     public String toString() {

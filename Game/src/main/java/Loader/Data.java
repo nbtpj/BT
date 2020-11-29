@@ -15,7 +15,8 @@ public class Data {
     public static String Enemy_name ;
     public static final int W = Pos.SIZE, H = Pos.SIZE;
     public Image[] bomberman_front, bomberman_back, bomberman_left, bomberman_right, bomb,
-            enemy_front, enemy_back, enemy_left, enemy_right, fire, wall;
+            enemy_front, enemy_back, enemy_left, enemy_right, fire;
+    public Image background,wall;
     public static void choose_character(String Bomber_name, String Enemy_name){
         Data.Bomber_name = Bomber_name;
         Data.Enemy_name = Enemy_name;
@@ -59,8 +60,9 @@ public class Data {
         fire = new Image[5];
         for (i = 0; i < 5; i++) {
             fire[i] = new Image(new FileInputStream(localFilePath + "Flame_F0" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-
         }
+        background = new Image(new FileInputStream(localFilePath+"map.jpg"));
+        wall = new Image(new FileInputStream(localFilePath+"SolidBlock.png"));
     }
 
     public static Data getInstance() {
