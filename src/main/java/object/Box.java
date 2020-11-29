@@ -16,6 +16,15 @@ public class Box extends Wall{
         node.setTranslateY(y);
     }
 
+    public static Box init(double height, double width) {
+        Box box = new Box(App.gameWorld.getScale(),
+                App.gameWorld.getScale(),
+                height * App.gameWorld.getScale(),
+                width * App.gameWorld.getScale());
+        App.gameWorld.spawn(box);
+        return box;
+    }
+
     @Override
     public void executeCollision() {
         for(Sprite sprite: App.gameWorld.getSpriteManager().getGameActorsList()) {

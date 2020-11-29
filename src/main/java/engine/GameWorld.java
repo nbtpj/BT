@@ -130,13 +130,11 @@ public abstract class GameWorld {
     }
 
     public void spawn(Sprite sprite) {
-//        getSpriteManager().addSprites(sprite);
         getSpriteManager().addSpritesToBeAdded(sprite);
         getSceneNodes().getChildren().add(sprite.node);
     }
 
     public void destroy(Sprite sprite) {
-//        getSpriteManager().removeSprites(sprite);
         getSpriteManager().addSpritesToBeRemoved(sprite);
         getSceneNodes().getChildren().remove(sprite.node);
     }

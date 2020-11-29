@@ -80,6 +80,15 @@ public class Player extends Sprite implements Collision {
         collisionBound.setTranslateY(y + vY);
     }
 
+    public static Player init(double height, double width) {
+        Player player = new Player(App.gameWorld.getScale(),
+                App.gameWorld.getScale(),
+                height * App.gameWorld.getScale(),
+                width * App.gameWorld.getScale());
+        App.gameWorld.spawn(player);
+        return player;
+    }
+
     @Override
     public void executeCollision() {
         boolean collideWall = false;
@@ -92,7 +101,7 @@ public class Player extends Sprite implements Collision {
             }
             if (sprite instanceof Explore) {
                 if (collide((Collision)sprite)) {
-                    App.gameWorld.destroy(sprite);
+                    handleDeath();
                 }
             }
         }
@@ -106,6 +115,15 @@ public class Player extends Sprite implements Collision {
 
     @Override
     public void handleDeath() {
+        node.setTranslateX(App.gameWorld.getScale());
+        node.setTranslateY(App.gameWorld.getScale());
+        collisionBound.setTranslateX(App.gameWorld.getScale());
+        collisionBound.setTranslateY(App.gameWorld.getScale());
+    }
 
+    public void storeBomb() {
+        Bomb.init((int) (node.getTranslateX() / App.gameWorld.getScale() + 0.5f),
+                (int) (node.getTranslateY() / App.gameWorld.getScale() + 0.5f),
+                this.power_flames);
     }
 }

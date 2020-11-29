@@ -29,6 +29,16 @@ public class Bomb extends Sprite implements Collision {
         this.power = power;
     }
 
+    public static Bomb init(double height, double width, int power) {
+        Bomb bomb = new Bomb(App.gameWorld.getScale(),
+                App.gameWorld.getScale(),
+                height*App.gameWorld.getScale(),
+                width*App.gameWorld.getScale(),
+                power);
+        App.gameWorld.spawn(bomb);
+        return bomb;
+    }
+
     @Override
     public void update() {
         deathTime -= 1.0 / App.gameWorld.getFramesPerSecond();

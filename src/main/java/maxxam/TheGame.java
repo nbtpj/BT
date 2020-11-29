@@ -73,7 +73,7 @@ public class TheGame extends GameWorld {
         System.out.println(height);
         System.out.println(width);
 
-        initBackground();
+        Background.init(height, width);
 
         for (int i = 0; i < height; i++) {
             s = map.nextLine();
@@ -86,13 +86,13 @@ public class TheGame extends GameWorld {
             for (int j = 0; j < width; j++) {
                 char c = sprite_map[i][j];
                 if (c == '#') {
-                    initWall(i, j);
+                    Wall.init(j, i);
                 }
                 if (c == 'p') {
-                    initPlayer(i, j);
+                    player = Player.init(j, i);
                 }
                 if (c == '*') {
-                    initBox(i, j);
+                    Box.init(j, i);
                 }
                 System.out.print(c);
             }
@@ -116,15 +116,10 @@ public class TheGame extends GameWorld {
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {
                 if (count_bombs() < player.power_bomb) {
-                    initBomb((int) (player.node.getTranslateY() / scale + 0.5f),
-                            (int) (player.node.getTranslateX() / scale + 0.5f));
+                    player.storeBomb();
                 }
             }
         };
-        EventHandler<KeyEvent> storeBomb = keyEvent -> {
-        };
-
-        stage.getScene().setOnKeyPressed(storeBomb);
         stage.getScene().setOnKeyPressed(playerMovePress);
 
         EventHandler<KeyEvent> playerMoveRelease = keyEvent -> {
@@ -149,31 +144,5 @@ public class TheGame extends GameWorld {
             }
         }
         return cnt;
-    }
-
-    private void initBackground() {
-        Background background = new Background(height * scale, width * scale);
-        spawn(background);
-    }
-
-    private void initPlayer(int y, int x) {
-        Player player = new Player(scale, scale, x * scale, y * scale);
-        this.player = player;
-        spawn(player);
-    }
-
-    private void initWall(int y, int x) {
-        Wall wall = new Wall(scale, scale, x * scale, y * scale);
-        spawn(wall);
-    }
-
-    private void initBox(int y, int x) {
-        Box box = new Box(scale, scale, x * scale, y * scale);
-        spawn(box);
-    }
-
-    private void initBomb(int y, int x) {
-        Bomb box = new Bomb(scale, scale, x * scale, y * scale, player.power_flames);
-        spawn(box);
     }
 }
