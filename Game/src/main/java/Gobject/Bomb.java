@@ -4,6 +4,7 @@ import Loader.Data;
 import Support_Type.Pos;
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bomb extends Gobject {
@@ -24,14 +25,17 @@ public class Bomb extends Gobject {
 
     @Override
     public List<Gobject> update(double t) {
-        index--;
+        
+        index-=t;
         current_frame = (current_frame+1)%frame.length;
         if (index<0){
-            current_map.AddGobject(new Fire(this.pos().left()));
-            current_map.AddGobject(new Fire(this.pos().right()));
-            current_map.AddGobject(new Fire(this.pos().up()));
-            current_map.AddGobject(new Fire(this.pos().down()));
-            current_map.AddGobject(new Fire(this.pos()));
+            List<Gobject> rs = new ArrayList<>();
+            rs.add(new Fire(this.pos().left()));
+            rs.add(new Fire(this.pos().right()));
+            rs.add(new Fire(this.pos().up()));
+            rs.add(new Fire(this.pos().down()));
+            rs.add(new Fire(this.pos()));
+            return rs;
         }
         return null;
     }
