@@ -4,97 +4,88 @@ import Support_Type.Pos;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 
 public abstract class Movable_Object extends Gobject {
-    protected int n_front, n_back, n_left,n_right;
+    protected int n_front, n_back, n_left, n_right;
     protected int W = Pos.SIZE, H = Pos.SIZE * 2;
-    protected  Image[] front;
-    protected  Image[] back;
-    protected  Image[] left;
-    protected  Image[] right;
+    protected Map<String, Image[]> frames;
     protected Image[] current_frames;
+    protected int current_frame;
+    protected double V_x, V_y;
     List<String> move_2 = new ArrayList<>();
-    List<Pos> list_pos= new ArrayList<Pos>();
-    protected boolean move = false;
-    protected String direction = "none";
-    protected boolean set_bomb = false;
-    protected int current_frame = 0;
+    List<Pos> list_pos = new ArrayList<Pos>();
 
-    public Movable_Object(double index,String name, double x, double y) {
+    public Movable_Object(double index, String name, double x, double y) {
         super(index, name, x, y);
+        frames = new HashMap<>();
+        current_frame = 0;
 
     }
 
     public Movable_Object(int i, String name, Pos pos) {
-        super(i,name,pos);
+        super(i, name, pos);
+        frames = new HashMap<>();
+        current_frame = 0;
+    }
+
+    /**
+     * the object moves according to the value in the move_2 components (in order)
+     * after this step, current frame will be updated (and move_2, frames)
+     */
+    public void move() {
+        if (!move_2.isEmpty()) {
+            double new_x = x, new_y = y;
+            current_frames = frames.get(move_2.get(0));
+            switch (move_2.get(0)) {
+                case "up":
+                    new_y -= V_y;
+                    break;
+                case "down":
+                    new_y += V_y;
+                    break;
+                case "left":
+                    new_x -= V_x;
+                    break;
+                case "right":
+                    new_x += V_x;
+                    break;
+            }
+            if (current_frame == current_frames.length) {
+                current_frame = 0;
+                move_2.remove(0);
+                if (!move_2.isEmpty()) {
+                    current_frames = frames.get(move_2.get(0));
+                }
+            }
+            Pos new_pos = new Pos(new_x, new_y);
+            if (pos().equals(new_pos) || current_map.Check(new_pos).equals("Valid")) {
+                x = new_x;
+                y = new_y;
+            }
+        }
     }
 
 
     /**
-     * user controls this action, change feature Immediately, and it does NOT relate to the update function
+     * allow directly change object's parameters
+     *
+     * @param arg
      */
-    public void Act(String args) throws Exception {
-        double new_x = x, new_y = y;
+    abstract public void Act(String arg);
 
-        move_2 = new ArrayList<>();
-        Pos New;
-        switch (args) {
-            case "set_bomb":
-                set_bomb = true;
-                return;
-            case "left":
-                direction = "left";
-                move_2.add("left");
-                current_frame = -1;
-                break;
-            case "right":
-                direction = "right";
-                move_2.add("right");
-                current_frame = -1;
-                break;
-            case "up":
-                direction = "back";
-                move_2.add("back");
-                current_frame = -1;
-                break;
-            case "down":
-                direction = "front";
-                move_2.add("front");
-                current_frame = -1;
-                break;
-            default:
-                direction = "none";
-                return;
-        }
-
-
-    }
-    public void Move2 (Pos target){
-        try {
-            if(target.equals(this.pos())){
-                return;
-            }
-            this.list_pos = Pos.find_way(this.pos(), target, current_map, new ArrayList<>());
-            move_2 =Pos.Pos2move(x,y,v_y*back.length,v_y*front.length,v_x*left.length,v_y*right.length,list_pos);
-            current_frame=-1;
-        }catch (Exception e){
-            System.out.println("not found!");
-        }
-
-
-    }
     /**
      * render
      */
     @Override
-    public Image render(){
-        if (current_frame < current_frames.length && current_frame >= 0) {
-            return current_frames[current_frame];
-        }
-        return front[0];
+    public Image render() {
+        System.out.println(current_frame);
+        Image rs = current_frames[current_frame];
+        if (!move_2.isEmpty()) current_frame++;
+        return rs;
 
     }
 }

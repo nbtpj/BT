@@ -81,7 +81,6 @@ public class Main extends Application {
             public void handle(MouseEvent e) {
                 Pos target = new Pos(e.getX()- Pos.SIZE/2,e.getY()- Pos.SIZE/2+Pos.SIZE/5);
                 System.out.println(target);
-                paimon.Move2(target);
             }
         };
         map.Frame.addEventHandler(MouseEvent.MOUSE_CLICKED,eventHandler);

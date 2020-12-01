@@ -10,6 +10,7 @@ import java.util.Objects;
 public abstract class Gobject {
     public Map current_map;
     public double index;
+    public boolean using = true;
 
     @Override
     public boolean equals(Object o) {

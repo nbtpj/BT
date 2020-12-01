@@ -25,10 +25,10 @@ public class Bomb extends Gobject {
 
     @Override
     public List<Gobject> update(double t) {
-        
+        if(index<=0) using = false;
         index-=t;
         current_frame = (current_frame+1)%frame.length;
-        if (index<0){
+        if (index<=0){
             List<Gobject> rs = new ArrayList<>();
             rs.add(new Fire(this.pos().left()));
             rs.add(new Fire(this.pos().right()));

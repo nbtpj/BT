@@ -182,11 +182,11 @@ public class Pos {
                 } else {
                     if (input.get(i).equals(now.up())) {
                         y -= V_up;
-                        rs.add("back");
+                        rs.add("up");
                     } else {
                         if (input.get(i).equals(now.down())) {
                             y += V_down;
-                            rs.add("front");
+                            rs.add("down");
                         } else {
                             i++;
                         }

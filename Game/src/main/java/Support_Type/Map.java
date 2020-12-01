@@ -14,7 +14,7 @@ public class Map {
     static final int SIZE_X = 42, SIZE_Y = 22;
     public double time_index;
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
-    public Canvas Frame;
+    public Canvas Frame, Movable_Object, Static_Object;
     public Image background;
     public void random_Wall () throws Exception{
         int count =0;
@@ -25,27 +25,21 @@ public class Map {
                 if(o instanceof Wall) ct = true;
             }
             if(!ct) {
-               // data[i][j].add(new Wall("wall",i * Pos.SIZE, j * Pos.SIZE));
                 count++;
             }
         }
     }
     public Map(double time_index) throws Exception {
         this.time_index = time_index;
-        this.background = Data.getInstance().wall;
+        this.background = Data.getInstance().background;
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
                 data[i][j] = new ArrayList<>();
                 if (i == 0 || i == SIZE_X - 1 || j == 0 || j == SIZE_Y - 1 || i*j % 2 == 1) {
-                 //   data[i][j].add(new Wall("wall", i * Pos.SIZE, j * Pos.SIZE));
                 }
             }
         }
-       /* for ( int i=0;i<6;i++){
-            double x =Math.random()*SIZE_X*Pos.SIZE, y = Math.random()*SIZE_Y*Pos.SIZE;
-            this.AddGobject(new Enemy("enemy",x,y));
-        }*/
         this.random_Wall();
     }
 
@@ -100,8 +94,7 @@ public class Map {
      */
     public Canvas render(double t) throws Exception {
 
-        List<Gobject> delete;
-        Frame.getGraphicsContext2D().drawImage(this.background, 0, 0);
+        Frame.getGraphicsContext2D().drawImage(this.background, 0, 0,SIZE_X*Pos.SIZE,SIZE_Y*Pos.SIZE);
         List<Gobject> New = new ArrayList<>(), New_Pos = new ArrayList<>();
         List<List<Gobject>> Old_Pos = new ArrayList<>();
         List<Gobject> new_,delete_;
@@ -112,7 +105,7 @@ public class Map {
             for (int j = 0; j < SIZE_Y; j++) {
                 delete_ = new ArrayList<>();
                 for (Gobject m : data[i][j]) {
-                    if (m.index>=0) {
+                    if (m.using) {
                         new_ = m.update(t);
                         if (new_ != null && !new_.isEmpty()) {
                             New.addAll(new_);

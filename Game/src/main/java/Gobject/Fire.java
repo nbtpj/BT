@@ -24,11 +24,16 @@ public class Fire extends Gobject {
 
     @Override
     public List<Gobject> update(double t) {
+        if(index<=0) using = false;
         index-=t;
+
         current_frame = (current_frame+1)% frame.length;
         for(Gobject o : current_map.get(this.pos())){
             if(o instanceof Movable_Object){
                 o.index -=10;
+            }
+            if(o instanceof Bomb){
+                o.index =0;
             }
         }
         return null;
@@ -36,6 +41,6 @@ public class Fire extends Gobject {
 
     @Override
     public Image render() {
-        return null;
+        return frame[current_frame];
     }
 }
