@@ -8,27 +8,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomb extends Gobject {
-    private Image[] frame;
+    private final Image[] frame;
     private int current_frame;
+
     public Bomb(String name, double x, double y) {
         super(3, name, x, y);
         frame = Data.getInstance().bomb;
-        current_frame=-1;
+        current_frame = -1;
 
     }
 
     public Bomb(String name, Pos pos) {
         super(3, name, pos);
         frame = Data.getInstance().bomb;
-        current_frame=-1;
+        current_frame = -1;
     }
 
     @Override
     public List<Gobject> update(double t) {
-        if(index<=0) using = false;
-        index-=t;
-        current_frame = (current_frame+1)%frame.length;
-        if (index<=0){
+
+        if (index <= 0) using = false;
+        index -= t;
+        current_frame = (current_frame + 1) % frame.length;
+        if (index <= 0) {
             List<Gobject> rs = new ArrayList<>();
             rs.add(new Fire(this.pos().left()));
             rs.add(new Fire(this.pos().right()));
@@ -42,6 +44,7 @@ public class Bomb extends Gobject {
 
     @Override
     public Image render() {
+        current_frame = (current_frame + 1) % frame.length;
         return frame[current_frame];
     }
 }

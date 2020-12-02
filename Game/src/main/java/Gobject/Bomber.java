@@ -1,6 +1,7 @@
 package Gobject;
 
 import Loader.Data;
+import Loader.Movable_Object_Images;
 import Support_Type.Pos;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Bomber extends Movable_Object {
         V_x = 3;
         V_y = 3;
         set_bomb = false;
-        frames.put("left", Data.getInstance().bomberman_left);
+        frames.put("left", Movable_Object_Images.getData().get("Cat01-1").get("left"));
         frames.put("right", Data.getInstance().bomberman_right);
         frames.put("up", Data.getInstance().bomberman_back);
         frames.put("down", Data.getInstance().bomberman_front);
@@ -41,7 +42,7 @@ public class Bomber extends Movable_Object {
         V_x = 3;
         V_y = 3;
         set_bomb = false;
-        frames.put("left", Data.getInstance().bomberman_left);
+        frames.put("left", Movable_Object_Images.getData().get("Cat01-1").get("left"));
         frames.put("right", Data.getInstance().bomberman_right);
         frames.put("up", Data.getInstance().bomberman_back);
         frames.put("down", Data.getInstance().bomberman_front);
@@ -57,9 +58,9 @@ public class Bomber extends Movable_Object {
             case ("right"):
             case ("up"):
             case ("down"):
-             //   move_2.clear();
+                move_2.clear();
                 move_2.add(arg);
-                current_frame = 0;
+                current_frame = -1;
                 current_frames = frames.get(arg);
                 break;
 

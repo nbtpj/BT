@@ -41,6 +41,7 @@ public class Fire extends Gobject {
 
     @Override
     public Image render() {
+        current_frame = (current_frame+1)%frame.length;
         return frame[current_frame];
     }
 }

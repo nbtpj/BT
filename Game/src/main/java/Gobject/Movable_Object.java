@@ -22,14 +22,14 @@ public abstract class Movable_Object extends Gobject {
     public Movable_Object(double index, String name, double x, double y) {
         super(index, name, x, y);
         frames = new HashMap<>();
-        current_frame = 0;
+        current_frame = -1;
 
     }
 
     public Movable_Object(int i, String name, Pos pos) {
         super(i, name, pos);
         frames = new HashMap<>();
-        current_frame = 0;
+        current_frame = -1;
     }
 
     /**
@@ -37,15 +37,16 @@ public abstract class Movable_Object extends Gobject {
      * after this step, current frame will be updated (and move_2, frames)
      */
     public void move() {
-        if (!move_2.isEmpty()) {
+        if (current_frame < current_frames.length && !move_2.isEmpty()) {
+            current_frame++;
             double new_x = x, new_y = y;
             current_frames = frames.get(move_2.get(0));
             switch (move_2.get(0)) {
-                case "up":
-                    new_y -= V_y;
-                    break;
                 case "down":
                     new_y += V_y;
+                    break;
+                case "up":
+                    new_y -= V_y;
                     break;
                 case "left":
                     new_x -= V_x;
@@ -54,15 +55,17 @@ public abstract class Movable_Object extends Gobject {
                     new_x += V_x;
                     break;
             }
-            if (current_frame == current_frames.length) {
-                current_frame = 0;
+            if (current_frame == 3) {
                 move_2.remove(0);
-                if (!move_2.isEmpty()) {
-                    current_frames = frames.get(move_2.get(0));
-                }
+                //   if(move_2.isEmpty()) move_2 = new ArrayList<>();
+                if (!move_2.isEmpty()) current_frame = -1;
             }
             Pos new_pos = new Pos(new_x, new_y);
-            if (pos().equals(new_pos) || current_map.Check(new_pos).equals("Valid")) {
+            if (this.pos().equals(new_pos)) {
+                x = new_x;
+                y = new_y;
+            }
+            if (!this.current_map.Check(new_pos).equals("Invalid")) {
                 x = new_x;
                 y = new_y;
             }
@@ -82,10 +85,10 @@ public abstract class Movable_Object extends Gobject {
      */
     @Override
     public Image render() {
-        System.out.println(current_frame);
-        Image rs = current_frames[current_frame];
-        if (!move_2.isEmpty()) current_frame++;
-        return rs;
+        if (current_frame < current_frames.length && current_frame >= 0) {
+            return current_frames[current_frame];
+        }
+        return current_frames[0];
 
     }
 }

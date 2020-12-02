@@ -37,6 +37,7 @@ public class Map {
             for (int j = 0; j < SIZE_Y; j++) {
                 data[i][j] = new ArrayList<>();
                 if (i == 0 || i == SIZE_X - 1 || j == 0 || j == SIZE_Y - 1 || i*j % 2 == 1) {
+                    data[i][j].add(new Wall(new Pos(i,j)));
                 }
             }
         }
@@ -92,9 +93,9 @@ public class Map {
     /**
      * update map and this 's Frame in the next t second(s)
      */
-    public Canvas render(double t) throws Exception {
+    public Canvas render(double t)  {
 
-        Frame.getGraphicsContext2D().drawImage(this.background, 0, 0,SIZE_X*Pos.SIZE,SIZE_Y*Pos.SIZE);
+        Frame.getGraphicsContext2D().drawImage(background, 0, 0,SIZE_X*Pos.SIZE,SIZE_Y*Pos.SIZE);
         List<Gobject> New = new ArrayList<>(), New_Pos = new ArrayList<>();
         List<List<Gobject>> Old_Pos = new ArrayList<>();
         List<Gobject> new_,delete_;
@@ -132,7 +133,7 @@ public class Map {
             this.AddGobject(o);
         }
         /**
-         * replace objects that have invalid position 
+         * replace objects that have invalid position
          */
         for (int i = 0; i < New_Pos.size(); i++) {
             Gobject o = New_Pos.get(i);
