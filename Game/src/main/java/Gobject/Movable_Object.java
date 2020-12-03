@@ -55,7 +55,7 @@ public abstract class Movable_Object extends Gobject {
                     new_x += V_x;
                     break;
             }
-            if (current_frame == 3) {
+            if (current_frame == current_frames.length) {
                 move_2.remove(0);
                 //   if(move_2.isEmpty()) move_2 = new ArrayList<>();
                 if (!move_2.isEmpty()) current_frame = -1;

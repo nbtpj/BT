@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
-    static final int SIZE_X = 42, SIZE_Y = 22;
+    static public final int SIZE_X = 42, SIZE_Y = 22;
     public double time_index;
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
     public Canvas Frame, Movable_Object, Static_Object;

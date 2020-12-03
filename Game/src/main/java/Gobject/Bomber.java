@@ -18,16 +18,23 @@ public class Bomber extends Movable_Object {
      * @param x
      * @param y
      */
-    public Bomber(String name, double x, double y) {
+    public Bomber(String name,String type, double x, double y) {
         super(100, name, x, y);
         V_x = 3;
         V_y = 3;
         set_bomb = false;
-        frames.put("left", Movable_Object_Images.getData().get("Cat01-1").get("left"));
+        /*frames.put("left", Data.getInstance().bomberman_left);
         frames.put("right", Data.getInstance().bomberman_right);
         frames.put("up", Data.getInstance().bomberman_back);
         frames.put("down", Data.getInstance().bomberman_front);
-        current_frames = Data.getInstance().bomberman_front;
+        current_frames = Data.getInstance().bomberman_front;*/
+        this.type = type;
+        frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
+        frames.put("right", Movable_Object_Images.getData().get(type).get("right"));
+        frames.put("up", Movable_Object_Images.getData().get(type).get("back"));
+        frames.put("down", Movable_Object_Images.getData().get(type).get("front"));
+        current_frames = Movable_Object_Images.getData().get(type).get("front");
+
     }
 
     /**
@@ -37,16 +44,17 @@ public class Bomber extends Movable_Object {
      * @param name
      * @param pos
      */
-    public Bomber(String name, Pos pos) {
+    public Bomber(String name,String type, Pos pos) {
         super(100, name, pos);
         V_x = 3;
         V_y = 3;
         set_bomb = false;
-        frames.put("left", Movable_Object_Images.getData().get("Cat01-1").get("left"));
-        frames.put("right", Data.getInstance().bomberman_right);
-        frames.put("up", Data.getInstance().bomberman_back);
-        frames.put("down", Data.getInstance().bomberman_front);
-        current_frames = Data.getInstance().bomberman_front;
+        this.type = type;
+        frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
+        frames.put("right", Movable_Object_Images.getData().get(type).get("right"));
+        frames.put("up", Movable_Object_Images.getData().get(type).get("back"));
+        frames.put("down", Movable_Object_Images.getData().get(type).get("front"));
+        current_frames = Movable_Object_Images.getData().get(type).get("front");
     }
 
     public void Act(String arg) {

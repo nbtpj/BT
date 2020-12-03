@@ -18,7 +18,7 @@ public class Main extends Application {
         Group root = new Group();
         Scene theScene = new Scene( root );
         theStage.setScene( theScene );
-        Bomber paimon = new Bomber("paimon",61,61);
+        Bomber paimon = new Bomber("paimon","Cat01-1",61,61);
         Map map = new Map(0);
         map.AddGobject(paimon);
         root.getChildren().add( map.Frame );

@@ -11,7 +11,7 @@ public abstract class Gobject {
     public Map current_map;
     public double index;
     public boolean using = true;
-
+    protected String type;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
