@@ -3,6 +3,7 @@ package object;
 import Controller.EnemyController;
 import engine.Images;
 import engine.Pair;
+import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
 import java.util.Date;
@@ -45,6 +46,7 @@ public class Enemy extends Player{
         node.setTranslateX(x);
         node.setTranslateY(y);
         this.id = id;
+        this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
     }
 
     @Override

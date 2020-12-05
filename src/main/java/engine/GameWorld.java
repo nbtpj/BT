@@ -21,6 +21,7 @@ public abstract class GameWorld {
     public int level;
     public int height;
     public int width;
+    public String level_url;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
@@ -32,9 +33,10 @@ public abstract class GameWorld {
 
     //#####################################################################################################################
 // construct
-    public GameWorld(final int fps, final String title) {
+    public GameWorld(final int fps, final String title, String level_url) {
         framesPerSecond = fps;
         windowTile = title;
+        this.level_url = level_url;
 
         buildAndSetGameLoop();
     }
@@ -92,8 +94,6 @@ public abstract class GameWorld {
             addUpdateSprites();
             checkCollision();
             cleanupSprites();
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
         });
 
         Timeline timeline = new Timeline();

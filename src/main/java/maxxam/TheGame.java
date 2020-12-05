@@ -18,8 +18,8 @@ public class TheGame extends GameWorld {
 
     public Scanner map;
 
-    public TheGame(int fps, String title) {
-        super(fps, title);
+    public TheGame(int fps, String title, String level_url) {
+        super(fps, title, level_url);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class TheGame extends GameWorld {
     private void generateMap(Stage stage) {
 
         try {
-            File file = new File(getClass().getResource("/maxxam/map/level1.txt").toURI());
+            File file = new File(getClass().getResource(level_url).toURI());
             System.out.println(file);
             map = new Scanner(file);
         } catch (Exception e) {
@@ -132,9 +132,7 @@ public class TheGame extends GameWorld {
                 player.pressW = true;
             }
             if (keyEvent.getCode() == KeyCode.SPACE) {
-                if (count_bombs() < player.power_bomb) {
-                    player.storeBomb();
-                }
+                player.storeBomb();
             }
         };
         stage.getScene().setOnKeyPressed(playerMovePress);
@@ -151,15 +149,5 @@ public class TheGame extends GameWorld {
             }
         };
         stage.getScene().setOnKeyReleased(playerMoveRelease);
-    }
-
-    private int count_bombs() {
-        int cnt = 0;
-        for (Sprite sprite: getSpriteManager().getGameActorsList()) {
-            if (sprite instanceof Bomb) {
-                cnt ++;
-            }
-        }
-        return cnt;
     }
 }

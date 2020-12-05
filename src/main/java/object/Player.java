@@ -1,12 +1,15 @@
 package object;
 
+import engine.Double;
 import engine.Images;
 import engine.Sprite;
 import interfaces.Collision;
 import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Player extends Sprite implements Collision {
     // Images
@@ -37,6 +40,9 @@ public class Player extends Sprite implements Collision {
     public double height;
     public double width;
 
+    // cool down bomb
+    List<Double> cool_down_bomb = new ArrayList<>();
+
     public Player(double height, double width, double x, double y) {
         node = images_down[0].getImageView(height, width);
         node.setTranslateX(x);
@@ -47,6 +53,8 @@ public class Player extends Sprite implements Collision {
 
     @Override
     public void update() {
+        checkBomb();
+
         vX = 0;
         vY = 0;
         if (pressA) {
@@ -166,9 +174,19 @@ public class Player extends Sprite implements Collision {
     }
 
     public void storeBomb() {
+        if (cool_down_bomb.size() >= power_bomb)
+            return;
         Bomb.init((int) (node.getTranslateX() / App.gameWorld.getScale() + 0.5f),
                 (int) (node.getTranslateY() / App.gameWorld.getScale() + 0.5f),
                 this.power_flames);
+        cool_down_bomb.add(new Double(Bomb.DEATH_TIME));
         on_bomb = true;
+    }
+
+    public void checkBomb() {
+        for (Double d: cool_down_bomb) {
+            d.d -= 1.0f/App.gameWorld.getFramesPerSecond();
+        }
+        cool_down_bomb.removeIf(d -> d.d <= 0);
     }
 }

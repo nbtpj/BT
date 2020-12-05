@@ -6,11 +6,13 @@ import interfaces.Collision;
 import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
+import javax.swing.*;
 import java.util.Date;
 
 public class Bomb extends Sprite implements Collision {
     private static final Images[] images = Images.bomb;
-    public double deathTime = 3;
+    public static final double DEATH_TIME = 3;
+    public double deathTime = DEATH_TIME;
     private int power;
 
     public Bomb(double height, double width, double x, double y, int power) {

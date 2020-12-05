@@ -10,10 +10,11 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    public static GameWorld gameWorld = new TheGame(60, "Bomb IT");
+    public static GameWorld gameWorld;
 
     @Override
     public void start(Stage stage) {
+        gameWorld = new TheGame(60, "Bomb IT", "/maxxam/map/level1.txt");
         gameWorld.initialize(stage);
         gameWorld.beginGameLoop();
         stage.show();

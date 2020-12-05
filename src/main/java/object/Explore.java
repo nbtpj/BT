@@ -20,7 +20,7 @@ public class Explore extends Sprite implements Collision {
     private double sX;
     private double sY;
     private boolean is_terminal;
-    private double deathTime = 1;
+    private double deathTime = 0.5f;
 
     public Explore(double height, double width, double x, double y, double sX, double sY, boolean is_terminal) {
         collisionBound = new Rectangle();

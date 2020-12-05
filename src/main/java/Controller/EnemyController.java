@@ -39,6 +39,18 @@ public class EnemyController {
     public static Random random = new Random();
 
     /**
+     * set done_action to true
+     * and all pressWASD to false
+     */
+    public static void exe_action_done(Enemy enemy) {
+        enemy.done_action = true;
+        enemy.pressW = true;
+        enemy.pressA = true;
+        enemy.pressS = true;
+        enemy.pressD = true;
+    }
+
+    /**
      * get a copy of map.
      * then mark o as 'd' if it is dangerous.
      */
@@ -78,7 +90,6 @@ public class EnemyController {
                 }
             }
         }
-//        System.out.println(Arrays.deepToString(map));
         return map;
     }
 
@@ -128,7 +139,7 @@ public class EnemyController {
             list.add(new Pair(np.x, np.y-1));
         }
 
-        enemy.done_action = true;
+        exe_action_done(enemy);
     }
 
 
@@ -159,7 +170,7 @@ public class EnemyController {
             list.add(new Pair(np.x, np.y-1));
         }
 
-        enemy.done_action = true;
+        exe_action_done(enemy);
     }
 
 
@@ -196,7 +207,7 @@ public class EnemyController {
             list.add(new Pair(np.x, np.y+1));
             list.add(new Pair(np.x, np.y-1));
         }
-        enemy.done_action = true;
+        exe_action_done(enemy);
     }
 
     /**
@@ -223,7 +234,7 @@ public class EnemyController {
             list.add(new Pair(np.x, np.y-1));
         }
 
-        enemy.done_action = true;
+        exe_action_done(enemy);
     }
 
 
@@ -249,7 +260,7 @@ public class EnemyController {
      */
     public static void exe_do_nothing(Enemy enemy) {
         if (enemy.actionStatus <= 0) {
-            enemy.done_action = true;
+            exe_action_done(enemy);
         }
         enemy.actionStatus -= 1.0f/App.gameWorld.getFramesPerSecond();
     }
@@ -265,7 +276,7 @@ public class EnemyController {
         }
         if ((int)enemy.node.getTranslateX() == (int)(App.gameWorld.getScale() * enemy.pairAim.x) &&
                 (int)enemy.node.getTranslateY() == (int)(App.gameWorld.getScale() * enemy.pairAim.y)) {
-            enemy.done_action = true;
+            exe_action_done(enemy);
             return;
         }
         Pair[][] pair_map = new Pair[App.gameWorld.height][App.gameWorld.width];
@@ -336,6 +347,9 @@ public class EnemyController {
                 map[np.y-1][np.x] = '.';
             }
         }
+        if (list.isEmpty()) {
+            exe_action_done(enemy);
+        }
     }
 
     /**
@@ -382,21 +396,17 @@ public class EnemyController {
              */
             switch (enemy.action) {
                 case 0:
-                    switch (rand_int_in(5)) {
-                        case 0:
-                            get_1(enemy, absolutePairEnemy, map);
-                            break;
-                        case 1:
-                            get_2(enemy, absolutePairEnemy, map);
-                            break;
-                        case 2:
-                            get_3(enemy);
-                            break;
-                        case 3:
-                            get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
-                            break;
-                        case 4:
-                            get_6(enemy, absolutePairEnemy, map);
+                    int i = rand_int_in(100);
+                    if (0 <= i && i < 30) {
+                        get_1(enemy, absolutePairEnemy, map);
+                    } else if (30 <= i && i < 60) {
+                        get_2(enemy, absolutePairEnemy, map);
+                    } else if (60 <= i && i < 70) {
+                        get_3(enemy);
+                    } else if (70 <= i && i < 95) {
+                        get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
+                    } else if (95 <= i && i < 100) {
+                        get_6(enemy, absolutePairEnemy, map);
                     }
                     break;
                 case 1:
@@ -424,7 +434,11 @@ public class EnemyController {
                     break;
                 case 5:
                     if (enemy.actionStatus <= 0) {
-                        enemy.done_action = true;
+                        if (enemy.node.getTranslateX() % App.gameWorld.getScale() != 0 ||
+                            enemy.node.getTranslateY() % App.gameWorld.getScale() != 0) {
+                        break;
+                    }
+                        exe_action_done(enemy);
                         break;
                     }
                     enemy.actionStatus -= 1.0f/App.gameWorld.getFramesPerSecond();
@@ -434,7 +448,7 @@ public class EnemyController {
                     break;
                 case 3:
                     enemy.storeBomb();
-                    enemy.done_action = true;
+                    exe_action_done(enemy);
             }
         }
     }
