@@ -7,16 +7,20 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import object.Player;
 
 public abstract class GameWorld {
 
-//#####################################################################################################################
+    //#####################################################################################################################
 // declare variables
     private static Timeline gameLoop;
     private final int framesPerSecond;
     private final String windowTile;
     protected static double scale = 32;
     public char[][] sprite_map;
+    public int level;
+    public int height;
+    public int width;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
@@ -24,7 +28,9 @@ public abstract class GameWorld {
     private Scene gameSurface;
     private Group sceneNodes;
 
-//#####################################################################################################################
+    public Player player;
+
+    //#####################################################################################################################
 // construct
     public GameWorld(final int fps, final String title) {
         framesPerSecond = fps;
@@ -33,7 +39,7 @@ public abstract class GameWorld {
         buildAndSetGameLoop();
     }
 
-//#####################################################################################################################
+    //#####################################################################################################################
 // getter and setter
     protected static Timeline getGameLoop() {
         return gameLoop;
@@ -82,11 +88,13 @@ public abstract class GameWorld {
     protected final void buildAndSetGameLoop() {
         final Duration oneFrameAmt = Duration.millis(1000 / (float) getFramesPerSecond());
         final KeyFrame oneFrame = new KeyFrame(oneFrameAmt, actionEvent -> {
-                    updateSprites();
-                    addUpdateSprites();
-                    checkCollision();
-                    cleanupSprites();
-                });
+            updateSprites();
+            addUpdateSprites();
+            checkCollision();
+            cleanupSprites();
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        });
 
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Animation.INDEFINITE);

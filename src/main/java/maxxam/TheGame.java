@@ -16,11 +16,7 @@ import java.util.Scanner;
 
 public class TheGame extends GameWorld {
 
-    Player player;
-    Scanner map;
-    int level;
-    int height;
-    int width;
+    public Scanner map;
 
     public TheGame(int fps, String title) {
         super(fps, title);
@@ -90,9 +86,30 @@ public class TheGame extends GameWorld {
                 }
                 if (c == 'p') {
                     player = Player.init(j, i);
+                    sprite_map[i][j] = ' ';
                 }
                 if (c == '*') {
                     Box.init(j, i);
+                }
+                if (c == '0') {
+                    Enemy.init(j, i, 0);
+                    sprite_map[i][j] = ' ';
+                }
+                if (c == '1') {
+                    Enemy.init(j, i, 1);
+                    sprite_map[i][j] = ' ';
+                }
+                if (c == '2') {
+                    Enemy.init(j, i, 2);
+                    sprite_map[i][j] = ' ';
+                }
+                if (c == '3') {
+                    Enemy.init(j, i, 3);
+                    sprite_map[i][j] = ' ';
+                }
+                if (c == '4') {
+                    Enemy.init(j, i, 4);
+                    sprite_map[i][j] = ' ';
                 }
                 System.out.print(c);
             }

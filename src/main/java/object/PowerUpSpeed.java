@@ -7,12 +7,24 @@ import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
 public class PowerUpSpeed extends Sprite implements Collision{
+    private static final Images images = Images.power_up_speed;
+
     public PowerUpSpeed(double height, double width, double x, double y) {
-        node = Images.power_up_speed.getImageView(height, width);
+        node = images.getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();
         this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
+    }
+
+    public static PowerUpSpeed init(double height, double width) {
+        PowerUpSpeed powerUpSpeed = new PowerUpSpeed(App.gameWorld.getScale(),
+                App.gameWorld.getScale(),
+                height*App.gameWorld.getScale(),
+                width*App.gameWorld.getScale());
+        App.gameWorld.sprite_map[(int) (powerUpSpeed.node.getTranslateY() / App.gameWorld.getScale())][(int) (powerUpSpeed.node.getTranslateX() / App.gameWorld.getScale())] = 'S';
+        App.gameWorld.spawn(powerUpSpeed);
+        return powerUpSpeed;
     }
 
     @Override
@@ -31,6 +43,7 @@ public class PowerUpSpeed extends Sprite implements Collision{
 
     @Override
     public void handleDeath() {
+        App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
         App.gameWorld.destroy(this);
     }
 }

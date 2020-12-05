@@ -9,9 +9,11 @@ import maxxam.App;
 import java.util.Date;
 
 public class Box extends Wall{
+    private static final Images images = Images.brick;
+
     public Box(double height, double width, double x, double y) {
         super(height, width, x, y);
-        node = Images.brick.getImageView(height, width);
+        node = images.getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
     }
@@ -39,25 +41,25 @@ public class Box extends Wall{
 
     @Override
     public void handleDeath() {
+        App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
+        App.gameWorld.destroy(this);
         int rand = ((int) (new Date().getTime() / 100) % 4 + 4) % 4;
         switch (rand) {
             case 0:
-                PowerUpFlames powerUpFlames = new PowerUpFlames(App.gameWorld.getScale(), App.gameWorld.getScale(),
-                        node.getTranslateX(), node.getTranslateY());
-                App.gameWorld.spawn(powerUpFlames);
+                PowerUpFlames.init(
+                        (int) (node.getTranslateX() / App.gameWorld.getScale()),
+                        (int) (node.getTranslateY() / App.gameWorld.getScale()));
                 break;
             case 1:
-                PowerUpSpeed powerUpSpeed = new PowerUpSpeed(App.gameWorld.getScale(), App.gameWorld.getScale(),
-                        node.getTranslateX(), node.getTranslateY());
-                App.gameWorld.spawn(powerUpSpeed);
+                PowerUpSpeed.init(
+                        (int) (node.getTranslateX() / App.gameWorld.getScale()),
+                        (int) (node.getTranslateY() / App.gameWorld.getScale()));
                 break;
             case 2:
-                PowerUpBombs powerUpBombs = new PowerUpBombs(App.gameWorld.getScale(), App.gameWorld.getScale(),
-                        node.getTranslateX(), node.getTranslateY());
-                App.gameWorld.spawn(powerUpBombs);
+                PowerUpBombs.init(
+                        (int) (node.getTranslateX() / App.gameWorld.getScale()),
+                        (int) (node.getTranslateY() / App.gameWorld.getScale()));
         }
-        App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
-        App.gameWorld.destroy(this);
     }
 
 }

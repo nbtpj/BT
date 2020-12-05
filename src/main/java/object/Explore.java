@@ -9,6 +9,14 @@ import maxxam.App;
 import java.util.Date;
 
 public class Explore extends Sprite implements Collision {
+    private static final Images[] images_bomb_exploded = Images.bomb_exploded;
+    private static final Images[] images_explosion_vertical = Images.explosion_vertical;
+    private static final Images[] images_explosion_vertical_top_last = Images.explosion_vertical_top_last;
+    private static final Images[] images_explosion_vertical_down_last = Images.explosion_vertical_down_last;
+    private static final Images[] images_explosion_horizontal = Images.explosion_horizontal;
+    private static final Images[] images_explosion_horizontal_left_last = Images.explosion_horizontal_left_last;
+    private static final Images[] images_explosion_horizontal_right_last = Images.explosion_horizontal_right_last;
+
     private double sX;
     private double sY;
     private boolean is_terminal;
@@ -21,30 +29,7 @@ public class Explore extends Sprite implements Collision {
         this.sY = sY;
         this.is_terminal = is_terminal;
 
-        if (sX == 0 && sY == 0) {
-            node = Images.bomb_exploded[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-        } else if (sX == 0) {
-            if (!is_terminal) {
-                node = Images.explosion_vertical[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-            } else {
-                if (sY < 0) {
-                    node = Images.explosion_vertical_top_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                } else {
-                    node = Images.explosion_vertical_down_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                }
-            }
-        } else if (sY == 0) {
-            if (!is_terminal) {
-                node = Images.explosion_horizontal[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-            } else {
-                if (sX < 0) {
-                    node = Images.explosion_horizontal_left_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                } else {
-                    node = Images.explosion_horizontal_right_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                }
-            }
-        }
-
+        setNode();
         node.setTranslateX(x);
         node.setTranslateY(y);
     }
@@ -60,29 +45,7 @@ public class Explore extends Sprite implements Collision {
         double x = node.getTranslateX();
         double y = node.getTranslateY();
 
-        if (sX == 0 && sY == 0) {
-            node = Images.bomb_exploded[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-        } else if (sX == 0) {
-            if (!is_terminal) {
-                node = Images.explosion_vertical[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-            } else {
-                if (sY < 0) {
-                    node = Images.explosion_vertical_top_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                } else {
-                    node = Images.explosion_vertical_down_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                }
-            }
-        } else if (sY == 0) {
-            if (!is_terminal) {
-                node = Images.explosion_horizontal[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-            } else {
-                if (sX < 0) {
-                    node = Images.explosion_horizontal_left_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                } else {
-                    node = Images.explosion_horizontal_right_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
-                }
-            }
-        }
+        setNode();
         node.setTranslateX(x + vX);
         node.setTranslateY(y + vY);
 
@@ -91,5 +54,31 @@ public class Explore extends Sprite implements Collision {
 
     public void handleDeath() {
         App.gameWorld.destroy(this);
+    }
+
+    private void setNode() {
+        if (sX == 0 && sY == 0) {
+            node = images_bomb_exploded[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+        } else if (sX == 0) {
+            if (!is_terminal) {
+                node = images_explosion_vertical[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+            } else {
+                if (sY < 0) {
+                    node = images_explosion_vertical_top_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+                } else {
+                    node = images_explosion_vertical_down_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+                }
+            }
+        } else if (sY == 0) {
+            if (!is_terminal) {
+                node = images_explosion_horizontal[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+            } else {
+                if (sX < 0) {
+                    node = images_explosion_horizontal_left_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+                } else {
+                    node = images_explosion_horizontal_right_last[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+                }
+            }
+        }
     }
 }

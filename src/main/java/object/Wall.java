@@ -7,9 +7,10 @@ import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
 public class Wall extends Sprite implements Collision {
+    private static final Images images = Images.wall;
 
     public Wall(double height, double width, double x, double y) {
-        node = Images.wall.getImageView(height, width);
+        node = images.getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();

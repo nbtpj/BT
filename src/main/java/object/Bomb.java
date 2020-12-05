@@ -9,19 +9,12 @@ import maxxam.App;
 import java.util.Date;
 
 public class Bomb extends Sprite implements Collision {
+    private static final Images[] images = Images.bomb;
     public double deathTime = 3;
     private int power;
 
-    public Bomb(double height, double width, double x, double y) {
-        node = Images.bomb[0].getImageView(height, width);
-        node.setTranslateX(x);
-        node.setTranslateY(y);
-        collisionBound = new Rectangle();
-        this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width);
-    }
-
     public Bomb(double height, double width, double x, double y, int power) {
-        node = Images.bomb[0].getImageView(height, width);
+        node = images[0].getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();
@@ -35,6 +28,7 @@ public class Bomb extends Sprite implements Collision {
                 height*App.gameWorld.getScale(),
                 width*App.gameWorld.getScale(),
                 power);
+        App.gameWorld.sprite_map[(int) (bomb.node.getTranslateY() / App.gameWorld.getScale())][(int) (bomb.node.getTranslateX() / App.gameWorld.getScale())] = 'b';
         App.gameWorld.spawn(bomb);
         return bomb;
     }
@@ -50,7 +44,7 @@ public class Bomb extends Sprite implements Collision {
         double x = node.getTranslateX();
         double y = node.getTranslateY();
         App.gameWorld.getSceneNodes().getChildren().remove(node);
-        node = Images.bomb[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
+        node = images[(int)(new Date().getTime() / 100)%3+2].getImageView(32, 32);
         App.gameWorld.getSceneNodes().getChildren().add(node);
         node.setTranslateX(x + vX);
         node.setTranslateY(y + vY);
@@ -150,6 +144,7 @@ public class Bomb extends Sprite implements Collision {
             }
         }
 
+        App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
         App.gameWorld.destroy(this);
     }
 }
