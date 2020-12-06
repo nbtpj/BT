@@ -6,7 +6,7 @@ import interfaces.Collision;
 import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
-public class PowerUpBombs extends Sprite implements Collision{
+public class PowerUpBombs extends Power{
     private static final Images images = Images.power_up_bombs;
 
     public PowerUpBombs(double height, double width, double x, double y) {

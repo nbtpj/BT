@@ -72,4 +72,11 @@ public class SpriteManager {
         GAME_ACTORS_LIST.addAll(ADD_SPRITES_SET);
         ADD_SPRITES_SET.clear();
     }
+
+    public void resetAll() {
+        GAME_ACTORS_LIST.clear();
+        COLLISION_LIST.clear();
+        CLEAN_UP_SPRITES_SET.clear();
+        ADD_SPRITES_SET.clear();
+    }
 }

@@ -21,7 +21,6 @@ public abstract class GameWorld {
     public int level;
     public int height;
     public int width;
-    public String level_url;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
@@ -31,12 +30,13 @@ public abstract class GameWorld {
 
     public Player player;
 
+    public Stage stage;
+
     //#####################################################################################################################
 // construct
-    public GameWorld(final int fps, final String title, String level_url) {
+    public GameWorld(final int fps, final String title) {
         framesPerSecond = fps;
         windowTile = title;
-        this.level_url = level_url;
 
         buildAndSetGameLoop();
     }
@@ -84,6 +84,7 @@ public abstract class GameWorld {
 //#####################################################################################################################
 // abstract class
     public abstract void initialize(final Stage primaryStage);
+    public abstract void start_level(Stage stage);
 
 //#####################################################################################################################
 // internal method

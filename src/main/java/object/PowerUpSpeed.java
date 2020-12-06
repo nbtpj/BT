@@ -6,7 +6,7 @@ import interfaces.Collision;
 import javafx.scene.shape.Rectangle;
 import maxxam.App;
 
-public class PowerUpSpeed extends Sprite implements Collision{
+public class PowerUpSpeed extends Power{
     private static final Images images = Images.power_up_speed;
 
     public PowerUpSpeed(double height, double width, double x, double y) {

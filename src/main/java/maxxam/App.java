@@ -13,17 +13,18 @@ public class App extends Application {
     public static GameWorld gameWorld;
 
     @Override
-    public void start(Stage stage) {
-        gameWorld = new TheGame(60, "Bomb IT", "/maxxam/map/level1.txt");
-        gameWorld.initialize(stage);
-        gameWorld.beginGameLoop();
-        stage.show();
-    }
-
-    @Override
     public void stop() {
         Platform.exit();
         gameWorld.shutdown();
+    }
+
+    @Override
+    public void start(Stage stage) {
+        gameWorld = new TheGame(60, "Bomb IT", stage);
+        gameWorld.initialize(stage);
+        gameWorld.start_level(stage);
+        gameWorld.beginGameLoop();
+        stage.show();
     }
 
     public static void main(String[] args) {

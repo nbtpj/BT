@@ -17,15 +17,20 @@ import java.util.Scanner;
 public class TheGame extends GameWorld {
 
     public Scanner map;
+    public static int level_next = 1;
 
-    public TheGame(int fps, String title, String level_url) {
-        super(fps, title, level_url);
+    public TheGame(int fps, String title, Stage stage) {
+        super(fps, title);
+        this.stage = stage;
     }
 
     @Override
     public void initialize(Stage primaryStage) {
         primaryStage.setTitle(getWindowTile());
+    }
 
+    public void start_level(Stage primaryStage) {
+        getSpriteManager().resetAll();
         setSceneNodes(new Group());
         setGameSurface(new Scene(getSceneNodes(), 1080, 720, Color.GREEN));
 
@@ -50,9 +55,10 @@ public class TheGame extends GameWorld {
     private void generateMap(Stage stage) {
 
         try {
-            File file = new File(getClass().getResource(level_url).toURI());
+            File file = new File(getClass().getResource("/maxxam/map/level" + level_next + ".txt").toURI());
             System.out.println(file);
             map = new Scanner(file);
+            level_next++;
         } catch (Exception e) {
             System.out.println("can not find level-text file");
         }
@@ -110,6 +116,9 @@ public class TheGame extends GameWorld {
                 if (c == '4') {
                     Enemy.init(j, i, 4);
                     sprite_map[i][j] = ' ';
+                }
+                if (c == 'x') {
+                    Portal.init(j, i);
                 }
                 System.out.print(c);
             }

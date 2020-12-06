@@ -154,6 +154,19 @@ public class Player extends Sprite implements Collision {
         } else if (on_bomb && !collideBomb){
             on_bomb = false;
         }
+
+        // Collide portal
+        boolean collidePortal = false;
+        for(Sprite sprite: App.gameWorld.getSpriteManager().getGameActorsList()) {
+            if (sprite instanceof Portal) {
+                if (collide((Collision)sprite)) {
+                    collidePortal = true;
+                }
+            }
+        }
+        if (collidePortal) {
+            App.gameWorld.start_level(App.gameWorld.stage);
+        }
     }
 
     public void backStep(){
