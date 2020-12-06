@@ -399,9 +399,9 @@ public class EnemyController {
                     int i = rand_int_in(100);
                     if (0 <= i && i < 30) {
                         get_1(enemy, absolutePairEnemy, map);
-                    } else if (30 <= i && i < 60) {
+                    } else if (30 <= i && i < 69) {
                         get_2(enemy, absolutePairEnemy, map);
-                    } else if (60 <= i && i < 70) {
+                    } else if (69 <= i && i < 70) {
                         get_3(enemy);
                     } else if (70 <= i && i < 95) {
                         get_5(enemy, absolutePairEnemy, relativePairPlayer, map);

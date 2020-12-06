@@ -10,19 +10,21 @@ import java.util.Date;
 
 public class Box extends Wall{
     private static final Images images = Images.brick;
+    private boolean is_portal = false;
 
-    public Box(double height, double width, double x, double y) {
+    public Box(double height, double width, double x, double y, boolean is_portal) {
         super(height, width, x, y);
         node = images.getImageView(height, width);
         node.setTranslateX(x);
         node.setTranslateY(y);
+        this.is_portal = is_portal;
     }
 
-    public static Box init(double height, double width) {
+    public static Box init(double height, double width, boolean is_portal) {
         Box box = new Box(App.gameWorld.getScale(),
                 App.gameWorld.getScale(),
                 height * App.gameWorld.getScale(),
-                width * App.gameWorld.getScale());
+                width * App.gameWorld.getScale(), is_portal);
         App.gameWorld.spawn(box);
         return box;
     }
@@ -43,6 +45,12 @@ public class Box extends Wall{
     public void handleDeath() {
         App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
         App.gameWorld.destroy(this);
+        if (is_portal) {
+            Portal.init(
+                    (int) (node.getTranslateX() / App.gameWorld.getScale()),
+                    (int) (node.getTranslateY() / App.gameWorld.getScale()));
+            return;
+        }
         int rand = ((int) (new Date().getTime() / 100) % 4 + 4) % 4;
         switch (rand) {
             case 0:

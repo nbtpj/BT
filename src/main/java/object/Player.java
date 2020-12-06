@@ -10,6 +10,7 @@ import maxxam.App;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class Player extends Sprite implements Collision {
     // Images
@@ -41,7 +42,10 @@ public class Player extends Sprite implements Collision {
     public double width;
 
     // cool down bomb
-    List<Double> cool_down_bomb = new ArrayList<>();
+    public List<Double> cool_down_bomb = new ArrayList<>();
+
+    // live
+    private int lives = 3;
 
     public Player(double height, double width, double x, double y) {
         node = images_down[0].getImageView(height, width);
@@ -154,19 +158,6 @@ public class Player extends Sprite implements Collision {
         } else if (on_bomb && !collideBomb){
             on_bomb = false;
         }
-
-        // Collide portal
-        boolean collidePortal = false;
-        for(Sprite sprite: App.gameWorld.getSpriteManager().getGameActorsList()) {
-            if (sprite instanceof Portal) {
-                if (collide((Collision)sprite)) {
-                    collidePortal = true;
-                }
-            }
-        }
-        if (collidePortal) {
-            App.gameWorld.start_level(App.gameWorld.stage);
-        }
     }
 
     public void backStep(){
@@ -180,20 +171,37 @@ public class Player extends Sprite implements Collision {
 
     @Override
     public void handleDeath() {
-        node.setTranslateX(App.gameWorld.getScale());
-        node.setTranslateY(App.gameWorld.getScale());
-        collisionBound.setTranslateX(App.gameWorld.getScale());
-        collisionBound.setTranslateY(App.gameWorld.getScale());
+        Random random = new Random();
+        while (true) {
+            int j = Math.abs(random.nextInt()) % App.gameWorld.width;
+            int i = Math.abs(random.nextInt()) % App.gameWorld.height;
+            if (App.gameWorld.sprite_map[i][j] == ' ') {
+                App.gameWorld.sprite_map[i][j] = 'p';
+                node.setTranslateX(j * App.gameWorld.getScale());
+                node.setTranslateY(i * App.gameWorld.getScale());
+                collisionBound.setTranslateX(j * App.gameWorld.getScale());
+                collisionBound.setTranslateY(i * App.gameWorld.getScale());
+                break;
+            }
+        }
+
+        lives --;
+        if (lives == 0) {
+            App.gameWorld.level_next = 1;
+//            App.gameWorld.start_level(App.gameWorld.stage);
+            App.gameWorld.is_nx_level = true;
+        }
     }
 
     public void storeBomb() {
         if (cool_down_bomb.size() >= power_bomb)
             return;
-        Bomb.init((int) (node.getTranslateX() / App.gameWorld.getScale() + 0.5f),
+        if (Bomb.init((int) (node.getTranslateX() / App.gameWorld.getScale() + 0.5f),
                 (int) (node.getTranslateY() / App.gameWorld.getScale() + 0.5f),
-                this.power_flames);
-        cool_down_bomb.add(new Double(Bomb.DEATH_TIME));
-        on_bomb = true;
+                this.power_flames) != null) {
+            cool_down_bomb.add(new Double(Bomb.DEATH_TIME));
+            on_bomb = true;
+        }
     }
 
     public void checkBomb() {

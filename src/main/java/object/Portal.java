@@ -28,13 +28,9 @@ public class Portal extends Sprite implements Collision {
 
     @Override
     public void executeCollision() {
-        for (Sprite sprite : App.gameWorld.getSpriteManager().getGameActorsList()) {
-            if (sprite instanceof Player) {
-                if (collide((Collision) sprite)) {
-                    App.gameWorld.start_level(App.gameWorld.stage);
-                    break;
-                }
-            }
+        if (collide(App.gameWorld.player)) {
+//            App.gameWorld.start_level(App.gameWorld.stage);
+            App.gameWorld.is_nx_level = true;
         }
     }
 }

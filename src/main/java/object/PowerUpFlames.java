@@ -39,10 +39,4 @@ public class PowerUpFlames extends Power {
             }
         }
     }
-
-    @Override
-    public void handleDeath() {
-        App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
-        App.gameWorld.destroy(this);
-    }
 }

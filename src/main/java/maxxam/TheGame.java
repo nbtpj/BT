@@ -1,5 +1,6 @@
 package maxxam;
 
+import Controller.EnemyController;
 import engine.GameWorld;
 import engine.Sprite;
 import javafx.event.EventHandler;
@@ -12,12 +13,12 @@ import javafx.stage.Stage;
 import object.*;
 
 import java.io.File;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TheGame extends GameWorld {
 
     public Scanner map;
-    public static int level_next = 1;
 
     public TheGame(int fps, String title, Stage stage) {
         super(fps, title);
@@ -27,16 +28,43 @@ public class TheGame extends GameWorld {
     @Override
     public void initialize(Stage primaryStage) {
         primaryStage.setTitle(getWindowTile());
+        init_sound();
+    }
+
+    @Override
+    public void init_sound() {
+        getSoundManager().loadSoundEffects("step_right", getClass().getResource("/maxxam/sounds/step_right.mp3"));
+        getSoundManager().loadSoundEffects("step_left", getClass().getResource("/maxxam/sounds/step_left.mp3"));
+        getSoundManager().loadSoundEffects("explode", getClass().getResource("/maxxam/sounds/bomb_explode.mp3"));
+        getSoundManager().loadSoundEffects("eaten", getClass().getResource("/maxxam/sounds/buff_eaten.mp3"));
     }
 
     public void start_level(Stage primaryStage) {
+        is_nx_level = false;
         getSpriteManager().resetAll();
         setSceneNodes(new Group());
-        setGameSurface(new Scene(getSceneNodes(), 1080, 720, Color.GREEN));
+        setGameSurface(new Scene(getSceneNodes(), 1056, 704, Color.GREEN));
 
         primaryStage.setScene(getGameSurface());
 
         generateMap(primaryStage);
+    }
+
+    @Override
+    public void exeWin() {
+        for(Sprite sprite: getSpriteManager().getGameActorsList()) {
+            if (sprite instanceof Enemy) {
+                return;
+            }
+        }
+//        start_level(stage);
+        is_nx_level = true;
+    }
+
+    @Override
+    public void checkNxLevel() {
+        if (is_nx_level)
+            start_level(stage);
     }
 
     @Override
@@ -53,36 +81,109 @@ public class TheGame extends GameWorld {
 //#####################################################################################################################
 // internal method
     private void generateMap(Stage stage) {
+        stage.setTitle("Bom IT: level " + level_next);
 
-        try {
-            File file = new File(getClass().getResource("/maxxam/map/level" + level_next + ".txt").toURI());
-            System.out.println(file);
-            map = new Scanner(file);
-            level_next++;
-        } catch (Exception e) {
-            System.out.println("can not find level-text file");
-        }
+        if (level_next <= 3) {
+            try {
+                File file = new File(getClass().getResource("/maxxam/map/level" + level_next + ".txt").toURI());
+                System.out.println(file);
+                map = new Scanner(file);
+            } catch (Exception e) {
+                System.out.println("can not find level-text file");
+            }
 
-        level = map.nextInt();
-        height = map.nextInt();
-        width = map.nextInt();
+            level = map.nextInt();
+            height = map.nextInt();
+            width = map.nextInt();
 
-        sprite_map = new char[height][width];
+            sprite_map = new char[height][width];
 
-        String s = map.nextLine();
+            String s = map.nextLine();
 
-        System.out.println(level);
-        System.out.println(height);
-        System.out.println(width);
+            System.out.println(level);
+            System.out.println(height);
+            System.out.println(width);
 
-        Background.init(height, width);
+            for (int i = 0; i < height; i++) {
+                s = map.nextLine();
+                for (int j = 0; j < width; j++) {
+                    sprite_map[i][j] = s.charAt(j);
+                }
+            }
+        } else {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (i == 0 || i == height-1 || j == 0|| j == width-1) {
+                        sprite_map[i][j] = '#';
+                    }
+                    else {
+                        sprite_map[i][j] = ' ';
+                    }
+                }
+            }
 
-        for (int i = 0; i < height; i++) {
-            s = map.nextLine();
-            for (int j = 0; j < width; j++) {
-                sprite_map[i][j] = s.charAt(j);
+            Random random = new Random();
+
+            while (true) {
+                int j = Math.abs(random.nextInt()) % width;
+                int i = Math.abs(random.nextInt()) % height;
+                if (sprite_map[i][j] == ' ') {
+                    sprite_map[i][j] = 'p';
+                    break;
+                }
+            }
+            while (true) {
+                int j = Math.abs(random.nextInt()) % width;
+                int i = Math.abs(random.nextInt()) % height;
+                if (sprite_map[i][j] == ' ') {
+                    sprite_map[i][j] = 'x';
+                    break;
+                }
+            }
+            int wall = 70;
+            int box = 100;
+            int enemy = level_next*3;
+            int cnt;
+
+            cnt = 0;
+            while (true) {
+                int j = Math.abs(random.nextInt()) % width;
+                int i = Math.abs(random.nextInt()) % height;
+                if (sprite_map[i][j] == ' ') {
+                    sprite_map[i][j] = '#';
+                    cnt++;
+                    if (cnt >= wall)
+                        break;
+                }
+            }
+
+            cnt = 0;
+            while (true) {
+                int j = Math.abs(random.nextInt()) % width;
+                int i = Math.abs(random.nextInt()) % height;
+                if (sprite_map[i][j] == ' ') {
+                    sprite_map[i][j] = '*';
+                    cnt++;
+                    if (cnt >= box)
+                        break;
+                }
+            }
+
+            cnt = 0;
+            while (true) {
+                int j = Math.abs(random.nextInt()) % width;
+                int i = Math.abs(random.nextInt()) % height;
+                if (sprite_map[i][j] == ' ') {
+                    sprite_map[i][j] = (char)(EnemyController.rand_int_in(5) + '0');
+                    cnt++;
+                    if (cnt >= enemy)
+                        break;
+                }
             }
         }
+        level_next++;
+
+        Background.init(height, width);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -95,7 +196,7 @@ public class TheGame extends GameWorld {
                     sprite_map[i][j] = ' ';
                 }
                 if (c == '*') {
-                    Box.init(j, i);
+                    Box.init(j, i, false);
                 }
                 if (c == '0') {
                     Enemy.init(j, i, 0);
@@ -118,7 +219,7 @@ public class TheGame extends GameWorld {
                     sprite_map[i][j] = ' ';
                 }
                 if (c == 'x') {
-                    Portal.init(j, i);
+                    Box.init(j, i, true);
                 }
                 System.out.print(c);
             }

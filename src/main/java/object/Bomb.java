@@ -30,9 +30,12 @@ public class Bomb extends Sprite implements Collision {
                 height*App.gameWorld.getScale(),
                 width*App.gameWorld.getScale(),
                 power);
-        App.gameWorld.sprite_map[(int) (bomb.node.getTranslateY() / App.gameWorld.getScale())][(int) (bomb.node.getTranslateX() / App.gameWorld.getScale())] = 'b';
-        App.gameWorld.spawn(bomb);
-        return bomb;
+        if (App.gameWorld.sprite_map[(int) (bomb.node.getTranslateY() / App.gameWorld.getScale())][(int) (bomb.node.getTranslateX() / App.gameWorld.getScale())] == ' ') {
+            App.gameWorld.sprite_map[(int) (bomb.node.getTranslateY() / App.gameWorld.getScale())][(int) (bomb.node.getTranslateX() / App.gameWorld.getScale())] = 'b';
+            App.gameWorld.spawn(bomb);
+            return bomb;
+        }
+        return null;
     }
 
     @Override
@@ -146,6 +149,7 @@ public class Bomb extends Sprite implements Collision {
             }
         }
 
+        App.gameWorld.getSoundManager().playSound("explode");
         App.gameWorld.sprite_map[(int) (node.getTranslateY() / App.gameWorld.getScale())][(int) (node.getTranslateX() / App.gameWorld.getScale())] = ' ';
         App.gameWorld.destroy(this);
     }

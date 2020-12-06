@@ -21,6 +21,8 @@ public abstract class GameWorld {
     public int level;
     public int height;
     public int width;
+    public int level_next = 1;
+    public boolean is_nx_level = false;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
@@ -84,7 +86,10 @@ public abstract class GameWorld {
 //#####################################################################################################################
 // abstract class
     public abstract void initialize(final Stage primaryStage);
+    public abstract void init_sound();
     public abstract void start_level(Stage stage);
+    public abstract void exeWin();
+    public abstract void checkNxLevel();
 
 //#####################################################################################################################
 // internal method
@@ -95,6 +100,8 @@ public abstract class GameWorld {
             addUpdateSprites();
             checkCollision();
             cleanupSprites();
+            exeWin();
+            checkNxLevel();
         });
 
         Timeline timeline = new Timeline();
@@ -103,6 +110,7 @@ public abstract class GameWorld {
 
         setGameLoop(timeline);
     }
+
 
     protected void updateSprites() {
         for (Sprite sprite : spriteManager.getGameActorsList()) {

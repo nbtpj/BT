@@ -51,6 +51,7 @@ public class Enemy extends Player{
 
     @Override
     public void update() {
+        checkBomb();
         EnemyController.getController(this);
         vX = 0;
         vY = 0;

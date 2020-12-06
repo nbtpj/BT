@@ -4,10 +4,8 @@ import java.util.Arrays;
 
 public class test {
     public static void main(String[] args) {
-        double a = 3;
-        double b = a;
-        b -= 1;
-        System.out.println(a);
+        int a = 3+'0';
+        char b = (char)a;
         System.out.println(b);
     }
 }
