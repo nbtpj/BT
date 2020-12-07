@@ -1,9 +1,9 @@
 package Application;
 
-import Gobject.*;
-import Support_Type.*;
+import Gobject.Bomber;
+import Support_Type.Map;
+import Support_Type.Pos;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -11,16 +11,23 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import static Application.Choose_Bomberman.choose;
+import javax.swing.table.DefaultTableCellRenderer;
 
-public class Main extends Application {
-
-    public void start(Stage theStage) throws Exception {
-        /*theStage.setTitle( "Wibu World" );
+public class Game_World implements Part_Of_Game {
+    private String character_type;
+    private static String DEFAULT = "Cat01-1";
+    public Game_World(String type){
+        this.character_type = type;
+        if(type==null){
+            character_type = DEFAULT;
+        }
+    }
+    public Scene turnOn(Stage stage) throws Exception {
         Group root = new Group();
         Scene theScene = new Scene( root );
-        theStage.setScene( theScene );
-        Bomber paimon = new Bomber("paimon","Cat01-1",61,61);
+        stage.setTitle("Wibu World");
+        stage.setScene(theScene);
+        Bomber paimon = new Bomber("paimon",character_type,61,61);
         Map map = new Map(0);
         map.AddGobject(paimon);
         root.getChildren().add( map.Frame );
@@ -67,17 +74,10 @@ public class Main extends Application {
 
                 }
             }
-        };/*
-        EventHandler<MouseEvent> mouseclick = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Pos target = new Pos(event.getX(),event.getY());
-                paimon.move2(target);
-                }
-            }
-        };*/
-/*
-        theStage.addEventHandler(KeyEvent.KEY_TYPED,keydown);
+        };
+
+        theScene.addEventHandler(KeyEvent.KEY_TYPED,keydown);
+        /*
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -85,37 +85,29 @@ public class Main extends Application {
                 System.out.println(target);
             }
         };
-        map.Frame.addEventHandler(MouseEvent.MOUSE_CLICKED,eventHandler);
+        map.Frame.addEventHandler(MouseEvent.MOUSE_CLICKED,eventHandler);*/
 
         long startNanoTime = System.nanoTime();
 
-        new AnimationTimer()
+        AnimationTimer timer = new AnimationTimer()
         {
             public void handle(long currentNanoTime)
             {
 
                 double t = (currentNanoTime - startNanoTime) / 1000000.0;
-                   /* try {
-                        paimon.Act("none");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
-                //  System.out.println(t);
-     /*           try {
-                    //   if(paimon.heal_index<0) return;
+                try {
+                    if(!paimon.using) {
+                        (new Losing()).turnOn(stage);
+                    }
                     map.render(0.016);
                 } catch (Exception e) {
                     return;
                 }
             }
-        }.start();*/
-   //     (new Loading()).turnOn(theStage);
-      (new Choose_Bomberman()).turnOn(theStage);
-     //   theStage.show();
-    }
+        };
+        timer.start();
+        stage.show();
 
-
-    public static void main(String[] args) {
-        launch(args);
+        return theScene;
     }
 }

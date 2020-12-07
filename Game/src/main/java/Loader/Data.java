@@ -19,8 +19,9 @@ import java.util.stream.Collectors;
 import Support_Type.Pos;
 
 public class Data {
-    String localFilePath = "Game/src/main/resources/";
+    public static String localFilePath = "Game/src/main/resources/";
     private static volatile Data Instance = null;
+
     public static Map<String,Image> load_all() throws IOException {
         Map<String,Image> rs = new HashMap<>();
         List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/"))

@@ -23,11 +23,6 @@ public class Bomber extends Movable_Object {
         V_x = 3;
         V_y = 3;
         set_bomb = false;
-        /*frames.put("left", Data.getInstance().bomberman_left);
-        frames.put("right", Data.getInstance().bomberman_right);
-        frames.put("up", Data.getInstance().bomberman_back);
-        frames.put("down", Data.getInstance().bomberman_front);
-        current_frames = Data.getInstance().bomberman_front;*/
         this.type = type;
         frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
         frames.put("right", Movable_Object_Images.getData().get(type).get("right"));
@@ -71,7 +66,6 @@ public class Bomber extends Movable_Object {
                 current_frame = -1;
                 current_frames = frames.get(arg);
                 break;
-
         }
     }
 

@@ -26,6 +26,7 @@ public abstract class Movable_Object extends Gobject {
 
     }
 
+
     public Movable_Object(int i, String name, Pos pos) {
         super(i, name, pos);
         frames = new HashMap<>();
