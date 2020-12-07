@@ -37,6 +37,9 @@ public class TheGame extends GameWorld {
         getSoundManager().loadSoundEffects("step_left", getClass().getResource("/maxxam/sounds/step_left.mp3"));
         getSoundManager().loadSoundEffects("explode", getClass().getResource("/maxxam/sounds/bomb_explode.mp3"));
         getSoundManager().loadSoundEffects("eaten", getClass().getResource("/maxxam/sounds/buff_eaten.mp3"));
+        getSoundManager().loadSoundEffects("m1", getClass().getResource("/maxxam/sounds/funny1.mp3"));
+        getSoundManager().loadSoundEffects("m2", getClass().getResource("/maxxam/sounds/funny2.mp3"));
+        getSoundManager().loadSoundEffects("m3", getClass().getResource("/maxxam/sounds/funny3.mp3"));
     }
 
     public void start_level(Stage primaryStage) {
@@ -65,6 +68,19 @@ public class TheGame extends GameWorld {
     public void checkNxLevel() {
         if (is_nx_level)
             start_level(stage);
+    }
+
+    @Override
+    public void setTitleStage() {
+        String title = "Bom IT"
+                + "      [[ LEVEL " + (level_next-1) + " ]] "
+                + "      [[ MAX LEVEL: " + max_level + " ]] "
+                + "      [[ LIVES: " + player.lives + " ]] "
+                + "      [[ MAX BOMB: " + player.power_bomb + " ]] "
+                + "      [[ POWER: " + player.power_flames + " ]] "
+                + "      [[ SPEED x" + player.power_speed + " ]] ";
+        stage.setTitle(title);
+        max_level = Math.max(max_level, level_next-1);
     }
 
     @Override

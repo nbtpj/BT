@@ -23,6 +23,7 @@ public abstract class GameWorld {
     public int width;
     public int level_next = 1;
     public boolean is_nx_level = false;
+    public int max_level = 1;
 
     private final SpriteManager spriteManager = new SpriteManager();
     private final SoundManager soundManager = new SoundManager(3);
@@ -90,6 +91,7 @@ public abstract class GameWorld {
     public abstract void start_level(Stage stage);
     public abstract void exeWin();
     public abstract void checkNxLevel();
+    public abstract void setTitleStage();
 
 //#####################################################################################################################
 // internal method
@@ -102,6 +104,7 @@ public abstract class GameWorld {
             cleanupSprites();
             exeWin();
             checkNxLevel();
+            setTitleStage();
         });
 
         Timeline timeline = new Timeline();

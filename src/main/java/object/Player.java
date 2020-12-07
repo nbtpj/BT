@@ -45,7 +45,7 @@ public class Player extends Sprite implements Collision {
     public List<Double> cool_down_bomb = new ArrayList<>();
 
     // live
-    private int lives = 3;
+    public int lives = 3;
 
     public Player(double height, double width, double x, double y) {
         node = images_down[0].getImageView(height, width);
