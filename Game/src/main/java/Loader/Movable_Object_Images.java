@@ -22,7 +22,7 @@ public class Movable_Object_Images {
         if (data == null) {
             try {
                 data = new HashMap<>();
-                Map<String, Image> temp = Data.load_all();
+                Map<String, Image> temp = Data.getInstance().img_map;
                 Set<String> name_ob = new HashSet<>();
                 for (String name : temp.keySet()) {
                     if (name.contains("_front_") || name.contains("_back") || name.contains("_right_") || name.contains("_left_")) {

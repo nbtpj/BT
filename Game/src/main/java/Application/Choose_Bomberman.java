@@ -26,14 +26,12 @@ import static Support_Type.Map.SIZE_X;
 import static Support_Type.Map.SIZE_Y;
 
 public class Choose_Bomberman extends Application implements Part_Of_Game {
-    public static boolean quit = false;
     public static String character_type = null;
     public static final double S_H = 120, S_W = 60, S_P = 10;
     public static Canvas screen = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
-    static private Image triangle1 = null;
-    public static Image bkg = null;
+    static private Image triangle1 = Data.getInstance().triangle1;
+    public static Image bkg = Data.getInstance().bkg;
     private static final Map<String, Movable_Object_Images> data = Movable_Object_Images.getData();
-
     static private Image getImage(int pos, List<Image> list) {
         while (pos < 0) {
             pos += list.size();
@@ -45,21 +43,6 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
     }
 
     public static Image choose(Canvas cv, List<Image> list, int pos) {
-
-        if (triangle1 == null) {
-            try {
-                triangle1 = new Image(new FileInputStream("Game/src/main/resources/tri2.png"));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        if (bkg==null){
-            try {
-                bkg = new Image(new FileInputStream("Game/src/main/resources/Space_Background1.png"));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
         Image rs = list.get(pos);
         int W = (int) cv.getWidth(), H = (int) cv.getHeight();
         int bef = pos - 1, aft = pos + 1;
@@ -101,8 +84,6 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
             mp.put(ob.get("front")[0], ob.name);
         }
         choose(screen, temp, 0);
-        boolean quit = false;
-        int j=0;
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
             private int i = 0;
             public String now=null;
@@ -147,7 +128,7 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
             temp.add(ob.get("front")[0]);
             mp.put(ob.get("front")[0], ob.name);
         }
-        String now=null;
+        character_type = mp.get(choose(screen, temp,0 ));
         choose(screen, temp, 0);
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
             private int i = 0;
@@ -159,9 +140,6 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
             }
         };
         EventHandler<KeyEvent> keydown = new EventHandler<KeyEvent>() {
-            public String rs;
-            private int i = 0;
-
             @Override
             public void handle(KeyEvent e) {
                 try {

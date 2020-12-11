@@ -1,20 +1,34 @@
 package Support_Type;
 
 
+
 import Gobject.*;
 import Loader.Data;
+import javafx.animation.AnimationTimer;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import Button.*;
 
-import java.io.FileInputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map {
+public class Map implements Serializable {
     static public final int SIZE_X = 42, SIZE_Y = 22;
     public double time_index;
+    public boolean lost = false;
+    public Bomber main_c=null;
+    private AnimationTimer timer;
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
-    public Canvas Frame, Movable_Object, Static_Object;
+    public Canvas Frame;
+    public Group graphic,pause;
     public Image background;
     public void random_Wall () throws Exception{
         int count =0;
@@ -25,14 +39,62 @@ public class Map {
                 if(o instanceof Wall) ct = true;
             }
             if(!ct) {
+                data[i][j].add(new Wall(new Pos(i,j)));
                 count++;
             }
         }
     }
-    public Map(double time_index) throws Exception {
-        this.time_index = time_index;
+    public void save(){
+        try {
+            FileOutputStream fos = new FileOutputStream(Data.localFilePath+"data.bin");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(data);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public Map(Stage stage) throws Exception {
+        time_index = System.nanoTime();
         this.background = Data.getInstance().background;
+        this.graphic = new Group();
+        this.pause = new Group();
+      /*  Button main_menu = new Button("Main Menu")
+                , quit = new Button("Quit")
+                , continue_ = new Button("Continue");
+        quit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                Stage stage = (Stage)graphic.getScene().getWindow();
+                stage.close();
+            }
+        });
+        continue_.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                Frame.toFront();
+                timer.start();
+            }
+        });*/
+   //     pause.getChildren().add(main_menu);
+        
+     //   pause.getChildren().add(quit);
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
+        graphic.getChildren().add(pause);
+        graphic.getChildren().add(Frame);
+        pause.getChildren().add(new Quit(this,stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*3/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8));
+        Resume resume = new Resume(Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*1/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+        resume.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+             public void handle(MouseEvent e) {
+                Frame.toFront();
+                timer.start();
+            }
+        });
+        pause.getChildren().add(resume);
+        Main_Menu menu = new Main_Menu(stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*2/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+        pause.getChildren().add(menu);
+
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
                 data[i][j] = new ArrayList<>();
@@ -42,10 +104,51 @@ public class Map {
             }
         }
         this.random_Wall();
+
+    }
+    public Map(Stage stage,List<Gobject> data) throws Exception {
+        time_index = System.nanoTime();
+        this.background = Data.getInstance().background;
+        this.graphic = new Group();
+        this.pause = new Group();
+        this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
+        graphic.getChildren().add(pause);
+        graphic.getChildren().add(Frame);
+        pause.getChildren().add(new Quit(this,stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*3/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8));
+        Resume resume = new Resume(Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*1/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+        resume.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent e) {
+                Frame.toFront();
+                timer.start();
+            }
+        });
+        pause.getChildren().add(resume);
+        Main_Menu menu = new Main_Menu(stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*2/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+        pause.getChildren().add(menu);
+        for (int i = 0; i < SIZE_X; i++) {
+            for (int j = 0; j < SIZE_Y; j++) {
+                this.data[i][j] = new ArrayList<>();
+            }
+        }
+
+        for(Gobject o: data){
+            this.AddGobject(o);
+        }
+
+    }
+    public void setMain(Bomber bomber){
+        this.main_c = bomber;
+        this.AddGobject(bomber);
+    }
+    public Bomber getMain(){
+        return main_c;
     }
 
     public static void main(String[] args) throws Exception {
-        Map a = new Map(0);
+        Map a = new Map(null);
         int i = 0;
         for (List<Gobject>[] x_Gobject : a.data
         ) {
@@ -60,7 +163,15 @@ public class Map {
         System.out.println(i);
     }
 
-
+    public List<Gobject> getAll(){
+        List<Gobject> rs = new ArrayList<>();
+        for (int i = 0; i < SIZE_X; i++) {
+            for(int j=0;j< SIZE_Y;j++){
+                rs.addAll(data[i][j]);
+            }
+        }
+        return rs;
+    }
     public List<Gobject> get(Pos x) {
         return data[x.x][x.y];
     }
@@ -75,6 +186,16 @@ public class Map {
             System.err.println(e.getMessage());
         }
 
+    }
+
+    public void setTimer(AnimationTimer timer) {
+        this.timer = timer;
+    }
+
+    public void pause(){
+        Frame.getGraphicsContext2D().setGlobalAlpha(0.5);
+        Frame.getGraphicsContext2D().drawImage(background, 0, 0,SIZE_X*Pos.SIZE,SIZE_Y*Pos.SIZE);
+        pause.toFront();
     }
 
     public String Check(Pos x) {
@@ -94,7 +215,7 @@ public class Map {
      * update map and this 's Frame in the next t second(s)
      */
     public Canvas render(double t)  {
-
+        Frame.getGraphicsContext2D().setGlobalAlpha(1);
         Frame.getGraphicsContext2D().drawImage(background, 0, 0,SIZE_X*Pos.SIZE,SIZE_Y*Pos.SIZE);
         List<Gobject> New = new ArrayList<>(), New_Pos = new ArrayList<>();
         List<List<Gobject>> Old_Pos = new ArrayList<>();
@@ -147,14 +268,12 @@ public class Map {
             for (int j = 0; j < SIZE_Y; j++) {
                 for (Gobject m : data[i][j]) {
                         if (m.render() != null) {
-                            if (m instanceof Bomber) {
+
+                            if (m instanceof Movable_Object) {
                                 Frame.getGraphicsContext2D().drawImage(m.render(), m.x , m.y - Pos.SIZE/2+Pos.SIZE/5);
+
                             } else {
-                                if (m instanceof  Enemy){
-                                    Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y- Pos.SIZE/2+Pos.SIZE/5);
-                                } else {
-                                    Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y);
-                                }
+                                    Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y, m.width, m.height);
                             }
                         }
                 }

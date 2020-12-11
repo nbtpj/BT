@@ -19,7 +19,9 @@ import java.util.stream.Collectors;
 import Support_Type.Pos;
 
 public class Data {
+
     public static String localFilePath = "Game/src/main/resources/";
+
     private static volatile Data Instance = null;
 
     public static Map<String,Image> load_all() throws IOException {
@@ -34,65 +36,36 @@ public class Data {
         }
         return rs;
     }
-    public static String Bomber_name ;
-    public static String Enemy_name ;
     public static final int W = Pos.SIZE, H = Pos.SIZE;
-    public Image[] bomberman_front, bomberman_back, bomberman_left, bomberman_right, bomb,
-            enemy_front, enemy_back, enemy_left, enemy_right, fire;
-    public Image background,wall;
-    public static void choose_character(String Bomber_name, String Enemy_name){
-        Data.Bomber_name = Bomber_name;
-        Data.Enemy_name = Enemy_name;
-    }
+    public Image[] bomb,fire;
+    public Image background,wall,triangle1,bkg;
+    public  Map<String,Image> img_map;
 
-    private Data() throws FileNotFoundException {
-        /** init bomberman series */
-
+    private Data() {
+        try {
+            img_map = load_all();
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }
         int i;
-        bomberman_back = new Image[3];
-        for (i = 0; i < 3; i++)
-            bomberman_back[i] = new Image(new FileInputStream(localFilePath + Bomber_name + "back_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        bomberman_left = new Image[3];
-        for (i = 0; i < 3; i++)
-            bomberman_left[i] = new Image(new FileInputStream(localFilePath + Bomber_name + "left_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        bomberman_front = new Image[3];
-        for (i = 0; i < 3; i++)
-            bomberman_front[i] = new Image(new FileInputStream(localFilePath + Bomber_name + "front_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        bomberman_right = new Image[3];
-        for (i = 0; i < 3; i++)
-            bomberman_right[i] = new Image(new FileInputStream(localFilePath + Bomber_name + "right_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        /** init enemy series */
-        enemy_back = new Image[3];
-        for (i = 0; i < 3; i++)
-            enemy_back[i] = new Image(new FileInputStream(localFilePath + Enemy_name + "back_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        enemy_left = new Image[3];
-        for (i = 0; i < 3; i++)
-            enemy_left[i] = new Image(new FileInputStream(localFilePath + Enemy_name + "left_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        enemy_front = new Image[3];
-        for (i = 0; i < 3; i++)
-            enemy_front[i] = new Image(new FileInputStream(localFilePath + Enemy_name + "front_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
-        enemy_right = new Image[3];
-        for (i = 0; i < 3; i++)
-            enemy_right[i] = new Image(new FileInputStream(localFilePath + Enemy_name + "right_" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
         /** init bomb series */
         bomb = new Image[3];
         for (i = 1; i <= 3; i++) {
-            bomb[i - 1] = new Image(new FileInputStream(localFilePath + "Bomb_f0" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
+            bomb[i - 1] = img_map.get("Bomb_f0" + i );
         }
         /** init fire series */
         fire = new Image[5];
         for (i = 0; i < 5; i++) {
-            fire[i] = new Image(new FileInputStream(localFilePath + "Flame_F0" + i + ".png"), Pos.SIZE, Pos.SIZE, false, false);
+            fire[i] = img_map.get("Flame_F0" + i );
         }
-        background = new Image(new FileInputStream(localFilePath+"map.jpg"));
-        wall = new Image(new FileInputStream(localFilePath+"SolidBlock.png"), Pos.SIZE, Pos.SIZE, false, false);
+        background = img_map.get("map.jpg");
+        wall = img_map.get("SolidBlock");
+        triangle1 = img_map.get("tri2");
+        bkg = img_map.get("Space_Background1");
     }
 
     public static Data getInstance() {
         if (Instance == null) {
-            if(Bomber_name == null || Enemy_name == null){
-                Data.choose_character("Female02-4_","Soldier07-2_");
-            }
             try {
                 Instance = new Data();
             } catch (Exception e) {
@@ -107,6 +80,9 @@ public class Data {
         //Data x = getInstance();
         Map<String,Image> a = Data.load_all();
         System.out.println(a);
+    }
+    public static Image get(String key){
+        return Data.getInstance().img_map.get(key);
     }
 
 

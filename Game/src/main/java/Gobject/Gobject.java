@@ -4,14 +4,16 @@ import Support_Type.Map;
 import Support_Type.Pos;
 import javafx.scene.image.Image;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Gobject {
+public abstract class Gobject implements Serializable {
     public Map current_map;
     public double index;
     public boolean using = true;
     protected String type;
+    public double width=Pos.SIZE,height=Pos.SIZE;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

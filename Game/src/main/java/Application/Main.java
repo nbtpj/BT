@@ -109,8 +109,9 @@ public class Main extends Application {
                 }
             }
         }.start();*/
-   //     (new Loading()).turnOn(theStage);
-      (new Choose_Bomberman()).turnOn(theStage);
+        (new Loading()).turnOn(theStage);
+        (new Main_Menu()).turnOn(theStage);
+     // (new Choose_Bomberman()).turnOn(theStage);
      //   theStage.show();
     }
 
