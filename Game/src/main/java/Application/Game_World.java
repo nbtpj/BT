@@ -33,7 +33,8 @@ public class Game_World implements Part_Of_Game {
         if(this.map==null) {
              paimon = new Bomber("paimon", character_type, 61, 61);
             map = new Map(stage);
-            map.setMain(paimon);} else {
+            map.setMain(paimon);}
+        else {
             paimon = this.map.getMain();
             map = this.map;
         }

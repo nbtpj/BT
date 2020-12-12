@@ -45,7 +45,7 @@ public class Data {
         try {
             img_map = load_all();
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
         int i;
         /** init bomb series */

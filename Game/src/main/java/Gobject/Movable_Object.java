@@ -10,12 +10,12 @@ import java.util.Map;
 
 
 public abstract class Movable_Object extends Gobject {
-    protected int n_front, n_back, n_left, n_right;
+
     protected int W = Pos.SIZE, H = Pos.SIZE * 2;
     protected Map<String, Image[]> frames;
     protected Image[] current_frames;
     protected int current_frame;
-    protected double V_x, V_y;
+ //   protected double V_x, V_y;
     List<String> move_2 = new ArrayList<>();
     List<Pos> list_pos = new ArrayList<Pos>();
 
@@ -33,6 +33,12 @@ public abstract class Movable_Object extends Gobject {
         current_frame = -1;
     }
 
+    public Movable_Object(Simple_Data data) {
+        super(data);
+        frames = new HashMap<>();
+        current_frame = -1;
+    }
+
     /**
      * the object moves according to the value in the move_2 components (in order)
      * after this step, current frame will be updated (and move_2, frames)
@@ -44,16 +50,16 @@ public abstract class Movable_Object extends Gobject {
             current_frames = frames.get(move_2.get(0));
             switch (move_2.get(0)) {
                 case "down":
-                    new_y += V_y;
+                    new_y += this.v_y;
                     break;
                 case "up":
-                    new_y -= V_y;
+                    new_y -= this.v_y;
                     break;
                 case "left":
-                    new_x -= V_x;
+                    new_x -= this.v_x;
                     break;
                 case "right":
-                    new_x += V_x;
+                    new_x += this.v_x;
                     break;
             }
             if (current_frame == current_frames.length) {

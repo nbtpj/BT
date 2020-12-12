@@ -22,6 +22,12 @@ public class Fire extends Gobject {
         current_frame =-1;
     }
 
+    public Fire(Simple_Data data) {
+        super(data);
+        frame = Data.getInstance().fire;
+        current_frame =-1;
+    }
+
     @Override
     public List<Gobject> update(double t) {
         if(index<=0) using = false;

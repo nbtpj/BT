@@ -1,7 +1,8 @@
 package Button;
 
 import Application.Game_World;
-import Gobject.Gobject;
+import Gobject.Bomber;
+import Gobject.Simple_Data;
 import Loader.Data;
 import Support_Type.Map;
 import javafx.event.EventHandler;
@@ -9,12 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Continue extends Button{
     public static Image img = Data.get("Continue  col_Button");
@@ -23,10 +25,20 @@ public class Continue extends Button{
         super(img, x, y, w, h);
         try
         {
-            ObjectInputStream o = new ObjectInputStream(new FileInputStream(Data.localFilePath+"data.bin"));
-           // List<Gobject> data =(ArrayList<Gobject>) o.readObject();
             map = new Map(stage);
-            o.close();
+            List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
+            for (File f : filesInFolder){
+                ObjectInputStream o = new ObjectInputStream(new FileInputStream(f));
+                if(f.getName().contains("paimon")){
+                    map.setMain((Bomber) ((Simple_Data)o.readObject()).cvt());
+                } else
+                map.AddGobject(((Simple_Data)o.readObject()).cvt());
+                o.close();
+                System.out.println("getting: "+f.getName().replace(".png",""));
+            }
         }
         catch (Exception e)
         {

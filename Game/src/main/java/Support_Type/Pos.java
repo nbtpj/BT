@@ -1,9 +1,10 @@
 package Support_Type;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Pos {
+public class Pos implements Serializable {
     static public final int SIZE = 30;
     public int x,y;
     public Pos(double x,double y){

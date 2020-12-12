@@ -14,6 +14,20 @@ public abstract class Gobject implements Serializable {
     public boolean using = true;
     protected String type;
     public double width=Pos.SIZE,height=Pos.SIZE;
+
+    public Gobject(Simple_Data data) {
+        this.index = data.index;
+        this.using = data.using;
+        this.type = data.type;
+        this.width = data.width;
+        this.height = data.height;
+        this.name = data.name;
+        this.x = data.x;
+        this.y = data.y;
+        this.v_x = data.v_x;
+        this.v_y = data.v_y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,4 +69,5 @@ public abstract class Gobject implements Serializable {
 
     abstract public List<Gobject> update(double t);
     abstract public Image render();
+   // abstract public String toJson();
 }

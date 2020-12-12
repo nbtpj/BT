@@ -10,6 +10,16 @@ import java.util.List;
 public class Bomber extends Movable_Object {
     private boolean set_bomb;
 
+    public Bomber(Simple_Data data) {
+        super(data);
+        this.set_bomb = false;
+        frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
+        frames.put("right", Movable_Object_Images.getData().get(type).get("right"));
+        frames.put("up", Movable_Object_Images.getData().get(type).get("back"));
+        frames.put("down", Movable_Object_Images.getData().get(type).get("front"));
+        current_frames = Movable_Object_Images.getData().get(type).get("front");
+    }
+
     /**
      * constructor
      * Initialize a new bomber name: name, at position (x,y) on map
@@ -20,8 +30,8 @@ public class Bomber extends Movable_Object {
      */
     public Bomber(String name,String type, double x, double y) {
         super(100, name, x, y);
-        V_x = 3;
-        V_y = 3;
+        v_x = 3;
+        v_y = 3;
         set_bomb = false;
         this.type = type;
         frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
@@ -41,8 +51,8 @@ public class Bomber extends Movable_Object {
      */
     public Bomber(String name,String type, Pos pos) {
         super(100, name, pos);
-        V_x = 3;
-        V_y = 3;
+        v_x = 3;
+        v_y = 3;
         set_bomb = false;
         this.type = type;
         frames.put("left", Movable_Object_Images.getData().get(type).get("left"));

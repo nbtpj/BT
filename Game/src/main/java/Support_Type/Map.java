@@ -17,8 +17,12 @@ import javafx.stage.Stage;
 import Button.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Map implements Serializable {
     static public final int SIZE_X = 42, SIZE_Y = 22;
@@ -45,14 +49,18 @@ public class Map implements Serializable {
         }
     }
     public void save(){
-        try {
-            FileOutputStream fos = new FileOutputStream(Data.localFilePath+"data.bin");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(data);
-            oos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for(Gobject o: getAll()){
+            try {
+                FileOutputStream fos = new FileOutputStream(Data.localFilePath+"data/"+o.name+System.nanoTime()+".bin");
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(new Simple_Data(o));
+                oos.close();
+            } catch (IOException e) {
+                System.err.println("không ghi được cái: "+ o.name);
+                e.printStackTrace();
+            }
         }
+
     }
     public Map(Stage stage) throws Exception {
         time_index = System.nanoTime();

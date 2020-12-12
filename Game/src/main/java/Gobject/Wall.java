@@ -16,6 +16,10 @@ public class Wall extends Gobject{
         super(10000, "Wall", pos);
     }
 
+    public Wall(Simple_Data data) {
+        super(data);
+    }
+
     @Override
     public List<Gobject> update(double t) {
         return null;

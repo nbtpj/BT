@@ -22,6 +22,7 @@ public class Movable_Object_Images {
         if (data == null) {
             try {
                 data = new HashMap<>();
+//                Data.getInstance();
                 Map<String, Image> temp = Data.getInstance().img_map;
                 Set<String> name_ob = new HashSet<>();
                 for (String name : temp.keySet()) {
@@ -52,7 +53,7 @@ public class Movable_Object_Images {
                 }
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
         return data;
