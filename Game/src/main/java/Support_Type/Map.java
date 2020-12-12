@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
+
 public class Map implements Serializable {
     static public final int SIZE_X = 42, SIZE_Y = 22;
     public double time_index;
@@ -49,7 +51,17 @@ public class Map implements Serializable {
         }
     }
     public void save(){
+        try{
+            List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .collect(Collectors.toList());
+            for (File f : filesInFolder) System.out.println("deleting "+f.getName()+": "+f.delete());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         for(Gobject o: getAll()){
+
             try {
                 FileOutputStream fos = new FileOutputStream(Data.localFilePath+"data/"+o.name+System.nanoTime()+".bin");
                 ObjectOutputStream oos = new ObjectOutputStream(fos);

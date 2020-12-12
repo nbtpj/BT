@@ -32,7 +32,9 @@ public class Data {
                 .collect(Collectors.toList());
         for (File f : filesInFolder){
             System.out.println("getting: "+f.getName().replace(".png",""));
-            rs.put(f.getName().replace(".png",""),new Image(new FileInputStream(f)));
+            FileInputStream input = new FileInputStream(f);
+            rs.put(f.getName().replace(".png",""),new Image(input));
+            input.close();
         }
         return rs;
     }

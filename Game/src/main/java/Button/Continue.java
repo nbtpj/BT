@@ -31,13 +31,16 @@ public class Continue extends Button{
                     .map(Path::toFile)
                     .collect(Collectors.toList());
             for (File f : filesInFolder){
-                ObjectInputStream o = new ObjectInputStream(new FileInputStream(f));
+                FileInputStream input = new FileInputStream(f);
+                ObjectInputStream o = new ObjectInputStream(input);
                 if(f.getName().contains("paimon")){
                     map.setMain((Bomber) ((Simple_Data)o.readObject()).cvt());
                 } else
                 map.AddGobject(((Simple_Data)o.readObject()).cvt());
                 o.close();
+                input.close();
                 System.out.println("getting: "+f.getName().replace(".png",""));
+
             }
         }
         catch (Exception e)
