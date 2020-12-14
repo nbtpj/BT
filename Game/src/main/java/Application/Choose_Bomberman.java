@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 import javafx.scene.control.Button;
@@ -26,6 +27,17 @@ import static Support_Type.Map.SIZE_X;
 import static Support_Type.Map.SIZE_Y;
 
 public class Choose_Bomberman extends Application implements Part_Of_Game {
+    boolean music,sound;
+    AudioClip ad ;
+    public Choose_Bomberman(AudioClip ad,boolean music, boolean sound){
+        this.music = music;
+        this.ad = ad;
+        this.sound = sound;
+        if(!music){
+            ad.stop();
+        }
+    }
+
     public static String character_type = null;
     public static final double S_H = 120, S_W = 60, S_P = 10;
     public static Canvas screen = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
@@ -143,8 +155,9 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
             @Override
             public void handle(KeyEvent e) {
                 try {
+                    ad.stop();
                     stage.close();
-                    (new Game_World(character_type)).turnOn(stage);
+                    (new Game_World(character_type,music,sound)).turnOn(stage);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }

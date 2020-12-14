@@ -13,6 +13,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import Button.*;
 
@@ -24,18 +26,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 
 public class Map implements Serializable {
+    AudioClip bck, effect,explosion,cloning;
+    Music music_b;
+    Sound sound_b;
     static public final int SIZE_X = 42, SIZE_Y = 22;
     public double time_index;
     public boolean lost = false;
     public Bomber main_c=null;
+    public boolean sound=false,music = false;
     private AnimationTimer timer;
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
     public Canvas Frame;
     public Group graphic,pause;
     public Image background;
+    public void setSoundnMusic(boolean sound,boolean music){
+        this.sound = sound;
+        this.music = music;
+        music_b.set(music);
+        sound_b.set(sound);
+    }
     public void random_Wall () throws Exception{
         int count =0;
         while(count<30){
@@ -76,6 +87,11 @@ public class Map implements Serializable {
 
     }
     public Map(Stage stage) throws Exception {
+        bck = Data.getInstance().game_world_music;
+        cloning = Data.getInstance().cloning;
+        effect = Data.getInstance().effect;
+        explosion = Data.getInstance().explosion;
+
         time_index = System.nanoTime();
         this.background = Data.getInstance().background;
         this.graphic = new Group();
@@ -93,6 +109,22 @@ public class Map implements Serializable {
                 timer.start();
             }
         });
+         music_b = new Music(bck,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*4/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+         sound_b = new Sound(Frame.getWidth()/2,Frame.getHeight()*4/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+        sound_b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(sound){
+                    sound=false;
+                } else {
+                    sound=true;
+                }
+            }
+        });
+        pause.getChildren().add(music_b);
+        pause.getChildren().add(sound_b);
         pause.getChildren().add(resume);
         Main_Menu menu = new Main_Menu(stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*2/5-Frame.getHeight()/16
                 ,Frame.getWidth()/5,Frame.getHeight()/8);
@@ -103,7 +135,8 @@ public class Map implements Serializable {
                 stage.close();
                 try {
                     save();
-                    (new Application.Main_Menu()).turnOn(stage);
+                    bck.stop();
+                    (new Application.Main_Menu(music,sound)).turnOn(stage);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -122,6 +155,10 @@ public class Map implements Serializable {
 
     }
     public Map(Stage stage,List<Gobject> data) throws Exception {
+        bck = Data.getInstance().game_world_music;
+        cloning = Data.getInstance().cloning;
+        effect = Data.getInstance().effect;
+        explosion = Data.getInstance().explosion;
         time_index = System.nanoTime();
         this.background = Data.getInstance().background;
         this.graphic = new Group();
@@ -139,6 +176,22 @@ public class Map implements Serializable {
                 timer.start();
             }
         });
+         music_b = new Music(bck,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*4/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+         sound_b = new Sound(Frame.getWidth()/2,Frame.getHeight()*4/5-Frame.getHeight()/16
+                ,Frame.getWidth()/5,Frame.getHeight()/8);
+        sound_b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(sound){
+                    sound=false;
+                } else {
+                    sound=true;
+                }
+            }
+        });
+        pause.getChildren().add(music_b);
+        pause.getChildren().add(sound_b);
         pause.getChildren().add(resume);
         Main_Menu menu = new Main_Menu(stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*2/5-Frame.getHeight()/16
                 ,Frame.getWidth()/5,Frame.getHeight()/8);
@@ -254,6 +307,7 @@ public class Map implements Serializable {
         List<Gobject> New = new ArrayList<>(), New_Pos = new ArrayList<>();
         List<List<Gobject>> Old_Pos = new ArrayList<>();
         List<Gobject> new_,delete_;
+        boolean elz = false,eff = false;
         /**
          * update all Object in map
          */
@@ -267,6 +321,12 @@ public class Map implements Serializable {
                             New.addAll(new_);
                         }
                     } else {
+                        if((!elz) && m instanceof Bomb){
+                            elz=true;
+                        }
+                        if((!eff) && m instanceof Effect && m.index>0){
+                            eff = true;
+                        }
                         delete_.add(m);
                     }
                     /**
@@ -281,11 +341,27 @@ public class Map implements Serializable {
                 delete_.clear();
             }
         }
+
+
         /**
          * add new objects (came from updating objects) to the map
          */
+        boolean p=false;
         for (Gobject o : New) {
             this.AddGobject(o);
+            if(sound && (o instanceof Enemy)){
+                p = true;
+            }
+        }
+
+        if(p){
+            cloning.play();
+        }
+        if(elz && sound){
+            explosion.play();
+        }
+        if(eff && sound){
+            effect.play();
         }
         /**
          * replace objects that have invalid position

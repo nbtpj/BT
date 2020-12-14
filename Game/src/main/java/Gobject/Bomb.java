@@ -43,7 +43,16 @@ public class Bomb extends Gobject {
             rs.add(new Fire(this.pos().up()));
             rs.add(new Fire(this.pos().down()));
             rs.add(new Fire(this.pos()));
-        //    rs.add(new Enemy("enemy","Enemy08-1",this.pos()));
+          /*  try{
+            rs.add(new Enemy_1("enemy",this.pos()));
+            rs.add(new Enemy_2("enemy",this.pos()));
+                rs.add(new Enemy_4("enemy",this.pos()));
+                rs.add(new Enemy_5("enemy",this.pos()));
+         //   rs.add(new Enemy_3("enemy",this.pos()));
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }*/
             return rs;
         }
         return null;

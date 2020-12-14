@@ -20,8 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Continue extends Button{
+    public boolean sound,music;
     public static Image img = Data.get("Continue  col_Button");
-    private Map map;
+    public Map map;
     public Continue(Stage stage, double x, double y, double w, double h) {
         super(img, x, y, w, h);
         try
@@ -48,16 +49,6 @@ public class Continue extends Button{
         {
             e.printStackTrace();
         }
-        this.addEventHandler(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                stage.close();
-                try {
-                    (new Game_World(map)).turnOn(stage);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
-            }
-        });
+
     }
 }

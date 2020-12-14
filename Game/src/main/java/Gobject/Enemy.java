@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Enemy extends Movable_Object {
-    private double damage;
-    private double update_time = 5;
-    private double max_heal=50;
-    private String direction;
+/**
+ * enemy type
+ */
+public abstract class Enemy extends Movable_Object {
+    protected double update_time = 5;
+    protected String direction;
     List<Pos> left = new ArrayList<>(),
             right = new ArrayList<>(),
             up = new ArrayList<>(),
@@ -74,6 +75,9 @@ public class Enemy extends Movable_Object {
 
     @Override
     public List<Gobject> update(double t) {
+        direction = decide();
+        update_time-=t;
+        List<Gobject> rs= attack();
         if(rage>0){
             rage-=t;
             this.v_x=1.5*this.default_vx;
@@ -93,12 +97,11 @@ public class Enemy extends Movable_Object {
             poisonous-=t;
         }
         if(healing>0){
-            if(index+0.05<max_heal){
+            if(index+0.05<maxIndex){
                 index+=0.05;}
             healing-=t;
         }
-        direction = decide();
-        update_time-=t;
+
         if(current_map.Check(pos().left()).equals("Invalid") && direction=="left"){
             direction=  "right";
         } else if(current_map.Check(pos().right()).equals("Invalid") && direction=="right"){
@@ -110,8 +113,9 @@ public class Enemy extends Movable_Object {
         }
 
         move();
-        return null;
+        return rs;
     }
+    abstract protected List<Gobject> attack();
     public void move() {
         if (current_frame < current_frames.length && direction!="none") {
             current_frame = (++current_frame)% current_frames.length;
@@ -132,7 +136,8 @@ public class Enemy extends Movable_Object {
                     break;
             }
             Pos new_pos = new Pos(new_x, new_y);
-            if (this.pos().equals(new_pos) || !this.current_map.Check(new_pos).equals("Invalid")) {
+            if (this.pos().equals(new_pos) || !this.current_map.Check(new_pos).equals("Invalid")
+                    || (this.invisible>0 && current_map.get(new_pos)!=null)) {
                 last_enter = pos();
                 x = new_x;
                 y = new_y;
@@ -147,8 +152,6 @@ public class Enemy extends Movable_Object {
      */
     @Override
     public void Act(String arg) {
-
-     //   System.out.println("domewkn");
         List<Pos> rs;
         if(left.size()>right.size() && left.size()>up.size()&& left.size()>down.size() && !left.contains(last_enter)){
             rs = left;
@@ -167,7 +170,7 @@ public class Enemy extends Movable_Object {
                 v_x*frames.get("left").length,v_x*frames.get("right").length,rs);
         System.out.println(move_2);
     }
-    private String turnBack(){
+    protected String turnBack(){
         switch (direction){
             case("left"):
                 return "right";
@@ -181,121 +184,6 @@ public class Enemy extends Movable_Object {
                 return "none";
         }
     }
-    private String decide(){
-        Pos crr,l;
-        left.clear();
-        right.clear();
-        up.clear();
-        down.clear();
-        crr = pos().left();
-        while(current_map.Check(crr).equals("Valid")){
-            l =crr.left();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber){
-                    return "left";
-                }
-            }
-            left.add(crr);
-        }
-        crr = pos().right();
-        while(current_map.Check(crr).equals("Valid")){
-            l =crr.right();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber){
-                    return "right";
-                }
-            }
-            right.add(crr);
-        }
-        crr = pos().up();
-        while(current_map.Check(crr).equals("Valid")){
-            l =crr.up();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber){
-                    return "up";
-                }
-            }
-            up.add(crr);
-        }
-        crr = pos().down();
-        while(current_map.Check(crr).equals("Valid")){
-            l =crr.down();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber){
-                    return "down";
-                }
-            }
-            down.add(crr);
-        }
-        int i = (new Random()).nextInt(10);
-        if(update_time<0 &&left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){
-            update_time =5;
-            switch (direction){
-            case ("left"):
-                if(i==0){
-                    return "left";
-                } else {
-                    if(i>0 && i<4){
-                        return "right";
-                    } else {
-                        if(i>3 && i<7){
-                            return "up";
-                        } else {
-                            return "down";
-                        }
-                    }
-                }
-            case ("right"):
-                if(i==0){
-                    return "right";
-                } else {
-                    if(i>0 && i<4){
-                        return "left";
-                    } else {
-                        if(i>3 && i<7){
-                            return "up";
-                        } else {
-                            return "down";
-                        }
-                    }
-                }
-            case ("up"):
-                if(i==0){
-                    return "up";
-                } else {
-                    if(i>0 && i<4){
-                        return "left";
-                    } else {
-                        if(i>3 && i<7){
-                            return "right";
-                        } else {
-                            return "down";
-                        }
-                    }
-                }
-            case ("down"):
-                if(i==0){
-                    return "down";
-                } else {
-                    if(i>0 && i<4){
-                        return "left";
-                    } else {
-                        if(i>3 && i<7){
-                            return "up";
-                        } else {
-                            return "right";
-                        }
-                    }
-                }
-        }
-        }
-        return direction;
-    }
-
-
+    protected abstract String decide();
 
 }

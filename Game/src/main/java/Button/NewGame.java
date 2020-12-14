@@ -20,24 +20,6 @@ public class NewGame extends Button {
 
     public NewGame(Stage stage, double x, double y, double w, double h) {
         super(img,x, y, w, h);
-        this.addEventHandler(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                try{
-                    List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
-                            .filter(Files::isRegularFile)
-                            .map(Path::toFile)
-                            .collect(Collectors.toList());
-                    for (File f : filesInFolder) f.delete();}
-                catch (Exception E){}
-                stage.close();
-                try {
-                    (new Choose_Bomberman()).turnOn(stage);
-                } catch (Exception exception) {
-
-                }
-            }
-        });
     }
 
 }

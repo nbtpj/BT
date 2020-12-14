@@ -11,20 +11,23 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.swing.table.DefaultTableCellRenderer;
-
 public class Game_World implements Part_Of_Game {
     private String character_type;
     private Map map;
+    boolean music, sound;
     private static String DEFAULT = "Cat01-1";
-    public Game_World(String type){
+    public Game_World(String type,boolean music,boolean sound){
+        this.music = music;
+        this.sound = sound;
         this.character_type = type;
         if(type==null){
             character_type = DEFAULT;
         }
     }
-    public Game_World(Map map){
+    public Game_World(Map map,boolean music,boolean sound){
         this.map = map;
+        this.sound = sound;
+        this.music = music;
     }
     public Scene turnOn(Stage stage) throws Exception {
        // Group root = new Group();
@@ -38,6 +41,7 @@ public class Game_World implements Part_Of_Game {
             paimon = this.map.getMain();
             map = this.map;
         }
+        map.setSoundnMusic(sound,music);
             Scene theScene = new Scene(map.graphic);
             stage.setTitle("Wibu World");
             stage.setScene(theScene);

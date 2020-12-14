@@ -17,14 +17,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import Support_Type.Pos;
+import javafx.scene.media.AudioClip;
 
 public class Data {
 
     public static String localFilePath = "Game/src/main/resources/";
 
     private static volatile Data Instance = null;
-
+    public AudioClip game_world_music,main_menu_music,choose_character_music, cloning, effect, explosion;
     public static Map<String,Image> load_all() throws IOException {
+
         Map<String,Image> rs = new HashMap<>();
         List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/"))
                 .filter(Files::isRegularFile)
@@ -45,10 +47,17 @@ public class Data {
 
     private Data() {
         try {
+            game_world_music = new AudioClip(new File(localFilePath+"game_world_music.mp3").toURI().toString());
+            choose_character_music = new AudioClip(new File(localFilePath+"game_world_music.mp3").toURI().toString());
+            main_menu_music = new AudioClip(new File(localFilePath+"main_menu_music.mp3").toURI().toString());
+            cloning = new AudioClip(new File(localFilePath+"cloning.wav").toURI().toString());
+            effect = new AudioClip(new File(localFilePath+"effect.wav").toURI().toString());
+            explosion = new AudioClip(new File(localFilePath+"explosion.wav").toURI().toString());
             img_map = load_all();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         int i;
         /** init bomb series */
         bomb = new Image[3];
