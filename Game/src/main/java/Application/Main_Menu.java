@@ -61,7 +61,7 @@ public class Main_Menu implements Part_Of_Game{
         root.getChildren().add(sound);
         Continue continue_ = new Continue(stage,cv.getWidth()/2-cv.getWidth()/10,cv.getHeight()/5-cv.getHeight()/16
                 ,cv.getWidth()/5,cv.getHeight()/8);
-
+        if(!continue_.isEmpty){
         continue_.addEventHandler(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
@@ -73,7 +73,10 @@ public class Main_Menu implements Part_Of_Game{
                     exception.printStackTrace();
                 }
             }
-        });
+        });} else {
+            colorAdjust.setBrightness(-0.5);
+            continue_.setEffect(colorAdjust);
+        }
         music.set(this.music);
         sound.set(this.sound);
         root.getChildren().add(continue_);

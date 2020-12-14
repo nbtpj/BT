@@ -21,8 +21,10 @@ import java.util.stream.Collectors;
 
 public class Continue extends Button{
     public boolean sound,music;
+    public boolean isEmpty = true;
     public static Image img = Data.get("Continue  col_Button");
     public Map map;
+    public void setEffectButton(){   }
     public Continue(Stage stage, double x, double y, double w, double h) {
         super(img, x, y, w, h);
         try
@@ -39,6 +41,7 @@ public class Continue extends Button{
                     map.setMain((Bomber) ((Simple_Data)o.readObject()).cvt());
                 } else
                 map.AddGobject(((Simple_Data)o.readObject()).cvt());
+                isEmpty=false;
                 o.close();
                 input.close();
                 System.out.println("getting: "+f.getName().replace(".png",""));
@@ -48,6 +51,17 @@ public class Continue extends Button{
         catch (Exception e)
         {
             e.printStackTrace();
+        }
+        if(!isEmpty){
+            colorAdjust.setBrightness(0.2);
+            this.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> {
+                this.setEffect(colorAdjust);
+
+            });
+            this.addEventFilter(MouseEvent.MOUSE_EXITED, e -> {
+                this.setEffect(null);
+            });
+
         }
 
     }

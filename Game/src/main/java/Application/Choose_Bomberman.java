@@ -137,8 +137,9 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
         List<Image> temp = new ArrayList<>();
         Map<Image, String> mp = new HashMap<>();
         for (Movable_Object_Images ob : data.values()) {
+            if(!ob.name.contains("Enemy")){
             temp.add(ob.get("front")[0]);
-            mp.put(ob.get("front")[0], ob.name);
+            mp.put(ob.get("front")[0], ob.name);}
         }
         character_type = mp.get(choose(screen, temp,0 ));
         choose(screen, temp, 0);

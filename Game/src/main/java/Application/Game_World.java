@@ -99,7 +99,8 @@ public class Game_World implements Part_Of_Game {
                 public void handle(long currentNanoTime) {
                     try {
                         if (!paimon.using) {
-                            (new Losing()).turnOn(stage);
+                            this.stop();
+                           // (new Losing()).turnOn(stage);
                         }
                         map.render(0.016);
                     } catch (Exception e) {

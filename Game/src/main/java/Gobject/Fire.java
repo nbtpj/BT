@@ -35,7 +35,7 @@ public class Fire extends Gobject {
         if(index<=0) using = false;
         index-=t;
         for(Gobject o: current_map.get(pos())){
-            if(!(o instanceof Fire|| o instanceof Effect)){
+            if(!(o instanceof Fire|| o instanceof Effect || o instanceof Bomb)){
                 if (o.invincible<=0)
                     o.index-=0.3;
             }

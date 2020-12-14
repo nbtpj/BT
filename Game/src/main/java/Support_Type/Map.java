@@ -39,7 +39,7 @@ public class Map implements Serializable {
     private AnimationTimer timer;
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
     public Canvas Frame;
-    public Group graphic,pause;
+    public Group graphic,pause,Lost;
     public Image background;
     public void setSoundnMusic(boolean sound,boolean music){
         this.sound = sound;
@@ -63,28 +63,29 @@ public class Map implements Serializable {
     }
 
     public void save(){
-        try{
-            List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
-                    .filter(Files::isRegularFile)
-                    .map(Path::toFile)
-                    .collect(Collectors.toList());
-            for (File f : filesInFolder) System.out.println("deleting "+f.getName()+": "+f.delete());
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        for(Gobject o: getAll()){
-
+        if(!lost) {
             try {
-                FileOutputStream fos = new FileOutputStream(Data.localFilePath+"data/"+o.name+System.nanoTime()+".bin");
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(new Simple_Data(o));
-                oos.close();
-            } catch (IOException e) {
-                System.err.println("không ghi được cái: "+ o.name);
+                List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                        .filter(Files::isRegularFile)
+                        .map(Path::toFile)
+                        .collect(Collectors.toList());
+                for (File f : filesInFolder) System.out.println("deleting " + f.getName() + ": " + f.delete());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+            for (Gobject o : getAll()) {
 
+                try {
+                    FileOutputStream fos = new FileOutputStream(Data.localFilePath + "data/" + o.name + System.nanoTime() + ".bin");
+                    ObjectOutputStream oos = new ObjectOutputStream(fos);
+                    oos.writeObject(new Simple_Data(o));
+                    oos.close();
+                } catch (IOException e) {
+                    System.err.println("không ghi được cái: " + o.name);
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public Map(Stage stage) throws Exception {
         bck = Data.getInstance().game_world_music;
@@ -204,7 +205,7 @@ public class Map implements Serializable {
                    // stage.close();
                     save();
                     stage.close();
-                    (new Application.Main_Menu()).turnOn(stage);
+                    (new Application.Main_Menu(music,sound)).turnOn(stage);
 
                 } catch (Exception exception) {
 
@@ -392,6 +393,22 @@ public class Map implements Serializable {
                         }
                 }
             }
+        }
+        if(!main_c.using){
+            this.lost = true;
+            new AnimationTimer() {
+                long start = System.nanoTime();
+                public void handle(long currentNanoTime) {
+                    if((double)(currentNanoTime-start)/1_000_000_000.0>=3){
+                        pause.toFront();
+                        this.stop();
+                    } else {
+                        Frame.getGraphicsContext2D().setGlobalAlpha((double)(currentNanoTime-start)/3_000_000_000.0);
+                        Frame.getGraphicsContext2D().drawImage(Data.get("game_over"), 0, 0,SIZE_X*Pos.SIZE,SIZE_Y*Pos.SIZE);
+                    }
+                }
+            }.start();
+
         }
         return Frame;
     }
