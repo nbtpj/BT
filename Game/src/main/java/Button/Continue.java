@@ -2,6 +2,7 @@ package Button;
 
 import Application.Game_World;
 import Gobject.Bomber;
+import Gobject.Gobject;
 import Gobject.Simple_Data;
 import Loader.Data;
 import Support_Type.Map;
@@ -25,7 +26,7 @@ public class Continue extends Button{
         super(img, x, y, w, h);
         try
         {
-            map = new Map(stage);
+            map = new Map(stage,new ArrayList<>());
             List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
                     .filter(Files::isRegularFile)
                     .map(Path::toFile)
@@ -33,7 +34,7 @@ public class Continue extends Button{
             for (File f : filesInFolder){
                 FileInputStream input = new FileInputStream(f);
                 ObjectInputStream o = new ObjectInputStream(input);
-                if(f.getName().contains("paimon")){
+                if(f.getName().contains("paimon") && !f.getName().contains("'s bomb")){
                     map.setMain((Bomber) ((Simple_Data)o.readObject()).cvt());
                 } else
                 map.AddGobject(((Simple_Data)o.readObject()).cvt());

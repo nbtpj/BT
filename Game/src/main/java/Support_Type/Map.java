@@ -45,11 +45,12 @@ public class Map implements Serializable {
                 if(o instanceof Wall) ct = true;
             }
             if(!ct) {
-                data[i][j].add(new Wall(new Pos(i,j)));
+                data[i][j].add(new Soft_Wall(new Pos(i,j)));
                 count++;
             }
         }
     }
+
     public void save(){
         try{
             List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
@@ -79,24 +80,6 @@ public class Map implements Serializable {
         this.background = Data.getInstance().background;
         this.graphic = new Group();
         this.pause = new Group();
-      /*  Button main_menu = new Button("Main Menu")
-                , quit = new Button("Quit")
-                , continue_ = new Button("Continue");
-        quit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                Stage stage = (Stage)graphic.getScene().getWindow();
-                stage.close();
-            }
-        });
-        continue_.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                Frame.toFront();
-                timer.start();
-            }
-        });*/
-   //     pause.getChildren().add(main_menu);
-        
-     //   pause.getChildren().add(quit);
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         graphic.getChildren().add(pause);
         graphic.getChildren().add(Frame);
@@ -114,6 +97,18 @@ public class Map implements Serializable {
         Main_Menu menu = new Main_Menu(stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*2/5-Frame.getHeight()/16
                 ,Frame.getWidth()/5,Frame.getHeight()/8);
         pause.getChildren().add(menu);
+        menu.addEventHandler(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+                stage.close();
+                try {
+                    save();
+                    (new Application.Main_Menu()).turnOn(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
 
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
@@ -148,6 +143,21 @@ public class Map implements Serializable {
         Main_Menu menu = new Main_Menu(stage,Frame.getWidth()/2-Frame.getWidth()/10,Frame.getHeight()*2/5-Frame.getHeight()/16
                 ,Frame.getWidth()/5,Frame.getHeight()/8);
         pause.getChildren().add(menu);
+        menu.addEventHandler(MouseEvent.MOUSE_CLICKED,new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent e) {
+
+                try {
+                   // stage.close();
+                    save();
+                    stage.close();
+                    (new Application.Main_Menu()).turnOn(stage);
+
+                } catch (Exception exception) {
+
+                }
+            }
+        });
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
                 this.data[i][j] = new ArrayList<>();
@@ -193,7 +203,11 @@ public class Map implements Serializable {
         return rs;
     }
     public List<Gobject> get(Pos x) {
-        return data[x.x][x.y];
+        try{
+            return data[x.x][x.y];
+        } catch (Exception e){
+            return null;
+        }
     }
 
     public void AddGobject(Gobject x) {
@@ -223,7 +237,7 @@ public class Map implements Serializable {
             return "Invalid";
         }
         for (Gobject m : this.get(x)) {
-            if (m instanceof Bomb || m instanceof Wall) {
+            if (m.invisible<=0 &&(m instanceof Bomb || m instanceof Wall || m instanceof Enemy)) {
                 //   System.out.println("invalid");
                 return "Invalid";
             }
@@ -288,13 +302,17 @@ public class Map implements Serializable {
             for (int j = 0; j < SIZE_Y; j++) {
                 for (Gobject m : data[i][j]) {
                         if (m.render() != null) {
-
+                            if(m.invisible>0){
+                                Frame.getGraphicsContext2D().setGlobalAlpha(0.6);
+                            }
                             if (m instanceof Movable_Object) {
                                 Frame.getGraphicsContext2D().drawImage(m.render(), m.x , m.y - Pos.SIZE/2+Pos.SIZE/5);
+                                m.drawIndexBar(Frame.getGraphicsContext2D());
 
                             } else {
                                     Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y, m.width, m.height);
                             }
+                            Frame.getGraphicsContext2D().setGlobalAlpha(1);
                         }
                 }
             }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Animated_Image {
     static public void splitAll() {
         try {
-            List<File> filesInFolder = Files.walk(Paths.get("C:\\Users\\Nguyen Minh Quang\\Desktop\\OOP\\BomberMan\\PIPOYA FREE RPG Character Sprites 32x32"))
+            List<File> filesInFolder = Files.walk(Paths.get("C:\\Users\\Nguyen Minh Quang\\Downloads\\Shikashi's Fantasy Icons Pack v2"))
                     .filter(Files::isRegularFile)
                     .map(Path::toFile)
                     .collect(Collectors.toList());
@@ -30,11 +30,12 @@ public class Animated_Image {
         int idx = 0;
         try {
             BufferedImage src = ImageIO.read(file);
-            if(src.getWidth()!=32*3 || src.getHeight()!=32*4) return;
+         //   if(src.getWidth()!=32*3 || src.getHeight()!=32*4) return;
             for (int y = 0; y < src.getHeight(); y += size_y) {
                 for (int x = 0; x < src.getWidth(); x += size_x) {
-                    String file_name = file.getName().replace(".png","").replace(" ","");
-                    switch (y){
+                    String file_name = file.getName().replace(".png","").replace(" ","")
+                            + System.nanoTime();
+                   /* switch (y){
                         case 0:
                             file_name += "_front_";
                             break;
@@ -47,7 +48,7 @@ public class Animated_Image {
                         case 96:
                             file_name += "_back_";
                             break;
-                    }
+                    }*
                     switch (x){
                         case 0:
                             file_name += "1";
@@ -58,8 +59,8 @@ public class Animated_Image {
                         case 64:
                             file_name += "2";
                             break;
-                    }
-                    ImageIO.write(src.getSubimage(x, y, size_x, size_y), "png", new File("data\\"+file_name + ".png"));
+                    }*/
+                    ImageIO.write(src.getSubimage(x, y, size_x, size_y), "png", new File("C:\\Users\\Nguyen Minh Quang\\Downloads\\Shikashi's Fantasy Icons Pack v2\\data\\"+file_name + ".png"));
 
                 }
             }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Bomber extends Movable_Object {
     private boolean set_bomb;
-
+    private double max_heal=100;
     public Bomber(Simple_Data data) {
         super(data);
         this.set_bomb = false;
@@ -32,6 +32,8 @@ public class Bomber extends Movable_Object {
         super(100, name, x, y);
         v_x = 3;
         v_y = 3;
+        default_vx=3;
+        default_vy=3;
         set_bomb = false;
         this.type = type;
         frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
@@ -53,6 +55,8 @@ public class Bomber extends Movable_Object {
         super(100, name, pos);
         v_x = 3;
         v_y = 3;
+        default_vx=3;
+        default_vy=3;
         set_bomb = false;
         this.type = type;
         frames.put("left", Movable_Object_Images.getData().get(type).get("left"));
@@ -81,6 +85,29 @@ public class Bomber extends Movable_Object {
 
     @Override
     public List<Gobject> update(double t) {
+        if(rage>0){
+            rage-=t;
+            this.v_x=1.5*this.default_vx;
+            this.v_y=1.5*this.default_vy;
+        } else {
+            v_x=default_vx;
+            v_y=default_vy;
+        }
+        if(invincible>0){
+            invincible-=t;
+        }
+        if(invisible>0){
+            invisible-=t;
+        }
+        if(poisonous>0){
+            index-=0.06;
+            poisonous-=t;
+        }
+        if(healing>0){
+            if(index+0.05<max_heal){
+            index+=0.05;}
+            healing-=t;
+        }
         if(index<=0) using = false;
         List<Gobject> rs = new ArrayList<>();
         if (set_bomb) {

@@ -15,6 +15,7 @@ public abstract class Movable_Object extends Gobject {
     protected Map<String, Image[]> frames;
     protected Image[] current_frames;
     protected int current_frame;
+    Pos last_enter;
  //   protected double V_x, V_y;
     List<String> move_2 = new ArrayList<>();
     List<Pos> list_pos = new ArrayList<Pos>();
@@ -73,6 +74,11 @@ public abstract class Movable_Object extends Gobject {
                 y = new_y;
             }
             if (!this.current_map.Check(new_pos).equals("Invalid")) {
+                last_enter = pos();
+                x = new_x;
+                y = new_y;
+            }
+            if (this.invisible>0 && current_map.get(new_pos)!=null) {
                 x = new_x;
                 y = new_y;
             }
