@@ -24,6 +24,6 @@ public class Soft_Wall extends Wall {
     }
 
     public Image render(){
-        return Data.get("Soft_Wall");
+        return Data.get("soft_wall.jpg");
     }
 }

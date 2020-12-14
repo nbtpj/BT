@@ -10,6 +10,7 @@ import java.util.Random;
  * enemy level 3
  */
 public class Enemy_3 extends Enemy{
+    double wait=15;
     List<Pos> target= new ArrayList<>();
     public Enemy_3(Simple_Data data) {
         super(data);
@@ -39,10 +40,15 @@ public class Enemy_3 extends Enemy{
         index=100;
         maxIndex=100;
     }
-    protected List<Gobject> attack() {
+    protected List<Gobject> attack(double t) {
+        wait-=t;
+
         List<Gobject> rs = new ArrayList<>();
-        for(Pos p: target){
-            rs.add(new Bomb(name+"'s bomb"+System.nanoTime(),p));
+        if(wait<=0) {
+            wait =15;
+            for (Pos p : target) {
+                rs.add(new Bomb(name + "'s bomb" + System.nanoTime(), p));
+            }
         }
         return rs;
     }
@@ -57,7 +63,7 @@ public class Enemy_3 extends Enemy{
         up.clear();
         down.clear();
         crr = pos().left();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& left.size()<3){
             l =crr.left();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -69,7 +75,7 @@ public class Enemy_3 extends Enemy{
             left.add(crr);
         }
         crr = pos().right();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& right.size()<3){
             l =crr.right();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -81,7 +87,7 @@ public class Enemy_3 extends Enemy{
             right.add(crr);
         }
         crr = pos().up();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& up.size()<3){
             l =crr.up();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -93,7 +99,7 @@ public class Enemy_3 extends Enemy{
             up.add(crr);
         }
         crr = pos().down();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& down.size()<3){
             l =crr.down();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -103,6 +109,9 @@ public class Enemy_3 extends Enemy{
                 }
             }
             down.add(crr);
+        }
+        if(!target.isEmpty()){
+            return "none";
         }
         int i = (new Random()).nextInt(10);
         if(update_time<0 ) {

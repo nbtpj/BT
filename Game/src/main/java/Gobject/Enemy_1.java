@@ -14,7 +14,7 @@ public class Enemy_1 extends Enemy{
     }
 
     @Override
-    protected List<Gobject> attack() {
+    protected List<Gobject> attack(double t) {
         for(Gobject o: current_map.get(pos())){
             if(o instanceof Bomber && o.invincible<=0 && o.invincible<=0){
                 o.index-= 0.01;
@@ -50,7 +50,7 @@ public class Enemy_1 extends Enemy{
         up.clear();
         down.clear();
         crr = cur.left();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& left.size()<3){
             l =crr.left();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -61,7 +61,7 @@ public class Enemy_1 extends Enemy{
             left.add(crr);
         }
         crr = cur.right();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& right.size()<3){
             l =crr.right();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -72,7 +72,7 @@ public class Enemy_1 extends Enemy{
             right.add(crr);
         }
         crr = cur.up();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& up.size()<3){
             l =crr.up();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -83,7 +83,7 @@ public class Enemy_1 extends Enemy{
             up.add(crr);
         }
         crr = cur.down();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& down.size()<3){
             l =crr.down();
             crr=l;
             for (Gobject o:current_map.get(crr)){

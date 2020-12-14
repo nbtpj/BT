@@ -2,7 +2,6 @@ package Gobject;
 
 import Support_Type.Pos;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -37,7 +36,7 @@ public class Enemy_2 extends Enemy{
         index=70;
         maxIndex =70;
     }
-    protected List<Gobject> attack() {
+    protected List<Gobject> attack(double t) {
         for(Gobject o: current_map.get(pos())){
             if(o instanceof Bomber && o.invincible<=0 && o.invincible<=0){
                 o.index-= 0.02;
@@ -47,6 +46,11 @@ public class Enemy_2 extends Enemy{
     }
     @Override
     protected String decide() {
+        for(Gobject o: current_map.get(pos())){
+            if(o instanceof Bomber){
+                return "none";
+            }
+        }
         v_x=default_vx;
         v_y=default_vy;
         Pos crr,l;
@@ -55,7 +59,7 @@ public class Enemy_2 extends Enemy{
         up.clear();
         down.clear();
         crr = pos().left();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& left.size()<4){
             l =crr.left();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -68,7 +72,7 @@ public class Enemy_2 extends Enemy{
             left.add(crr);
         }
         crr = pos().right();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& right.size()<4){
             l =crr.right();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -81,7 +85,7 @@ public class Enemy_2 extends Enemy{
             right.add(crr);
         }
         crr = pos().up();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& up.size()<4){
             l =crr.up();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -94,7 +98,7 @@ public class Enemy_2 extends Enemy{
             up.add(crr);
         }
         crr = pos().down();
-        while(current_map.Check(crr).equals("Valid")){
+        while(current_map.Check(crr).equals("Valid")&& down.size()<4){
             l =crr.down();
             crr=l;
             for (Gobject o:current_map.get(crr)){
@@ -107,8 +111,10 @@ public class Enemy_2 extends Enemy{
             down.add(crr);
         }
         int i = (new Random()).nextInt(10);
-        if(update_time<0 &&left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){
+        if(update_time<0 ){
             update_time =5;
+
+            if(left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){
             switch (direction){
                 case ("left"):
                     if(i==0){
@@ -167,6 +173,8 @@ public class Enemy_2 extends Enemy{
                         }
                     }
             }
+            }
+
         }
         return direction;
     }

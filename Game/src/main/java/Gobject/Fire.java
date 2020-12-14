@@ -39,9 +39,6 @@ public class Fire extends Gobject {
                 if (o.invincible<=0)
                     o.index-=0.3;
             }
-            if(o instanceof Bomb){
-                o.index =0;
-            }
         }
         current_frame = (current_frame+1)% frame.length;
        /* for(Gobject o : current_map.get(this.pos())){

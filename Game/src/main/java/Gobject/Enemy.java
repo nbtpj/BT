@@ -5,13 +5,12 @@ import Support_Type.Pos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * enemy type
  */
 public abstract class Enemy extends Movable_Object {
-    protected double update_time = 5;
+    protected double update_time = 2.4;
     protected String direction;
     List<Pos> left = new ArrayList<>(),
             right = new ArrayList<>(),
@@ -77,7 +76,7 @@ public abstract class Enemy extends Movable_Object {
     public List<Gobject> update(double t) {
         direction = decide();
         update_time-=t;
-        List<Gobject> rs= attack();
+        List<Gobject> rs= attack(t);
         if(rage>0){
             rage-=t;
             this.v_x=1.5*this.default_vx;
@@ -101,6 +100,9 @@ public abstract class Enemy extends Movable_Object {
                 index+=0.05;}
             healing-=t;
         }
+        if(index<=0){
+            this.using = false;
+        }
 
         if(current_map.Check(pos().left()).equals("Invalid") && direction=="left"){
             direction=  "right";
@@ -115,7 +117,7 @@ public abstract class Enemy extends Movable_Object {
         move();
         return rs;
     }
-    abstract protected List<Gobject> attack();
+    abstract protected List<Gobject> attack(double t);
     public void move() {
         if (current_frame < current_frames.length && direction!="none") {
             current_frame = (++current_frame)% current_frames.length;
