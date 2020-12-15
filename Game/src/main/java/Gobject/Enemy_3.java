@@ -110,8 +110,15 @@ public class Enemy_3 extends Enemy{
             }
             down.add(crr);
         }
-        if(!target.isEmpty()){
-            return "none";
+        if((direction=="left"||direction=="right")&&left.size()==0&&right.size()==0){
+            if(up.size()>down.size()){
+                return "up";
+            } else return "down";
+        }
+        if((direction=="up"||direction=="down")&&up.size()==0&&down.size()==0){
+            if(left.size()>right.size()){
+                return "left";
+            } else return "right";
         }
         int i = (new Random()).nextInt(10);
         if(update_time<0 ) {

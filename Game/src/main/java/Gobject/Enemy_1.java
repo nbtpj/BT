@@ -17,7 +17,7 @@ public class Enemy_1 extends Enemy{
     protected List<Gobject> attack(double t) {
         for(Gobject o: current_map.get(pos())){
             if(o instanceof Bomber && o.invincible<=0 && o.invincible<=0){
-                o.index-= 0.01;
+                o.index-= 1;
             }
         }
         return null;
@@ -45,6 +45,25 @@ public class Enemy_1 extends Enemy{
     }
     public String decide(){
         Pos crr,l,cur = pos();
+       /* if(current_map.Check(cur).equals("Invalid")){
+            if(current_map.Check(cur.left()).equals("Valid")){
+                return "left";
+            } else {
+                if(current_map.Check(cur.right()).equals("Valid")){
+                    return "right";
+                } else {
+                    if(current_map.Check(cur.up()).equals("Valid")){
+                        return "up";
+                    } else {
+                        if(current_map.Check(cur.down()).equals("Valid")){
+                            return "down";
+                        } else {
+                            return "none";
+                        }
+                    }
+                }
+            }
+        }*/
         left.clear();
         right.clear();
         up.clear();
@@ -92,6 +111,16 @@ public class Enemy_1 extends Enemy{
                 }
             }
             down.add(crr);
+        }
+        if((direction=="left"||direction=="right")&&left.size()==0&&right.size()==0){
+            if(up.size()>down.size()){
+                return "up";
+            } else return "down";
+        }
+        if((direction=="up"||direction=="down")&&up.size()==0&&down.size()==0){
+            if(left.size()>right.size()){
+                return "left";
+            } else return "right";
         }
         int i = (new Random()).nextInt(10);
         if(update_time<0 &&left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){

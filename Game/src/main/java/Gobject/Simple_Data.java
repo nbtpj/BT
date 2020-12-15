@@ -56,8 +56,16 @@ public class Simple_Data implements Serializable {
                 return new Bomber(this);
             case("Gobject.Bomb"):
                 return new Bomb(this);
-            case("Gobject.Enemy"):
+            case("Gobject.Enemy_1"):
                 return new Enemy_1(this);
+            case("Gobject.Enemy_2"):
+                return new Enemy_2(this);
+            case("Gobject.Enemy_3"):
+                return new Enemy_3(this);
+            case("Gobject.Enemy_4"):
+                return new Enemy_4(this);
+            case("Gobject.Enemy_5"):
+                return new Enemy_5(this);
             case("Gobject.Fire"):
                 return new Fire(this);
             case("Gobject.Soft_Wall"):

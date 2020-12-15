@@ -39,7 +39,7 @@ public class Enemy_2 extends Enemy{
     protected List<Gobject> attack(double t) {
         for(Gobject o: current_map.get(pos())){
             if(o instanceof Bomber && o.invincible<=0 && o.invincible<=0){
-                o.index-= 0.02;
+                o.index-= 0.05;
             }
         }
         return null;
@@ -110,9 +110,19 @@ public class Enemy_2 extends Enemy{
             }
             down.add(crr);
         }
+        if((direction=="left"||direction=="right")&&left.size()==0&&right.size()==0){
+            if(up.size()>down.size()){
+                return "up";
+            } else return "down";
+        }
+        if((direction=="up"||direction=="down")&&up.size()==0&&down.size()==0){
+            if(left.size()>right.size()){
+                return "left";
+            } else return "right";
+        }
         int i = (new Random()).nextInt(10);
         if(update_time<0 ){
-            update_time =5;
+            update_time =2.5;
 
             if(left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){
             switch (direction){

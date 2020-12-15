@@ -149,6 +149,7 @@ public class Map implements Serializable {
                     // stage.close();
                     save();
                     stage.close();
+                    bck.stop();
                     (new Application.Main_Menu(music, sound)).turnOn(stage);
 
                 } catch (Exception exception) {
@@ -196,21 +197,36 @@ public class Map implements Serializable {
 
     public void random_Wall() throws Exception {
         int count = 0;
-        int enemy = 10;
+        int enemy = 0;
 
 
-        while (count < 60) {
-            int r = (int) (Math.random() * 135);
+        while (count < 100) {
+        //    int r = (int) (Math.random() * 135);
             int i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
             boolean ct = false, kt = false;
             for (Gobject o : data[i][j]) {
                 if (!ct && o instanceof Wall) ct = true;
-                if (!kt && o instanceof Movable_Object) kt = true;
+                if (!kt && (o instanceof Movable_Object||ct)) kt = true;
             }
             if (!ct) {
                 data[i][j].add(new Soft_Wall(new Pos(i, j)));
                 count++;
             }
+        }
+        while (enemy<5){
+            int i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
+            boolean kt = false;
+            for (Gobject o : data[i][j]) {
+                if (!kt && (o instanceof Movable_Object||o instanceof Wall)) kt = true;
+            }
+            if(!kt){
+                Enemy e=new Enemy_1("enemy",new Pos(i,j));
+                e.current_map=this;
+                data[i][j].add(e);
+                enemy++;
+            }
+        }
+
            /* if (!kt && enemy > 0) {
                 enemy--;
                 if (r % 2 == 0) {
@@ -233,7 +249,7 @@ public class Map implements Serializable {
                     }
                 }
             }*/
-        }
+
     }
 
     public void save() {
