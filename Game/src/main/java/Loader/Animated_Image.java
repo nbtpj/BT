@@ -1,7 +1,5 @@
 package Loader;
 
-import javafx.scene.image.Image;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
-/** code to split sprites, but now they are not necessary */
+
+/**
+ * code to split Image, but now they are not necessary
+ */
 public class Animated_Image {
     static public void splitAll() {
         try {
@@ -30,10 +31,10 @@ public class Animated_Image {
         int idx = 0;
         try {
             BufferedImage src = ImageIO.read(file);
-         //   if(src.getWidth()!=32*3 || src.getHeight()!=32*4) return;
+            //   if(src.getWidth()!=32*3 || src.getHeight()!=32*4) return;
             for (int y = 0; y < src.getHeight(); y += size_y) {
                 for (int x = 0; x < src.getWidth(); x += size_x) {
-                    String file_name = file.getName().replace(".png","").replace(" ","")
+                    String file_name = file.getName().replace(".png", "").replace(" ", "")
                             + System.nanoTime();
                    /* switch (y){
                         case 0:
@@ -60,7 +61,7 @@ public class Animated_Image {
                             file_name += "2";
                             break;
                     }*/
-                    ImageIO.write(src.getSubimage(x, y, size_x, size_y), "png", new File("C:\\Users\\Nguyen Minh Quang\\Downloads\\Shikashi's Fantasy Icons Pack v2\\data\\"+file_name + ".png"));
+                    ImageIO.write(src.getSubimage(x, y, size_x, size_y), "png", new File("C:\\Users\\Nguyen Minh Quang\\Downloads\\Shikashi's Fantasy Icons Pack v2\\data\\" + file_name + ".png"));
 
                 }
             }
@@ -68,7 +69,8 @@ public class Animated_Image {
             System.err.println(e.getMessage());
         }
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Animated_Image.splitAll();
     }
 }

@@ -4,7 +4,10 @@ import Support_Type.Pos;
 
 import java.util.List;
 
-public class Pet extends Movable_Object{
+/**
+ * for the next update
+ */
+public class Pet extends Movable_Object {
     public Pet(double index, String name, double x, double y) {
         super(index, name, x, y);
     }

@@ -14,7 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -28,7 +29,6 @@ import java.util.stream.Collectors;
 
 public class Map implements Serializable {
     static public final int SIZE_X = 42, SIZE_Y = 22;
-    Resume resume;
     public double score = 0;
     public double time_index;
     public boolean lost = false;
@@ -37,35 +37,25 @@ public class Map implements Serializable {
     public ImageView like = new ImageView(Data.get("like.gif"));
     public ImageView win = new ImageView(Data.get("win.gif"));
     public Text text = new Text();
-    Stage stage;
-
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
     public Canvas Frame;
-    private EventHandler<MouseEvent> e =new EventHandler<MouseEvent>() {
-        public void handle(MouseEvent e) {
-            Frame.toFront();
-            timer.start();
-        }};
-    public Group graphic, pause, Lost,scoreboad = new Group();
+    public Group graphic, pause;
     public Image background;
+    public Core core;
+    Resume resume;
+    Stage stage;
     AudioClip bck, effect, explosion, cloning;
     Music music_b;
     Sound sound_b;
-    double update_time = 20;
     private AnimationTimer timer;
-    public Core core;
-    public void setCore(){
-        Core o = new Core(new Pos(SIZE_X/2,SIZE_Y/2));
-        data[SIZE_X/2][SIZE_Y/2].clear();
-        AddGobject(o);
-        core = o;
-    }
-    public void setCore(Core c){
-        this.core = c;
-        AddGobject(c);
-    }
+    private final EventHandler<MouseEvent> e = new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent e) {
+            Frame.toFront();
+            timer.start();
+        }
+    };
 
-    public Map(Stage stage) throws Exception {
+    public Map(Stage stage) {
         this.stage = stage;
         bck = Data.getInstance().game_world_music;
         cloning = Data.getInstance().cloning;
@@ -79,7 +69,6 @@ public class Map implements Serializable {
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         graphic.getChildren().add(pause);
         graphic.getChildren().add(Frame);
-        graphic.getChildren().add(scoreboad);
 
         pause.getChildren().add(new Quit(this, stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 3 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8));
@@ -90,12 +79,7 @@ public class Map implements Serializable {
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
         sound_b = new Sound(Frame.getWidth() / 2, Frame.getHeight() * 4 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
-        sound_b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                sound = !sound;
-            }
-        });
+        sound_b.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> sound = !sound);
         pause.getChildren().add(music_b);
         pause.getChildren().add(sound_b);
 
@@ -112,8 +96,8 @@ public class Map implements Serializable {
             text.setStrokeWidth(10);
             text.setFont(Data.font);
             text.setWrappingWidth(200);
-            text.setX(Frame.getWidth()*3/4);
-            text.setY(Frame.getHeight()*1/4);
+            text.setX(Frame.getWidth() * 3 / 4);
+            text.setY(Frame.getHeight() * 1 / 4);
             text.setTextAlignment(TextAlignment.JUSTIFY);
             graphic.getChildren().add(text);
             text.toFront();
@@ -125,17 +109,13 @@ public class Map implements Serializable {
         Main_Menu menu = new Main_Menu(stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 2 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
         pause.getChildren().add(menu);
-        menu.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                stage.close();
-                try {
-                    save();
-                    bck.stop();
-                    (new Application.Main_Menu(music, sound)).turnOn(stage);
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                }
+        menu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            try {
+                save();
+                bck.stop();
+                (new Application.Main_Menu(music, sound)).turnOn(stage);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
 
@@ -152,7 +132,7 @@ public class Map implements Serializable {
 
     }
 
-    public Map(Stage stage, List<Gobject> data) throws Exception {
+    public Map(Stage stage, List<Gobject> data) {
         this.stage = stage;
         bck = Data.getInstance().game_world_music;
         cloning = Data.getInstance().cloning;
@@ -165,7 +145,6 @@ public class Map implements Serializable {
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         graphic.getChildren().add(pause);
         graphic.getChildren().add(Frame);
-        graphic.getChildren().add(scoreboad);
         pause.getChildren().add(new Quit(this, stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 3 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8));
         resume = new Resume(Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 1 / 5 - Frame.getHeight() / 16
@@ -175,12 +154,7 @@ public class Map implements Serializable {
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
         sound_b = new Sound(Frame.getWidth() / 2, Frame.getHeight() * 4 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
-        sound_b.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                sound = !sound;
-            }
-        });
+        sound_b.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> sound = !sound);
         pause.getChildren().add(music_b);
         pause.getChildren().add(sound_b);
 
@@ -198,8 +172,8 @@ public class Map implements Serializable {
 
             text.setFont(Data.font);
             text.setWrappingWidth(200);
-            text.setX(Frame.getWidth()*3/4);
-            text.setY(Frame.getHeight()*1/4);
+            text.setX(Frame.getWidth() * 3 / 4);
+            text.setY(Frame.getHeight() * 1 / 4);
             text.setTextAlignment(TextAlignment.JUSTIFY);
             graphic.getChildren().add(text);
             text.toFront();
@@ -211,20 +185,15 @@ public class Map implements Serializable {
         Main_Menu menu = new Main_Menu(stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 2 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
         pause.getChildren().add(menu);
-        menu.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
+        menu.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 
-                try {
-                    // stage.close();
-                    save();
-                    stage.close();
-                    bck.stop();
-                    (new Application.Main_Menu(music, sound)).turnOn(stage);
+            try {
+                save();
+                bck.stop();
+                (new Application.Main_Menu(music, sound)).turnOn(stage);
 
-                } catch (Exception exception) {
-
-                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
         for (int i = 0; i < SIZE_X; i++) {
@@ -256,7 +225,16 @@ public class Map implements Serializable {
         System.out.println(i);
     }
 
-    public void addEnemy() {
+    public void setCore() {
+        Core o = new Core(new Pos(SIZE_X / 2, SIZE_Y / 2));
+        data[SIZE_X / 2][SIZE_Y / 2].clear();
+        AddGobject(o);
+        core = o;
+    }
+
+    public void setCore(Core c) {
+        this.core = c;
+        AddGobject(c);
     }
 
     public void setSoundnMusic(boolean sound, boolean music) {
@@ -266,7 +244,7 @@ public class Map implements Serializable {
         sound_b.set(sound);
     }
 
-    public void random_Wall() throws Exception {
+    public void random_Wall() {
         int count = 0;
         int enemy = 0;
 
@@ -288,7 +266,10 @@ public class Map implements Serializable {
             int i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
             boolean kt = false;
             for (Gobject o : data[i][j]) {
-                if (!kt && (o instanceof Movable_Object || o instanceof Wall)) kt = true;
+                if (o instanceof Movable_Object || o instanceof Wall) {
+                    kt = true;
+                    break;
+                }
             }
             if (!kt) {
                 Enemy e = new Enemy_1("enemy", new Pos(i, j));
@@ -297,30 +278,6 @@ public class Map implements Serializable {
                 enemy++;
             }
         }
-
-           /* if (!kt && enemy > 0) {
-                enemy--;
-                if (r % 2 == 0) {
-                    data[i][j].add(new Enemy_1("enemy", new Pos(i, j)));
-                } else {
-                    if (r % 3 == 0) {
-                        data[i][j].add(new Enemy_2("enemy", new Pos(i, j)));
-                    } else {
-                        if (r % 5 == 0) {
-                            data[i][j].add(new Enemy_3("enemy", new Pos(i, j)));
-                        } else {
-                            if (r % 7 == 0) {
-                                data[i][j].add(new Enemy_4("enemy", new Pos(i, j)));
-                            } else {
-                                if (r % 13 == 0) {
-                                    data[i][j].add(new Enemy_5("enemy", new Pos(i, j)));
-                                } else enemy++;
-                            }
-                        }
-                    }
-                }
-            }*/
-
     }
 
     public void save() {
@@ -399,7 +356,7 @@ public class Map implements Serializable {
     }
 
     public String Check(Pos x) {
-        if ((x.x - SIZE_X) * (x.x - 0) >= 0 || (x.y - SIZE_Y) * (x.y - 0) >= 0) {
+        if ((x.x - SIZE_X) * (x.x) >= 0 || (x.y - SIZE_Y) * (x.y) >= 0) {
             return "Invalid";
         }
         for (Gobject m : this.get(x)) {
@@ -434,9 +391,6 @@ public class Map implements Serializable {
                             New.addAll(new_);
                         }
                     } else {
-                        if(m instanceof Movable_Object && scoreboad.getChildren().contains(((Movable_Object) m).text)){
-                            scoreboad.getChildren().remove(((Movable_Object) m).text);
-                        }
                         if ((!elz) && m instanceof Bomb) {
                             elz = true;
                         }
@@ -498,13 +452,13 @@ public class Map implements Serializable {
                         if (m.invisible > 0) {
                             Frame.getGraphicsContext2D().setGlobalAlpha(0.6);
                         }
-                        if (m instanceof Movable_Object ) {
+                        if (m instanceof Movable_Object) {
                             Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y - Pos.SIZE / 2 + Pos.SIZE / 5);
                             m.drawIndexBar(Frame.getGraphicsContext2D());
 
                         } else {
                             Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y, m.width, m.height);
-                            if( m instanceof Core) m.drawIndexBar(Frame.getGraphicsContext2D());
+                            if (m instanceof Core) m.drawIndexBar(Frame.getGraphicsContext2D());
                         }
                         Frame.getGraphicsContext2D().setGlobalAlpha(1);
                     }
@@ -535,22 +489,21 @@ public class Map implements Serializable {
                     }
                 }
             }.start();
-            resume.removeEventHandler(MouseEvent.MOUSE_CLICKED,e);
-            resume.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
+            resume.removeEventHandler(MouseEvent.MOUSE_CLICKED, e);
+            resume.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                try {
                     try {
-                        try{
-                            List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
-                                    .filter(Files::isRegularFile)
-                                    .map(Path::toFile)
-                                    .collect(Collectors.toList());
-                            for (File f : filesInFolder) f.delete();}
-                        catch (Exception E){}
-                        (new Game_World(main_c.type,music,sound)).turnOn(stage);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
+                        List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                                .filter(Files::isRegularFile)
+                                .map(Path::toFile)
+                                .collect(Collectors.toList());
+                        for (File f : filesInFolder) f.delete();
+                    } catch (Exception E) {
+                        E.printStackTrace();
                     }
+                    (new Game_World(main_c.type, music, sound)).turnOn(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             });
         }

@@ -2,6 +2,9 @@ package Gobject;
 
 import Support_Type.Pos;
 
+/**
+ * for the next update
+ */
 public abstract class Static_Object extends Gobject{
 
     public Static_Object(double index, String name, double x, double y) {

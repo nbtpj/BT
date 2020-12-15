@@ -3,8 +3,6 @@ package Application;
 import Loader.Data;
 import Loader.Movable_Object_Images;
 import Support_Type.Pos;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,8 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
-import javafx.scene.control.Button;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,24 +22,24 @@ import java.util.Map;
 import static Support_Type.Map.SIZE_X;
 import static Support_Type.Map.SIZE_Y;
 
-public class Choose_Bomberman extends Application implements Part_Of_Game {
-    boolean music,sound;
-    AudioClip ad ;
-    public Choose_Bomberman(AudioClip ad,boolean music, boolean sound){
+public class Choose_Bomberman implements Part_Of_Game {
+    public static final double S_H = 120, S_W = 60, S_P = 10;
+    private static final Map<String, Movable_Object_Images> data = Movable_Object_Images.getData();
+    public static String character_type = null;
+    public static Canvas screen = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
+    public static Image bkg = Data.getInstance().bkg;
+    static private final Image triangle1 = Data.getInstance().triangle1;
+    boolean music, sound;
+    AudioClip ad;
+    public Choose_Bomberman(AudioClip ad, boolean music, boolean sound) {
         this.music = music;
         this.ad = ad;
         this.sound = sound;
-        if(!music){
+        if (!music) {
             ad.stop();
         }
     }
 
-    public static String character_type = null;
-    public static final double S_H = 120, S_W = 60, S_P = 10;
-    public static Canvas screen = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
-    static private Image triangle1 = Data.getInstance().triangle1;
-    public static Image bkg = Data.getInstance().bkg;
-    private static final Map<String, Movable_Object_Images> data = Movable_Object_Images.getData();
     static private Image getImage(int pos, List<Image> list) {
         while (pos < 0) {
             pos += list.size();
@@ -78,70 +74,20 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
         return rs;
     }
 
-
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-    public static String choose(Stage stage){
-        stage.setTitle("Choose Character");
-        Group root = new Group();
-        Scene theScene = new Scene(root);
-        stage.setScene(theScene);
-        root.getChildren().add(screen);
-        List<Image> temp = new ArrayList<>();
-        Map<Image, String> mp = new HashMap<>();
-        for (Movable_Object_Images ob : data.values()) {
-            temp.add(ob.get("front")[0]);
-            mp.put(ob.get("front")[0], ob.name);
-        }
-        choose(screen, temp, 0);
-        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-            private int i = 0;
-            public String now=null;
-            @Override
-            public void handle(MouseEvent e) {
-                now = mp.get(choose(screen, temp, ++i));
-            }
-        };
-        EventHandler<KeyEvent> keydown = new EventHandler<KeyEvent>() {
-            public String rs;
-            private int i = 0;
-
-            @Override
-            public void handle(KeyEvent e) {
-                System.out.println("no");
-            }
-        };
-
-        stage.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-        stage.addEventHandler(KeyEvent.KEY_TYPED,keydown);
-
-        return "hi";
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        choose(stage);
-        System.out.println();
-        stage.show();
-    }
-
     @Override
     public Scene turnOn(Stage stage) throws Exception {
-        stage.setTitle("Choose Character");
         Group root = new Group();
-        Scene theScene = new Scene(root);
-        stage.setScene(theScene);
+        stage.getScene().setRoot(root);
         root.getChildren().add(screen);
         List<Image> temp = new ArrayList<>();
         Map<Image, String> mp = new HashMap<>();
         for (Movable_Object_Images ob : data.values()) {
-            if(!ob.name.contains("Enemy")){
-            temp.add(ob.get("front")[0]);
-            mp.put(ob.get("front")[0], ob.name);}
+            if (!ob.name.contains("Enemy")) {
+                temp.add(ob.get("front")[0]);
+                mp.put(ob.get("front")[0], ob.name);
+            }
         }
-        character_type = mp.get(choose(screen, temp,0 ));
+        character_type = mp.get(choose(screen, temp, 0));
         choose(screen, temp, 0);
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
             private int i = 0;
@@ -157,17 +103,17 @@ public class Choose_Bomberman extends Application implements Part_Of_Game {
             public void handle(KeyEvent e) {
                 try {
                     ad.stop();
-                    stage.close();
-                    (new Game_World(character_type,music,sound)).turnOn(stage);
+                    stage.getScene().removeEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+                    stage.getScene().removeEventHandler(KeyEvent.KEY_TYPED, this);
+                    (new Game_World(character_type, music, sound)).turnOn(stage);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
         };
 
-        theScene.addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
-        theScene.addEventHandler(KeyEvent.KEY_TYPED,keydown);
-        stage.show();
-        return theScene;
+        stage.getScene().addEventHandler(MouseEvent.MOUSE_CLICKED, eventHandler);
+        stage.getScene().addEventHandler(KeyEvent.KEY_TYPED, keydown);
+        return stage.getScene();
     }
 }
