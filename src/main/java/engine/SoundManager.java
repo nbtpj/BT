@@ -27,7 +27,10 @@ public class SoundManager {
 
     public void playSound(final String id) {
         Runnable soundPlay = () -> {
-            soundEffectsMap.get(id).play();
+            AudioClip audioClip = soundEffectsMap.get(id);
+            audioClip.setVolume(0.1);
+            audioClip.play();
+
         };
         soundPool.execute(soundPlay);
     }

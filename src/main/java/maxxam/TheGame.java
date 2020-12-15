@@ -2,6 +2,7 @@ package maxxam;
 
 import Controller.EnemyController;
 import engine.GameWorld;
+import engine.MusicManager;
 import engine.Sprite;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -37,9 +38,9 @@ public class TheGame extends GameWorld {
         getSoundManager().loadSoundEffects("step_left", getClass().getResource("/maxxam/sounds/step_left.mp3"));
         getSoundManager().loadSoundEffects("explode", getClass().getResource("/maxxam/sounds/bomb_explode.mp3"));
         getSoundManager().loadSoundEffects("eaten", getClass().getResource("/maxxam/sounds/buff_eaten.mp3"));
-        getSoundManager().loadSoundEffects("m1", getClass().getResource("/maxxam/sounds/funny1.mp3"));
-        getSoundManager().loadSoundEffects("m2", getClass().getResource("/maxxam/sounds/funny2.mp3"));
-        getSoundManager().loadSoundEffects("m3", getClass().getResource("/maxxam/sounds/funny3.mp3"));
+        MusicManager.loadMusic(getClass().getResource("/maxxam/sounds/funny1.mp3"));
+        MusicManager.loadMusic(getClass().getResource("/maxxam/sounds/funny2.mp3"));
+        MusicManager.loadMusic(getClass().getResource("/maxxam/sounds/funny3.mp3"));
     }
 
     public void start_level(Stage primaryStage) {
@@ -243,6 +244,9 @@ public class TheGame extends GameWorld {
         }
 
         setInput(stage);
+
+        // set music
+        MusicManager.playMusic();
     }
 
     private void setInput(Stage stage) {
