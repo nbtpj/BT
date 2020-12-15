@@ -59,6 +59,19 @@ public class Enemy_3 extends Enemy{
     }
     @Override
     protected String decide() {
+        if(current_map.Check(pos().left()).equals("Invalid") && direction=="left"){
+            direction=  "right";
+            update_time = 0;
+        } else if(current_map.Check(pos().right()).equals("Invalid") && direction=="right"){
+            direction = "left";
+            update_time=0;
+        } else if(current_map.Check(pos().up()).equals("Invalid") && direction=="up"){
+            direction = "down";
+            update_time = 0;
+        } else if(current_map.Check(pos().down()).equals("Invalid") && direction=="down"){
+            direction = "up";
+            update_time=0;
+        }
         target.clear();
         v_x=default_vx;
         v_y=default_vy;
@@ -126,7 +139,7 @@ public class Enemy_3 extends Enemy{
             } else return "right";
         }
         int i = (new Random()).nextInt(10);
-        if(update_time<0 ) {
+        if(update_time<=0 ) {
             update_time = 5;
 
             if (left.size() > 0 && right.size() > 0 && up.size() > 0 && down.size() > 0) {

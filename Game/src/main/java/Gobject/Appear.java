@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Appear extends Gobject{
     public Appear(Simple_Data data) {
@@ -25,21 +26,21 @@ public class Appear extends Gobject{
         index-=t;
         if(index<=0){
             using = false;
-            int r = (int) Math.random()*100;
+            int r = (new Random()).nextInt(100);
             List<Gobject> rs = new ArrayList<>();
-            if(r<50){
+            if(r<20){
                 rs.add(new Enemy_1(name+"'s enemy",pos()));
                 return rs;
             } else {
-                if(r<70){
+                if(r<40){
                     rs.add(new Enemy_2(name+"'s enemy",pos()));
                     return rs;
                 } else {
-                    if(r<80){
+                    if(r<60){
                         rs.add(new Enemy_3(name+"'s enemy",pos()));
                         return rs;
                     } else {
-                        if(r<95){
+                        if(r<80){
                             rs.add(new Enemy_4(name+"'s enemy",pos()));
                             return rs;
                         } else {

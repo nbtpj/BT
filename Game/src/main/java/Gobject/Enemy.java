@@ -4,12 +4,15 @@ import Loader.Movable_Object_Images;
 import Support_Type.Pos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * enemy type
  */
 public abstract class Enemy extends Movable_Object {
+    int sight=6;
+    String bomber_at="none";
     protected double update_time = 2.4;
     protected String direction;
     List<Pos> left = new ArrayList<>(),
@@ -103,17 +106,6 @@ public abstract class Enemy extends Movable_Object {
         if(index<=0){
             this.using = false;
         }
-
-        if(current_map.Check(pos().left()).equals("Invalid") && direction=="left"){
-            direction=  "right";
-        } else if(current_map.Check(pos().right()).equals("Invalid") && direction=="right"){
-            direction = "left";
-        } else if(current_map.Check(pos().up()).equals("Invalid") && direction=="up"){
-            direction = "down";
-        } else if(current_map.Check(pos().down()).equals("Invalid") && direction=="down"){
-            direction = "up";
-        }
-
         move();
         return rs;
     }
@@ -187,5 +179,64 @@ public abstract class Enemy extends Movable_Object {
         }
     }
     protected abstract String decide();
+    protected HashMap<String,List<Pos>> way(){
+        bomber_at = "none";
+        HashMap<String,List<Pos>> rs = new HashMap<>();
+        Pos cur = pos(),l,crr;
+        left.clear();
+        right.clear();
+        up.clear();
+        down.clear();
+        crr = cur.left();
+        while(current_map.Check(crr).equals("Valid")&& left.size()<sight){
+            l =crr.left();
+            crr=l;
+            for (Gobject o:current_map.get(crr)){
+                if(o instanceof Bomber && o.invisible<=0){
+                    bomber_at= "left";
+                }
+            }
+            left.add(crr);
+        }
+        crr = cur.right();
+        while(current_map.Check(crr).equals("Valid")&& right.size()<sight){
+            l =crr.right();
+            crr=l;
+            for (Gobject o:current_map.get(crr)){
+                if(o instanceof Bomber && o.invisible<=0){
+                    bomber_at= "right";
+                }
+            }
+            right.add(crr);
+        }
+        crr = cur.up();
+        while(current_map.Check(crr).equals("Valid")&& up.size()<sight){
+            l =crr.up();
+            crr=l;
+            for (Gobject o:current_map.get(crr)){
+                if(o instanceof Bomber && o.invisible<=0){
+                    bomber_at= "up";
+                }
+            }
+            up.add(crr);
+        }
+        crr = cur.down();
+        while(current_map.Check(crr).equals("Valid")&& down.size()<sight){
+            l =crr.down();
+            crr=l;
+            for (Gobject o:current_map.get(crr)){
+                if(o instanceof Bomber && o.invisible<=0){
+                    bomber_at= "down";
+                }
+            }
+            down.add(crr);
+        }
+        rs.put("left",left);
+        rs.put("right",right);
+        rs.put("up",up);
+        rs.put("down",down);
+        return rs;
+    }
+    
 
 }

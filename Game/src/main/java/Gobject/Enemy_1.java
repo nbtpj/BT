@@ -1,5 +1,6 @@
 package Gobject;
 
+import java.util.*;
 import Support_Type.Pos;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Random;
 public class Enemy_1 extends Enemy{
     public Enemy_1(Simple_Data data) {
         super(data);
+        sight = 3;
     }
 
     @Override
@@ -32,6 +34,7 @@ public class Enemy_1 extends Enemy{
      */
     public Enemy_1(String name, double x, double y) {
         super(name, "Enemy15-1", x, y);
+        sight = 3;
     }
 
     /**
@@ -42,148 +45,56 @@ public class Enemy_1 extends Enemy{
      */
     public Enemy_1(String name, Pos pos) {
         super(name, "Enemy15-1", pos);
+        sight = 3;
     }
     public String decide(){
-        Pos crr,l,cur = pos();
-       /* if(current_map.Check(cur).equals("Invalid")){
-            if(current_map.Check(cur.left()).equals("Valid")){
-                return "left";
-            } else {
-                if(current_map.Check(cur.right()).equals("Valid")){
-                    return "right";
-                } else {
-                    if(current_map.Check(cur.up()).equals("Valid")){
-                        return "up";
-                    } else {
-                        if(current_map.Check(cur.down()).equals("Valid")){
-                            return "down";
-                        } else {
-                            return "none";
-                        }
-                    }
-                }
-            }
-        }*/
-        left.clear();
-        right.clear();
-        up.clear();
-        down.clear();
-        crr = cur.left();
-        while(current_map.Check(crr).equals("Valid")&& left.size()<3){
-            l =crr.left();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber && o.invisible<=0){
-                    return "left";
-                }
-            }
-            left.add(crr);
+
+        if(current_map.Check(pos().left()).equals("Invalid") && direction=="left"){
+            direction=  "none";
+            update_time = 0;
+        } else if(current_map.Check(pos().right()).equals("Invalid") && direction=="right"){
+            direction = "none";
+            update_time=0;
+        } else if(current_map.Check(pos().up()).equals("Invalid") && direction=="up"){
+            direction = "none";
+            update_time = 0;
+        } else if(current_map.Check(pos().down()).equals("Invalid") && direction=="down"){
+            direction = "none";
+            update_time=0;
         }
-        crr = cur.right();
-        while(current_map.Check(crr).equals("Valid")&& right.size()<3){
-            l =crr.right();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber && o.invisible<=0){
-                    return "right";
-                }
-            }
-            right.add(crr);
+
+        if(update_time>0) {
+            return direction;
         }
-        crr = cur.up();
-        while(current_map.Check(crr).equals("Valid")&& up.size()<3){
-            l =crr.up();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber && o.invisible<=0){
-                    return "up";
-                }
-            }
-            up.add(crr);
+        update_time=2.4;
+        Map<String,List<Pos>> temp = way();
+        if(bomber_at!="none"){
+            return bomber_at;
         }
-        crr = cur.down();
-        while(current_map.Check(crr).equals("Valid")&& down.size()<3){
-            l =crr.down();
-            crr=l;
-            for (Gobject o:current_map.get(crr)){
-                if(o instanceof Bomber && o.invisible<=0){
-                    return "down";
-                }
-            }
-            down.add(crr);
+        if(left.size()==0 && right.size()==0 && up.size()==0 && down.size()==0){
+            return "none";
         }
-        if((direction=="left"||direction=="right")&&left.size()==0&&right.size()==0){
-            if(up.size()>down.size()){
-                return "up";
-            } else return "down";
+        double w_l = left.size(),
+                w_r = right.size(),
+                w_u = up.size(),
+                w_d = down.size();
+        if(direction == "left") { w_l*= 0.6; w_r*=0.8;w_d*=10;w_u*=10;}
+        if(direction == "right") { w_r*= 0.6;w_l*=0.8;w_d*=10;w_u*=10;}
+        if(direction == "up") { w_u*= 0.6;w_d*=0.8;w_r*= 10;w_l*=10;}
+        if(direction == "down") { w_d*= 0.6; w_u*=0.8;w_r*= 10;w_l*=10;}
+        if(w_l>=w_r&& w_l>=w_u && w_l>=w_d){
+            return "left";
         }
-        if((direction=="up"||direction=="down")&&up.size()==0&&down.size()==0){
-            if(left.size()>right.size()){
-                return "left";
-            } else return "right";
+        if(w_r>=w_l&& w_r>=w_u && w_r>=w_d){
+            return "right";
         }
-        int i = (new Random()).nextInt(10);
-        if(update_time<0 &&left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){
-            update_time =5;
-            switch (direction){
-                case ("left"):
-                    if(i==0){
-                        return "left";
-                    } else {
-                        if(i>0 && i<4){
-                            return "right";
-                        } else {
-                            if(i>3 && i<7){
-                                return "up";
-                            } else {
-                                return "down";
-                            }
-                        }
-                    }
-                case ("right"):
-                    if(i==0){
-                        return "right";
-                    } else {
-                        if(i>0 && i<4){
-                            return "left";
-                        } else {
-                            if(i>3 && i<7){
-                                return "up";
-                            } else {
-                                return "down";
-                            }
-                        }
-                    }
-                case ("up"):
-                    if(i==0){
-                        return "up";
-                    } else {
-                        if(i>0 && i<4){
-                            return "left";
-                        } else {
-                            if(i>3 && i<7){
-                                return "right";
-                            } else {
-                                return "down";
-                            }
-                        }
-                    }
-                case ("down"):
-                    if(i==0){
-                        return "down";
-                    } else {
-                        if(i>0 && i<4){
-                            return "left";
-                        } else {
-                            if(i>3 && i<7){
-                                return "up";
-                            } else {
-                                return "right";
-                            }
-                        }
-                    }
-            }
+        if(w_u>=w_r&& w_u>=w_l && w_u>=w_d){
+            return "up";
         }
+        if(w_d>=w_r&& w_d>=w_u && w_d>=w_l){
+            return "down";
+        }
+        
         return direction;
     }
 }

@@ -46,11 +46,20 @@ public class Enemy_2 extends Enemy{
     }
     @Override
     protected String decide() {
-        for(Gobject o: current_map.get(pos())){
-            if(o instanceof Bomber){
-                return "none";
-            }
+        if(current_map.Check(pos().left()).equals("Invalid") && direction=="left"){
+            direction=  "right";
+            update_time = 0;
+        } else if(current_map.Check(pos().right()).equals("Invalid") && direction=="right"){
+            direction = "left";
+            update_time=0;
+        } else if(current_map.Check(pos().up()).equals("Invalid") && direction=="up"){
+            direction = "down";
+            update_time = 0;
+        } else if(current_map.Check(pos().down()).equals("Invalid") && direction=="down"){
+            direction = "up";
+            update_time=0;
         }
+
         v_x=default_vx;
         v_y=default_vy;
         Pos crr,l;
@@ -110,6 +119,7 @@ public class Enemy_2 extends Enemy{
             }
             down.add(crr);
         }
+
         if((direction=="left"||direction=="right")&&left.size()==0&&right.size()==0){
             if(up.size()>down.size()){
                 return "up";
@@ -121,7 +131,7 @@ public class Enemy_2 extends Enemy{
             } else return "right";
         }
         int i = (new Random()).nextInt(10);
-        if(update_time<0 ){
+        if(update_time<=0 ){
             update_time =2.5;
 
             if(left.size()>0 && right.size()>0 && up.size()>0 && down.size()>0){

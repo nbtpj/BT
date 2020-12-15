@@ -403,7 +403,7 @@ public class Map implements Serializable {
             return "Invalid";
         }
         for (Gobject m : this.get(x)) {
-            if (m.invisible <= 0 && (m instanceof Bomb || m instanceof Wall || m instanceof Enemy)) {
+            if (m.invisible <= 0 && (m instanceof Bomb || m instanceof Wall || m instanceof Movable_Object)) {
                 //   System.out.println("invalid");
                 return "Invalid";
             }
@@ -498,12 +498,13 @@ public class Map implements Serializable {
                         if (m.invisible > 0) {
                             Frame.getGraphicsContext2D().setGlobalAlpha(0.6);
                         }
-                        if (m instanceof Movable_Object) {
+                        if (m instanceof Movable_Object ) {
                             Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y - Pos.SIZE / 2 + Pos.SIZE / 5);
                             m.drawIndexBar(Frame.getGraphicsContext2D());
 
                         } else {
                             Frame.getGraphicsContext2D().drawImage(m.render(), m.x, m.y, m.width, m.height);
+                            if( m instanceof Core) m.drawIndexBar(Frame.getGraphicsContext2D());
                         }
                         Frame.getGraphicsContext2D().setGlobalAlpha(1);
                     }

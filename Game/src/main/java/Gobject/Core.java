@@ -2,7 +2,9 @@ package Gobject;
 
 import Loader.Data;
 import Support_Type.Pos;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import static Support_Type.Map.SIZE_X;
 import static Support_Type.Map.SIZE_Y;
 
 public class Core extends Gobject{
-    double last_update = 30;
+    double last_update = 15;
     public Core(Simple_Data data) {
         super(data);
     }
@@ -33,7 +35,7 @@ public class Core extends Gobject{
         if(last_update>0){
             last_update-=t;
         } else {
-            last_update = 30;
+            last_update = 15;
             List<Gobject> rs = new ArrayList<>();
             int count =30;
             int   i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
@@ -53,5 +55,17 @@ public class Core extends Gobject{
     @Override
     public Image render() {
         return Data.get("core");
+    }
+    public void drawIndexBar(GraphicsContext gc){
+        gc.setFill(Color.GREEN);
+        gc.fillRect(x,y-0.1*height,width*index/maxIndex,height*0.15);
+
+        if(last_update>=0){
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-0.2*height,width*(1-last_update/15),height*0.15);
+        } else {
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-0.2*height,width,height*0.15);
+        }
     }
 }
