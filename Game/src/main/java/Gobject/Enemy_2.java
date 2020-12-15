@@ -97,7 +97,7 @@ public class Enemy_2 extends Enemy {
             l = crr.left();
             crr = l;
             for (Gobject o : current_map.get(crr)) {
-                if ((o instanceof Bomber || o instanceof Effect) && o.invisible <= 0) {
+                if ((o instanceof Bomber ) && o.invisible <= 0) {
                     v_x = 1.5 * default_vx;
                     v_y = 1.5 * default_vy;
                     return "left";
@@ -110,7 +110,7 @@ public class Enemy_2 extends Enemy {
             l = crr.right();
             crr = l;
             for (Gobject o : current_map.get(crr)) {
-                if ((o instanceof Bomber || o instanceof Effect) && o.invisible <= 0) {
+                if ((o instanceof Bomber ) && o.invisible <= 0) {
                     v_x = 1.5 * default_vx;
                     v_y = 1.5 * default_vy;
                     return "right";
@@ -123,7 +123,7 @@ public class Enemy_2 extends Enemy {
             l = crr.up();
             crr = l;
             for (Gobject o : current_map.get(crr)) {
-                if ((o instanceof Bomber || o instanceof Effect) && o.invisible <= 0) {
+                if ((o instanceof Bomber ) && o.invisible <= 0) {
                     v_x = 1.5 * default_vx;
                     v_y = 1.5 * default_vy;
                     return "up";
@@ -136,7 +136,7 @@ public class Enemy_2 extends Enemy {
             l = crr.down();
             crr = l;
             for (Gobject o : current_map.get(crr)) {
-                if ((o instanceof Bomber || o instanceof Effect) && o.invisible <= 0) {
+                if ((o instanceof Bomber ) && o.invisible <= 0) {
                     v_x = 1.5 * default_vx;
                     v_y = 1.5 * default_vy;
                     return "down";
