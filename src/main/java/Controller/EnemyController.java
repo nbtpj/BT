@@ -154,7 +154,7 @@ public class EnemyController {
         list.add(pe);
         while (!list.isEmpty()) {
             Pair np = list.remove();
-            if (map[np.y][np.x] == '#' || map[np.y][np.x] != '*')
+            if (map[np.y][np.x] == '#' || map[np.y][np.x] == '*' || map[np.y][np.x] == '.')
                 continue;
             if (map[np.y][np.x] == 'B' ||
                     map[np.y][np.x] == 'F' ||
@@ -194,7 +194,7 @@ public class EnemyController {
         list.add(pe);
         while (!list.isEmpty()) {
             Pair np = list.remove();
-            if (map[np.y][np.x] != ' ' && map[np.y][np.x] != 'd')
+            if (map[np.y][np.x] == '#' || map[np.y][np.x] == '*' || map[np.y][np.x] == '.')
                 continue;
             if (map[np.y][np.x] == ' ') {
                 enemy.pairAim = new Pair(np.x, np.y);
@@ -220,7 +220,7 @@ public class EnemyController {
         list.add(pe);
         while (!list.isEmpty()) {
             Pair np = list.remove();
-            if (map[np.y][np.x] != ' ' && map[np.y][np.x] != 'd')
+            if (map[np.y][np.x] == '#' || map[np.y][np.x] == '*' || map[np.y][np.x] == '.')
                 continue;
             if (np.x == pp.x && np.y == pp.y) {
                 enemy.actionStatus = 15;
@@ -326,22 +326,22 @@ public class EnemyController {
                 }
                 break;
             }
-            if (map[np.y][np.x+1] == ' ' || map[np.y][np.x+1] == 'd') {
+            if (map[np.y][np.x+1] != '#' && map[np.y][np.x+1] != '*' && map[np.y][np.x+1] != '.') {
                 list.add(new Pair(np.x+1, np.y));
                 pair_map[np.y][np.x+1] = new Pair(np.x, np.y);
                 map[np.y][np.x+1] = '.';
             }
-            if (map[np.y][np.x-1] == ' ' || map[np.y][np.x-1] == 'd') {
+            if (map[np.y][np.x-1] != '#' && map[np.y][np.x-1] != '*' && map[np.y][np.x-1] != '.') {
                 list.add(new Pair(np.x-1, np.y));
                 pair_map[np.y][np.x-1] = new Pair(np.x, np.y);
                 map[np.y][np.x-1] = '.';
             }
-            if (map[np.y+1][np.x] == ' ' || map[np.y+1][np.x] == 'd') {
+            if (map[np.y+1][np.x] != '#' && map[np.y+1][np.x] != '*' && map[np.y+1][np.x] != '.') {
                 list.add(new Pair(np.x, np.y+1));
                 pair_map[np.y+1][np.x] = new Pair(np.x, np.y);
                 map[np.y+1][np.x] = '.';
             }
-            if (map[np.y-1][np.x] == ' ' || map[np.y-1][np.x] == 'd') {
+            if (map[np.y-1][np.x] != '#' && map[np.y-1][np.x] != '*' && map[np.y-1][np.x] != '.') {
                 list.add(new Pair(np.x, np.y-1));
                 pair_map[np.y-1][np.x] = new Pair(np.x, np.y);
                 map[np.y-1][np.x] = '.';
