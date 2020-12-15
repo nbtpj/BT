@@ -250,7 +250,6 @@ public class Map implements Serializable {
 
 
         while (count < 100) {
-            //    int r = (int) (Math.random() * 135);
             int i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
             boolean ct = false, kt = false;
             for (Gobject o : data[i][j]) {
@@ -468,6 +467,8 @@ public class Map implements Serializable {
 
         if (!core.using) {
             timer.stop();
+            Enemy.base_damage*=1.1;
+            Core.max_wait*=0.9;
             new AnimationTimer() {
                 final long start = System.nanoTime();
 
@@ -491,6 +492,7 @@ public class Map implements Serializable {
             }.start();
             resume.removeEventHandler(MouseEvent.MOUSE_CLICKED, e);
             resume.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                bck.stop();
                 try {
                     try {
                         List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
@@ -501,7 +503,7 @@ public class Map implements Serializable {
                     } catch (Exception E) {
                         E.printStackTrace();
                     }
-                    (new Game_World(main_c.type, music, sound)).turnOn(stage);
+                    (new Game_World(main_c.type, music_b.on, sound_b.on)).turnOn(stage);
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -509,6 +511,24 @@ public class Map implements Serializable {
         }
         if (!main_c.using) {
             timer.stop();
+            resume.removeEventHandler(MouseEvent.MOUSE_CLICKED, e);
+            resume.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                try {
+                    try {
+                        List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                                .filter(Files::isRegularFile)
+                                .map(Path::toFile)
+                                .collect(Collectors.toList());
+                        for (File f : filesInFolder) f.delete();
+                    } catch (Exception E) {
+                        E.printStackTrace();
+                    }
+                    bck.stop();
+                    (new Game_World(main_c.type, music_b.on, sound_b.on)).turnOn(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            });
             this.lost = true;
             new AnimationTimer() {
                 final long start = System.nanoTime();

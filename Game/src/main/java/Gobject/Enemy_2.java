@@ -41,28 +41,28 @@ public class Enemy_2 extends Enemy {
     protected List<Gobject> attack(double t) {
         for (Gobject o : current_map.get(pos())) {
             if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
-                o.index -= 2;
+                o.index -= base_damage*2;
             }
         }
 
         for (Gobject o : current_map.get(pos().left())) {
             if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
-                o.index -= 2;
+                o.index -= base_damage*2;
             }
         }
         for (Gobject o : current_map.get(pos().right())) {
             if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
-                o.index -= 2;
+                o.index -= base_damage*2;
             }
         }
         for (Gobject o : current_map.get(pos().up())) {
             if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
-                o.index -= 2;
+                o.index -= base_damage*2;
             }
         }
         for (Gobject o : current_map.get(pos().down())) {
             if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
-                o.index -= 2;
+                o.index -= base_damage*2;
             }
         }
 

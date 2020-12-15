@@ -12,6 +12,7 @@ import java.util.List;
  */
 public abstract class Enemy extends Movable_Object {
     int sight=6;
+    public static double base_damage =0.1;
     String bomber_at="none";
     protected double update_time = 2.4;
     protected String direction;
