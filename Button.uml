@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Button</OriginalElement>
+  <nodes>
+    <node x="948.0" y="215.5">Button.Main_Menu</node>
+    <node x="667.0" y="182.0">Button.Sound</node>
+    <node x="1292.0" y="204.5">Button.Quit</node>
+    <node x="1917.0" y="215.5">Button.NewGame</node>
+    <node x="1628.0" y="215.5">Button.Resume</node>
+    <node x="331.0" y="171.0">Button.Music</node>
+    <node x="959.0" y="0.0">Button.Button</node>
+    <node x="0.0" y="160.0">Button.Continue</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Button.Continue" target="Button.Button">
+      <point x="0.0" y="-94.0" />
+      <point x="155.5" y="120.0" />
+      <point x="980.5714285714286" y="120.0" />
+      <point x="-129.42857142857144" y="50.0" />
+    </edge>
+    <edge source="Button.NewGame" target="Button.Button">
+      <point x="0.0" y="-38.5" />
+      <point x="2076.5" y="120.0" />
+      <point x="1239.4285714285713" y="120.0" />
+      <point x="129.42857142857133" y="50.0" />
+    </edge>
+    <edge source="Button.Resume" target="Button.Button">
+      <point x="0.0" y="-38.5" />
+      <point x="1762.5" y="130.0" />
+      <point x="1196.2857142857142" y="130.0" />
+      <point x="86.28571428571422" y="50.0" />
+    </edge>
+    <edge source="Button.Quit" target="Button.Button">
+      <point x="0.0" y="-49.5" />
+      <point x="1450.0" y="140.0" />
+      <point x="1153.142857142857" y="140.0" />
+      <point x="43.14285714285711" y="50.0" />
+    </edge>
+    <edge source="Button.Main_Menu" target="Button.Button">
+      <point x="0.0" y="-38.5" />
+      <point x="0.0" y="50.0" />
+    </edge>
+    <edge source="Button.Music" target="Button.Button">
+      <point x="0.0" y="-83.0" />
+      <point x="489.0" y="130.0" />
+      <point x="1023.7142857142858" y="130.0" />
+      <point x="-86.28571428571422" y="50.0" />
+    </edge>
+    <edge source="Button.Sound" target="Button.Button">
+      <point x="0.0" y="-72.0" />
+      <point x="797.5" y="140.0" />
+      <point x="1066.857142857143" y="140.0" />
+      <point x="-43.14285714285711" y="50.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="404.0" y="60.0" />
+  <SelectedNodes>
+    <node>Button.Continue</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
