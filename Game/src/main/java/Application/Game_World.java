@@ -43,7 +43,6 @@ public class Game_World implements Part_Of_Game {
         }
         map.setSoundnMusic(sound, music);
         stage.getScene().setRoot(map.graphic);
-        stage.setTitle("Wibu World");
         EventHandler<KeyEvent> keydown = new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

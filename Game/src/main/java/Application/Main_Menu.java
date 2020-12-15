@@ -36,8 +36,7 @@ public class Main_Menu implements Part_Of_Game {
     }
 
     @Override
-    public Scene turnOn(Stage stage) throws Exception {
-        stage.setTitle("Choose Character");
+    public Scene turnOn(Stage stage){
         AudioClip ad = Data.getInstance().main_menu_music;
         Group root = new Group();
         stage.getScene().setRoot(root);
@@ -57,15 +56,12 @@ public class Main_Menu implements Part_Of_Game {
         Continue continue_ = new Continue(stage, cv.getWidth() / 2 - cv.getWidth() / 10, cv.getHeight() / 5 - cv.getHeight() / 16
                 , cv.getWidth() / 5, cv.getHeight() / 8);
         if (!continue_.isEmpty) {
-            continue_.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent e) {
-                    ad.stop();
-                    try {
-                        (new Game_World(continue_.map, music.on, sound.on)).turnOn(stage);
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
+            continue_.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                ad.stop();
+                try {
+                    (new Game_World(continue_.map, music.on, sound.on)).turnOn(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
             });
         } else {
@@ -79,22 +75,20 @@ public class Main_Menu implements Part_Of_Game {
                 , cv.getWidth() / 5, cv.getHeight() / 8);
         root.getChildren().add(new_game);
 
-        new_game.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent e) {
-                try {
-                    List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
-                            .filter(Files::isRegularFile)
-                            .map(Path::toFile)
-                            .collect(Collectors.toList());
-                    for (File f : filesInFolder) f.delete();
-                } catch (Exception E) {
-                }
-                try {
-                    (new Choose_Bomberman(ad, music.on, sound.on)).turnOn(stage);
-                } catch (Exception exception) {
-
-                }
+        new_game.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            try {
+                List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                        .filter(Files::isRegularFile)
+                        .map(Path::toFile)
+                        .collect(Collectors.toList());
+                for (File f : filesInFolder) f.delete();
+            } catch (Exception E) {
+                E.printStackTrace();
+            }
+            try {
+                (new Choose_Bomberman(ad, music.on, sound.on)).turnOn(stage);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
 

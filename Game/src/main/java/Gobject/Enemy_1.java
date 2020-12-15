@@ -44,6 +44,27 @@ public class Enemy_1 extends Enemy {
                 o.index -= 1;
             }
         }
+        for (Gobject o : current_map.get(pos().left())) {
+            if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
+                o.index -= 1;
+            }
+        }
+        for (Gobject o : current_map.get(pos().right())) {
+            if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
+                o.index -= 1;
+            }
+        }
+        for (Gobject o : current_map.get(pos().up())) {
+            if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
+                o.index -= 1;
+            }
+        }
+        for (Gobject o : current_map.get(pos().down())) {
+            if (o instanceof Bomber && o.invincible <= 0 && o.invincible <= 0) {
+                o.index -= 1;
+            }
+        }
+
         return null;
     }
 
