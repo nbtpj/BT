@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Application</OriginalElement>
+  <nodes>
+    <node x="0.0" y="203.0">Application.Main_Menu</node>
+    <node x="316.5" y="0.0">Application.Part_Of_Game</node>
+    <node x="235.0" y="104.0">Application.Choose_Bomberman</node>
+    <node x="577.0" y="181.0">Application.Game_World</node>
+    <node x="0.0" y="513.0">Application.Main</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Application.Choose_Bomberman" target="Application.Part_Of_Game">
+      <point x="0.0" y="-182.0" />
+      <point x="0.0" y="27.0" />
+    </edge>
+    <edge source="Application.Game_World" target="Application.Part_Of_Game">
+      <point x="0.0" y="-105.0" />
+      <point x="707.0" y="79.0" />
+      <point x="449.0" y="79.0" />
+      <point x="53.0" y="27.0" />
+    </edge>
+    <edge source="Application.Main_Menu" target="Application.Part_Of_Game">
+      <point x="0.0" y="-83.0" />
+      <point x="107.5" y="79.0" />
+      <point x="343.0" y="79.0" />
+      <point x="-53.0" y="27.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.3000000000000003" x="232.0" y="93.07692307692304" />
+  <SelectedNodes>
+    <node>Application.Choose_Bomberman</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

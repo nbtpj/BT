@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Gobject</OriginalElement>
+  <nodes>
+    <node x="259.0" y="940.0">Gobject.Fire</node>
+    <node x="2023.3913043478262" y="1431.5">Gobject.Pet</node>
+    <node x="1733.0" y="1801.5">Gobject.Enemy_2</node>
+    <node x="1977.0" y="1801.5">Gobject.Enemy_1</node>
+    <node x="975.0" y="1431.5">Gobject.Healing</node>
+    <node x="1205.0" y="1768.0">Gobject.Enemy_5</node>
+    <node x="1469.0" y="1768.0">Gobject.Enemy_4</node>
+    <node x="1082.75" y="0.0">Gobject.Gobject</node>
+    <node x="941.0" y="1768.0">Gobject.Enemy_3</node>
+    <node x="491.0" y="996.0">Gobject.Effect</node>
+    <node x="2038.5" y="940.0">Gobject.Bomb</node>
+    <node x="1254.3913043478262" y="962.5">Gobject.Wall</node>
+    <node x="743.0" y="1431.5">Gobject.Rage</node>
+    <node x="1476.3913043478262" y="1266.0">Gobject.Enemy</node>
+    <node x="933.0" y="996.0">Gobject.Static_Object</node>
+    <node x="2270.5" y="962.5">Gobject.Appear</node>
+    <node x="464.0" y="1431.5">Gobject.Invisible</node>
+    <node x="1746.3913043478262" y="1398.0">Gobject.Bomber</node>
+    <node x="232.0" y="1442.5">Gobject.Invincible</node>
+    <node x="1264.3913043478262" y="1431.5">Gobject.Soft_Wall</node>
+    <node x="669.0" y="929.0">Gobject.Core</node>
+    <node x="0.0" y="2023.0">Gobject.Simple_Data</node>
+    <node x="1710.5" y="852.0">Gobject.Movable_Object</node>
+    <node x="0.0" y="1431.5">Gobject.Poison</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Gobject.Pet" target="Gobject.Movable_Object">
+      <point x="0.0" y="-60.5" />
+      <point x="2142.391304347826" y="1246.0" />
+      <point x="1967.1666666666667" y="1246.0" />
+      <point x="102.66666666666674" y="182.0" />
+    </edge>
+    <edge source="Gobject.Enemy" target="Gobject.Movable_Object">
+      <point x="0.0" y="-226.0" />
+      <point x="1601.3913043478262" y="1246.0" />
+      <point x="1761.8333333333333" y="1246.0" />
+      <point x="-102.66666666666674" y="182.0" />
+    </edge>
+    <edge source="Gobject.Enemy_4" target="Gobject.Enemy">
+      <point x="0.0" y="-105.0" />
+      <point x="1591.0" y="1748.0" />
+      <point x="1601.3913043478262" y="1748.0" />
+      <point x="0.0" y="226.0" />
+    </edge>
+    <edge source="Gobject.Enemy_5" target="Gobject.Enemy">
+      <point x="0.0" y="-105.0" />
+      <point x="1327.0" y="1748.0" />
+      <point x="1551.3913043478262" y="1748.0" />
+      <point x="-50.0" y="226.0" />
+    </edge>
+    <edge source="Gobject.Invincible" target="Gobject.Effect">
+      <point x="0.0" y="-49.5" />
+      <point x="338.0" y="1246.0" />
+      <point x="538.4" y="1246.0" />
+      <point x="-31.600000000000023" y="38.0" />
+    </edge>
+    <edge source="Gobject.Effect" target="Gobject.Gobject">
+      <point x="0.0" y="-38.0" />
+      <point x="570.0" y="812.0" />
+      <point x="1132.0625" y="812.0" />
+      <point x="-82.1875" y="391.0" />
+    </edge>
+    <edge source="Gobject.Soft_Wall" target="Gobject.Wall">
+      <point x="0.0" y="-60.5" />
+      <point x="0.0" y="71.5" />
+    </edge>
+    <edge source="Gobject.Invisible" target="Gobject.Effect">
+      <point x="0.0" y="-60.5" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="Gobject.Bomb" target="Gobject.Gobject">
+      <point x="0.0" y="-94.0" />
+      <point x="2144.5" y="812.0" />
+      <point x="1296.4375" y="812.0" />
+      <point x="82.1875" y="391.0" />
+    </edge>
+    <edge source="Gobject.Wall" target="Gobject.Gobject">
+      <point x="0.0" y="-71.5" />
+      <point x="1360.3913043478262" y="832.0" />
+      <point x="1230.6875" y="832.0" />
+      <point x="16.4375" y="391.0" />
+    </edge>
+    <edge source="Gobject.Enemy_1" target="Gobject.Enemy">
+      <point x="0.0" y="-71.5" />
+      <point x="2089.0" y="1738.0" />
+      <point x="1701.3913043478262" y="1738.0" />
+      <point x="100.0" y="226.0" />
+    </edge>
+    <edge source="Gobject.Enemy_2" target="Gobject.Enemy">
+      <point x="0.0" y="-71.5" />
+      <point x="1845.0" y="1748.0" />
+      <point x="1651.3913043478262" y="1748.0" />
+      <point x="50.0" y="226.0" />
+    </edge>
+    <edge source="Gobject.Bomber" target="Gobject.Movable_Object">
+      <point x="0.0" y="-94.0" />
+      <point x="1874.8913043478262" y="1246.0" />
+      <point x="1864.5" y="1246.0" />
+      <point x="0.0" y="182.0" />
+    </edge>
+    <edge source="Gobject.Enemy_3" target="Gobject.Enemy">
+      <point x="0.0" y="-105.0" />
+      <point x="1063.0" y="1738.0" />
+      <point x="1501.3913043478262" y="1738.0" />
+      <point x="-100.0" y="226.0" />
+    </edge>
+    <edge source="Gobject.Poison" target="Gobject.Effect">
+      <point x="0.0" y="-60.5" />
+      <point x="106.0" y="1236.0" />
+      <point x="506.79999999999995" y="1236.0" />
+      <point x="-63.200000000000045" y="38.0" />
+    </edge>
+    <edge source="Gobject.Healing" target="Gobject.Effect">
+      <point x="0.0" y="-60.5" />
+      <point x="1081.0" y="1236.0" />
+      <point x="633.2" y="1236.0" />
+      <point x="63.200000000000045" y="38.0" />
+    </edge>
+    <edge source="Gobject.Appear" target="Gobject.Gobject">
+      <point x="0.0" y="-71.5" />
+      <point x="2379.0" y="802.0" />
+      <point x="1329.3125" y="802.0" />
+      <point x="115.0625" y="391.0" />
+    </edge>
+    <edge source="Gobject.Movable_Object" target="Gobject.Gobject">
+      <point x="0.0" y="-182.0" />
+      <point x="1864.5" y="822.0" />
+      <point x="1263.5625" y="822.0" />
+      <point x="49.3125" y="391.0" />
+    </edge>
+    <edge source="Gobject.Fire" target="Gobject.Gobject">
+      <point x="0.0" y="-94.0" />
+      <point x="365.0" y="802.0" />
+      <point x="1099.1875" y="802.0" />
+      <point x="-115.0625" y="391.0" />
+    </edge>
+    <edge source="Gobject.Rage" target="Gobject.Effect">
+      <point x="0.0" y="-60.5" />
+      <point x="849.0" y="1246.0" />
+      <point x="601.6" y="1246.0" />
+      <point x="31.600000000000023" y="38.0" />
+    </edge>
+    <edge source="Gobject.Core" target="Gobject.Gobject">
+      <point x="0.0" y="-105.0" />
+      <point x="791.0" y="822.0" />
+      <point x="1164.9375" y="822.0" />
+      <point x="-49.3125" y="391.0" />
+    </edge>
+    <edge source="Gobject.Static_Object" target="Gobject.Gobject">
+      <point x="0.0" y="-38.0" />
+      <point x="1078.5" y="832.0" />
+      <point x="1197.8125" y="832.0" />
+      <point x="-16.4375" y="391.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4466560509554141" x="816.2962728989684" y="0.6727659201648066" />
+  <SelectedNodes>
+    <node>Gobject.Poison</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+    <Category>Inner Classes</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
