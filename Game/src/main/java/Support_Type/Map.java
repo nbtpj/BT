@@ -56,8 +56,13 @@ public class Map implements Serializable {
     public Core core;
     public void setCore(){
         Core o = new Core(new Pos(SIZE_X/2,SIZE_Y/2));
+        data[SIZE_X/2][SIZE_Y/2].clear();
         AddGobject(o);
         core = o;
+    }
+    public void setCore(Core c){
+        this.core = c;
+        AddGobject(c);
     }
 
     public Map(Stage stage) throws Exception {
@@ -229,9 +234,7 @@ public class Map implements Serializable {
         }
 
         for (Gobject o : data) {
-            if(o instanceof Core){
-                core = (Core)o;
-            }
+
             this.AddGobject(o);
         }
 

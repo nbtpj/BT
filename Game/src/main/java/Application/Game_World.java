@@ -98,7 +98,7 @@ public class Game_World implements Part_Of_Game {
             AnimationTimer timer = new AnimationTimer() {
                 public void handle(long currentNanoTime) {
                     try {
-                        if (!paimon.using || !map.core.using) {
+                        if (!paimon.using ) {
                             this.stop();
                            // (new Losing()).turnOn(stage);
                         }

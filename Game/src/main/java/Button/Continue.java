@@ -2,7 +2,7 @@ package Button;
 
 import Application.Game_World;
 import Gobject.Bomber;
-import Gobject.Gobject;
+import Gobject.Core;
 import Gobject.Simple_Data;
 import Loader.Data;
 import Support_Type.Map;
@@ -39,8 +39,12 @@ public class Continue extends Button{
                 ObjectInputStream o = new ObjectInputStream(input);
                 if(f.getName().contains("paimon") && !f.getName().contains("'s bomb")){
                     map.setMain((Bomber) ((Simple_Data)o.readObject()).cvt());
-                } else
-                map.AddGobject(((Simple_Data)o.readObject()).cvt());
+                } else if(f.getName().contains("center_core")&& !f.getName().contains("'s")){
+                    map.setCore((Core)((Simple_Data)o.readObject()).cvt());
+                    System.out.println("get Core");
+                }
+                else {
+                map.AddGobject(((Simple_Data)o.readObject()).cvt());}
                 isEmpty=false;
                 o.close();
                 input.close();

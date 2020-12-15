@@ -28,22 +28,22 @@ public class Appear extends Gobject{
             int r = (int) Math.random()*100;
             List<Gobject> rs = new ArrayList<>();
             if(r<50){
-                rs.add(new Enemy_1(name+"'s child",pos()));
+                rs.add(new Enemy_1(name+"'s enemy",pos()));
                 return rs;
             } else {
                 if(r<70){
-                    rs.add(new Enemy_2(name+"'s child",pos()));
+                    rs.add(new Enemy_2(name+"'s enemy",pos()));
                     return rs;
                 } else {
                     if(r<80){
-                        rs.add(new Enemy_3(name+"'s child",pos()));
+                        rs.add(new Enemy_3(name+"'s enemy",pos()));
                         return rs;
                     } else {
                         if(r<95){
-                            rs.add(new Enemy_4(name+"'s child",pos()));
+                            rs.add(new Enemy_4(name+"'s enemy",pos()));
                             return rs;
                         } else {
-                            rs.add(new Enemy_5(name+"'s child",pos()));
+                            rs.add(new Enemy_5(name+"'s enemy",pos()));
                             return rs;
                         }
                     }
