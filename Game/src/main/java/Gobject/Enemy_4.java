@@ -1,6 +1,8 @@
 package Gobject;
 
 import Support_Type.Pos;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.Random;
  * enemy level 4
  */
 public class Enemy_4 extends Enemy {
-    double wait = 10;
+    double wait = 7;
     List<Pos> target = new ArrayList<>();
 
     public Enemy_4(Simple_Data data) {
@@ -42,11 +44,14 @@ public class Enemy_4 extends Enemy {
     protected List<Gobject> attack(double t) {
         wait -= t;
         List<Gobject> rs = new ArrayList<>();
-        if (wait <= 0) {
-            wait = 10;
-            for (Pos p : target) {
-                rs.add(new Enemy_1(name + "'s child" + System.nanoTime(), p));
+        if(wait<=0){
+            for(Pos p: target){
+                rs.add(new Enemy_1(name+"'s child"+System.nanoTime(),p));
+                wait=7;
+                break;
             }
+        } else {
+            wait-=t;
         }
 
         return rs;
@@ -216,5 +221,17 @@ public class Enemy_4 extends Enemy {
             }
         }
         return direction;
+    }
+    public void drawIndexBar(GraphicsContext gc){
+        gc.setFill(Color.GREEN);
+        gc.fillRect(x,y-0.8*height,width*index/maxIndex,height*0.15);
+
+        if(wait>0){
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-height,width*(1-wait/7),height*0.15);
+        } else {
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-height,width,height*0.15);
+        }
     }
 }

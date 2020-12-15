@@ -2,6 +2,9 @@ package Gobject;
 
 import Support_Type.Pos;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +13,7 @@ import java.util.Map;
 
 
 public abstract class Movable_Object extends Gobject {
-
+    public Text text = new Text();
     protected int W = Pos.SIZE, H = Pos.SIZE * 2;
     protected Map<String, Image[]> frames;
     protected Image[] current_frames;
@@ -24,6 +27,10 @@ public abstract class Movable_Object extends Gobject {
         super(index, name, x, y);
         frames = new HashMap<>();
         current_frame = -1;
+        text.setFill(Color.ORANGE);
+        text.setFont(new Font(10));
+        text.setWrappingWidth(30);
+
 
     }
 
@@ -32,12 +39,18 @@ public abstract class Movable_Object extends Gobject {
         super(i, name, pos);
         frames = new HashMap<>();
         current_frame = -1;
+        text.setFill(Color.ORANGE);
+        text.setFont(new Font(10));
+        text.setWrappingWidth(30);
     }
 
     public Movable_Object(Simple_Data data) {
         super(data);
         frames = new HashMap<>();
         current_frame = -1;
+        text.setFill(Color.ORANGE);
+        text.setFont(new Font(10));
+        text.setWrappingWidth(30);
     }
 
     /**

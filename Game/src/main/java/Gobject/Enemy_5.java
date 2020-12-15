@@ -1,6 +1,8 @@
 package Gobject;
 
 import Support_Type.Pos;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +41,16 @@ public class Enemy_5 extends Enemy {
     @Override
     protected List<Gobject> attack(double t) {
         List<Gobject> rs = new ArrayList<>();
-        wait-=t;
+
         if(wait<=0){
-            wait=6;
+            boolean set = false;
             for(Pos p: target){
                 rs.add(new Enemy_2(name+"'s child"+System.nanoTime(),p));
+                set = true;
             }
+            if (set) wait=6;
+        } else {
+            wait-=t;
         }
 
         return rs;
@@ -210,5 +216,17 @@ public class Enemy_5 extends Enemy {
             }
         }
         return direction;
+    }
+    public void drawIndexBar(GraphicsContext gc){
+        gc.setFill(Color.GREEN);
+        gc.fillRect(x,y-0.8*height,width*index/maxIndex,height*0.15);
+
+        if(wait>=0){
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-height,width*(1-wait/6),height*0.15);
+        } else {
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-height,width,height*0.15);
+        }
     }
 }

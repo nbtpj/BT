@@ -114,6 +114,12 @@ public class Bomber extends Movable_Object {
             rs.add(new Bomb(name + "'s bomb", pos()));
             set_bomb = false;
         }
+        if(using){
+            score+=t;
+            text.setText(Integer.toString((int) this.score / 5));
+            text.setX(x);
+            text.setX(y - Pos.SIZE);
+        }
         move();
         return rs;
     }

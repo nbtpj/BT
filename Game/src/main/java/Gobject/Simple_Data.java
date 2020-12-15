@@ -10,10 +10,11 @@ import java.io.Serializable;
 public class Simple_Data implements Serializable {
     public String data_type,type,name;
     public double index,x,y,v_x,v_y,width,height,invisible,invincible,rage,poisonous,maxIndex,default_vx,default_vy
-            ,max_invincible_time,max_rage_time,max_invisible_time,max_poisonous_time,healing,max_healing_time;
+            ,max_invincible_time,max_rage_time,max_invisible_time,max_poisonous_time,healing,max_healing_time,score;
     public boolean using;
 
     public Simple_Data(Gobject o) {
+        this.score = o.score;
         this.data_type = o.getClass().getTypeName();
         this.healing = o.healing;
         this.max_healing_time = o.max_healing_time;
@@ -70,6 +71,10 @@ public class Simple_Data implements Serializable {
                 return new Fire(this);
             case("Gobject.Soft_Wall"):
                 return new Soft_Wall(this);
+            case("Gobject.Appear"):
+                return new Appear(this);
+            case("Gobject.Core"):
+                return new Core(this);
             default:
                 return new Wall(this);
         }

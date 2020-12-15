@@ -1,6 +1,8 @@
 package Gobject;
 
 import Support_Type.Pos;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.Random;
  * enemy level 3
  */
 public class Enemy_3 extends Enemy{
-    double wait=15;
+    double wait=7;
     List<Pos> target= new ArrayList<>();
     public Enemy_3(Simple_Data data) {
         super(data);
@@ -44,11 +46,14 @@ public class Enemy_3 extends Enemy{
         wait-=t;
 
         List<Gobject> rs = new ArrayList<>();
-        if(wait<=0) {
-            wait =15;
-            for (Pos p : target) {
-                rs.add(new Bomb(name + "'s bomb" + System.nanoTime(), p));
+        if(wait<=0){
+            for(Pos p: target){
+                rs.add(new Bomb(name+"'s bomb"+System.nanoTime(),p));
+                wait=7;
+                break;
             }
+        } else {
+            wait-=t;
         }
         return rs;
     }
@@ -212,5 +217,17 @@ public class Enemy_3 extends Enemy{
             }
         }
         return direction;
+    }
+    public void drawIndexBar(GraphicsContext gc){
+        gc.setFill(Color.GREEN);
+        gc.fillRect(x,y-0.8*height,width*index/maxIndex,height*0.15);
+
+        if(wait>0){
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-height,width*(1-wait/7),height*0.15);
+        } else {
+            gc.setFill(Color.RED);
+            gc.fillRect(x,y-height,width,height*0.15);
+        }
     }
 }

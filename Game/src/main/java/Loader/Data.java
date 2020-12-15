@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import Support_Type.Pos;
 import javafx.scene.media.AudioClip;
+import javafx.scene.text.Font;
 
 public class Data {
 
@@ -25,6 +26,7 @@ public class Data {
 
     private static volatile Data Instance = null;
     public AudioClip game_world_music,main_menu_music,choose_character_music, cloning, effect, explosion;
+    public static Font font;
     public static Map<String,Image> load_all() throws IOException {
 
         Map<String,Image> rs = new HashMap<>();
@@ -35,7 +37,16 @@ public class Data {
         for (File f : filesInFolder){
             System.out.println("getting: "+f.getName().replace(".png",""));
             FileInputStream input = new FileInputStream(f);
-            rs.put(f.getName().replace(".png",""),new Image(input));
+            if(f.getName().contains(".jpg")||f.getName().contains(".gif")||f.getName().contains(".png")){
+            rs.put(f.getName().replace(".png",""),new Image(input));}
+            if(f.getName().contains("MachineGunk")){
+                System.out.println("found");
+                try{
+                    font = Font.loadFont(input,150);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             input.close();
         }
         return rs;

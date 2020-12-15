@@ -1,6 +1,7 @@
 package Support_Type;
 
 
+import Application.Game_World;
 import Button.*;
 import Gobject.*;
 import Loader.Data;
@@ -9,8 +10,11 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -24,21 +28,40 @@ import java.util.stream.Collectors;
 
 public class Map implements Serializable {
     static public final int SIZE_X = 42, SIZE_Y = 22;
+    Resume resume;
+    public double score = 0;
     public double time_index;
     public boolean lost = false;
     public Bomber main_c = null;
     public boolean sound = false, music = false;
+    public ImageView like = new ImageView(Data.get("like.gif"));
+    public ImageView win = new ImageView(Data.get("win.gif"));
+    public Text text = new Text();
+    Stage stage;
 
     public List<Gobject>[][] data = new List[SIZE_X][SIZE_Y];
     public Canvas Frame;
-    public Group graphic, pause, Lost;
+    private EventHandler<MouseEvent> e =new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent e) {
+            Frame.toFront();
+            timer.start();
+        }};
+    public Group graphic, pause, Lost,scoreboad = new Group();
     public Image background;
     AudioClip bck, effect, explosion, cloning;
     Music music_b;
     Sound sound_b;
     double update_time = 20;
     private AnimationTimer timer;
+    public Core core;
+    public void setCore(){
+        Core o = new Core(new Pos(SIZE_X/2,SIZE_Y/2));
+        AddGobject(o);
+        core = o;
+    }
+
     public Map(Stage stage) throws Exception {
+        this.stage = stage;
         bck = Data.getInstance().game_world_music;
         cloning = Data.getInstance().cloning;
         effect = Data.getInstance().effect;
@@ -51,16 +74,13 @@ public class Map implements Serializable {
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         graphic.getChildren().add(pause);
         graphic.getChildren().add(Frame);
+        graphic.getChildren().add(scoreboad);
+
         pause.getChildren().add(new Quit(this, stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 3 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8));
-        Resume resume = new Resume(Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 1 / 5 - Frame.getHeight() / 16
+        resume = new Resume(Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 1 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
-        resume.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent e) {
-                Frame.toFront();
-                timer.start();
-            }
-        });
+        resume.addEventHandler(MouseEvent.MOUSE_CLICKED, e);
         music_b = new Music(bck, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 4 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
         sound_b = new Sound(Frame.getWidth() / 2, Frame.getHeight() * 4 / 5 - Frame.getHeight() / 16
@@ -73,6 +93,29 @@ public class Map implements Serializable {
         });
         pause.getChildren().add(music_b);
         pause.getChildren().add(sound_b);
+
+        try {
+            like.setFitHeight(Frame.getHeight());
+            like.setFitWidth(Frame.getWidth());
+            graphic.getChildren().add(like);
+            like.toBack();
+            win.setFitHeight(Frame.getHeight());
+            win.setFitWidth(Frame.getWidth());
+            graphic.getChildren().add(win);
+            win.toBack();
+            text.setFill(Color.BROWN);
+            text.setStrokeWidth(10);
+            text.setFont(Data.font);
+            text.setWrappingWidth(200);
+            text.setX(Frame.getWidth()*3/4);
+            text.setY(Frame.getHeight()*1/4);
+            text.setTextAlignment(TextAlignment.JUSTIFY);
+            graphic.getChildren().add(text);
+            text.toFront();
+            text.setFill(Color.ORANGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         pause.getChildren().add(resume);
         Main_Menu menu = new Main_Menu(stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 2 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
@@ -100,10 +143,12 @@ public class Map implements Serializable {
             }
         }
         this.random_Wall();
+        this.setCore();
 
     }
 
     public Map(Stage stage, List<Gobject> data) throws Exception {
+        this.stage = stage;
         bck = Data.getInstance().game_world_music;
         cloning = Data.getInstance().cloning;
         effect = Data.getInstance().effect;
@@ -115,16 +160,12 @@ public class Map implements Serializable {
         this.Frame = new Canvas(SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
         graphic.getChildren().add(pause);
         graphic.getChildren().add(Frame);
+        graphic.getChildren().add(scoreboad);
         pause.getChildren().add(new Quit(this, stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 3 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8));
-        Resume resume = new Resume(Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 1 / 5 - Frame.getHeight() / 16
+        resume = new Resume(Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 1 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
-        resume.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent e) {
-                Frame.toFront();
-                timer.start();
-            }
-        });
+        resume.addEventHandler(MouseEvent.MOUSE_CLICKED, e);
         music_b = new Music(bck, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 4 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
         sound_b = new Sound(Frame.getWidth() / 2, Frame.getHeight() * 4 / 5 - Frame.getHeight() / 16
@@ -137,6 +178,30 @@ public class Map implements Serializable {
         });
         pause.getChildren().add(music_b);
         pause.getChildren().add(sound_b);
+
+        try {
+            like.setFitHeight(Frame.getHeight());
+            like.setFitWidth(Frame.getWidth());
+            graphic.getChildren().add(like);
+            like.toBack();
+            win.setFitHeight(Frame.getHeight());
+            win.setFitWidth(Frame.getWidth());
+            graphic.getChildren().add(win);
+            win.toBack();
+            text.setFill(Color.BROWN);
+            text.setStrokeWidth(10);
+
+            text.setFont(Data.font);
+            text.setWrappingWidth(200);
+            text.setX(Frame.getWidth()*3/4);
+            text.setY(Frame.getHeight()*1/4);
+            text.setTextAlignment(TextAlignment.JUSTIFY);
+            graphic.getChildren().add(text);
+            text.toFront();
+            text.setFill(Color.ORANGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         pause.getChildren().add(resume);
         Main_Menu menu = new Main_Menu(stage, Frame.getWidth() / 2 - Frame.getWidth() / 10, Frame.getHeight() * 2 / 5 - Frame.getHeight() / 16
                 , Frame.getWidth() / 5, Frame.getHeight() / 8);
@@ -164,6 +229,9 @@ public class Map implements Serializable {
         }
 
         for (Gobject o : data) {
+            if(o instanceof Core){
+                core = (Core)o;
+            }
             this.AddGobject(o);
         }
 
@@ -201,27 +269,27 @@ public class Map implements Serializable {
 
 
         while (count < 100) {
-        //    int r = (int) (Math.random() * 135);
+            //    int r = (int) (Math.random() * 135);
             int i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
             boolean ct = false, kt = false;
             for (Gobject o : data[i][j]) {
                 if (!ct && o instanceof Wall) ct = true;
-                if (!kt && (o instanceof Movable_Object||ct)) kt = true;
+                if (!kt && (o instanceof Movable_Object || ct)) kt = true;
             }
             if (!ct) {
                 data[i][j].add(new Soft_Wall(new Pos(i, j)));
                 count++;
             }
         }
-        while (enemy<5){
+        while (enemy < 5) {
             int i = (int) Math.round(Math.random() * (SIZE_X - 1)), j = (int) Math.round(Math.random() * (SIZE_Y - 1));
             boolean kt = false;
             for (Gobject o : data[i][j]) {
-                if (!kt && (o instanceof Movable_Object||o instanceof Wall)) kt = true;
+                if (!kt && (o instanceof Movable_Object || o instanceof Wall)) kt = true;
             }
-            if(!kt){
-                Enemy e=new Enemy_1("enemy",new Pos(i,j));
-                e.current_map=this;
+            if (!kt) {
+                Enemy e = new Enemy_1("enemy", new Pos(i, j));
+                e.current_map = this;
                 data[i][j].add(e);
                 enemy++;
             }
@@ -363,6 +431,9 @@ public class Map implements Serializable {
                             New.addAll(new_);
                         }
                     } else {
+                        if(m instanceof Movable_Object && scoreboad.getChildren().contains(((Movable_Object) m).text)){
+                            scoreboad.getChildren().remove(((Movable_Object) m).text);
+                        }
                         if ((!elz) && m instanceof Bomb) {
                             elz = true;
                         }
@@ -379,6 +450,7 @@ public class Map implements Serializable {
                         Old_Pos.add(data[i][j]);
                     }
                 }
+
                 data[i][j].removeAll(delete_);
                 delete_.clear();
             }
@@ -435,18 +507,72 @@ public class Map implements Serializable {
                 }
             }
         }
+
+        if (!core.using) {
+            timer.stop();
+            new AnimationTimer() {
+                final long start = System.nanoTime();
+
+                public void handle(long currentNanoTime) {
+                    if ((double) (currentNanoTime - start) / 1_000_000_000.0 >= 6) {
+                        pause.toFront();
+                        this.stop();
+                    } else {
+                        if ((double) (currentNanoTime - start) / 1_000_000_000.0 <= 2) {
+                            Frame.getGraphicsContext2D().setGlobalAlpha((double) (currentNanoTime - start) / 2_000_000_000.0);
+                            Frame.getGraphicsContext2D().drawImage(Data.get("game_over"), (SIZE_X * Pos.SIZE) / 4, (SIZE_Y * Pos.SIZE) / 4, (SIZE_X * Pos.SIZE) / 2
+                                    , (SIZE_Y * Pos.SIZE) / 2);
+                        } else {
+                            Frame.getGraphicsContext2D().setGlobalAlpha(1);
+                            Frame.getGraphicsContext2D().drawImage(background, 0, 0, SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
+                            win.toFront();
+                        }
+
+                    }
+                }
+            }.start();
+            resume.removeEventHandler(MouseEvent.MOUSE_CLICKED,e);
+            resume.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    try {
+                        try{
+                            List<File> filesInFolder = Files.walk(Paths.get("Game/src/main/resources/data/"))
+                                    .filter(Files::isRegularFile)
+                                    .map(Path::toFile)
+                                    .collect(Collectors.toList());
+                            for (File f : filesInFolder) f.delete();}
+                        catch (Exception E){}
+                        (new Game_World(main_c.type,music,sound)).turnOn(stage);
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }
+            });
+        }
         if (!main_c.using) {
+            timer.stop();
             this.lost = true;
             new AnimationTimer() {
                 final long start = System.nanoTime();
 
                 public void handle(long currentNanoTime) {
-                    if ((double) (currentNanoTime - start) / 1_000_000_000.0 >= 3) {
+                    if ((double) (currentNanoTime - start) / 1_000_000_000.0 >= 6) {
                         pause.toFront();
                         this.stop();
                     } else {
-                        Frame.getGraphicsContext2D().setGlobalAlpha((double) (currentNanoTime - start) / 3_000_000_000.0);
-                        Frame.getGraphicsContext2D().drawImage(Data.get("game_over"), 0, 0, SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
+                        if ((double) (currentNanoTime - start) / 1_000_000_000.0 <= 2) {
+                            Frame.getGraphicsContext2D().setGlobalAlpha((double) (currentNanoTime - start) / 2_000_000_000.0);
+                            Frame.getGraphicsContext2D().drawImage(Data.get("game_over"), (SIZE_X * Pos.SIZE) / 4, (SIZE_Y * Pos.SIZE) / 4, (SIZE_X * Pos.SIZE) / 2
+                                    , (SIZE_Y * Pos.SIZE) / 2);
+                        } else {
+                            Frame.getGraphicsContext2D().setGlobalAlpha(1);
+                            Frame.getGraphicsContext2D().drawImage(background, 0, 0, SIZE_X * Pos.SIZE, SIZE_Y * Pos.SIZE);
+                            like.toFront();
+                            text.setText((int) main_c.score / 5 + " ");
+                            text.toFront();
+                        }
+
                     }
                 }
             }.start();

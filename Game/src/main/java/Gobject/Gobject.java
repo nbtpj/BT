@@ -12,9 +12,10 @@ import java.util.Objects;
 
 public abstract class Gobject implements Serializable {
     public Map current_map;
-    public double index,maxIndex;
+
+    public double index,maxIndex,score=0;
     public boolean using = true;
-    protected String type;
+    public String type;
     public double width=Pos.SIZE,height=Pos.SIZE;
     public double invisible = 0,max_invisible_time;
     public double invincible = 0,max_invincible_time;
@@ -27,6 +28,7 @@ public abstract class Gobject implements Serializable {
     
 
     public Gobject(Simple_Data data) {
+        this.score = data.score;
         this.healing = data.healing;
         this.max_healing_time = data.max_healing_time;
         this.max_invincible_time=data.max_invincible_time;
