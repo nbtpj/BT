@@ -64,7 +64,7 @@ public class EnemyController {
             for (int j = 0; j < App.gameWorld.width; j++) {
                 if (map[i][j] == 'b') {
                     // dangerous
-                    map[i][j] = 'd';
+//                    map[i][j] = 'd';
                     int a, b;
 
                     a = i+1; b = j;
@@ -326,22 +326,22 @@ public class EnemyController {
                 }
                 break;
             }
-            if (map[np.y][np.x+1] != '#' && map[np.y][np.x+1] != '*' && map[np.y][np.x+1] != '.') {
+            if (map[np.y][np.x+1] != '#' && map[np.y][np.x+1] != '*' && map[np.y][np.x+1] != '.'&& map[np.y][np.x+1] != 'b') {
                 list.add(new Pair(np.x+1, np.y));
                 pair_map[np.y][np.x+1] = new Pair(np.x, np.y);
                 map[np.y][np.x+1] = '.';
             }
-            if (map[np.y][np.x-1] != '#' && map[np.y][np.x-1] != '*' && map[np.y][np.x-1] != '.') {
+            if (map[np.y][np.x-1] != '#' && map[np.y][np.x-1] != '*' && map[np.y][np.x-1] != '.'&& map[np.y][np.x-1] != 'b') {
                 list.add(new Pair(np.x-1, np.y));
                 pair_map[np.y][np.x-1] = new Pair(np.x, np.y);
                 map[np.y][np.x-1] = '.';
             }
-            if (map[np.y+1][np.x] != '#' && map[np.y+1][np.x] != '*' && map[np.y+1][np.x] != '.') {
+            if (map[np.y+1][np.x] != '#' && map[np.y+1][np.x] != '*' && map[np.y+1][np.x] != '.' && map[np.y+1][np.x] != 'b') {
                 list.add(new Pair(np.x, np.y+1));
                 pair_map[np.y+1][np.x] = new Pair(np.x, np.y);
                 map[np.y+1][np.x] = '.';
             }
-            if (map[np.y-1][np.x] != '#' && map[np.y-1][np.x] != '*' && map[np.y-1][np.x] != '.') {
+            if (map[np.y-1][np.x] != '#' && map[np.y-1][np.x] != '*' && map[np.y-1][np.x] != '.' && map[np.y-1][np.x] != 'b') {
                 list.add(new Pair(np.x, np.y-1));
                 pair_map[np.y-1][np.x] = new Pair(np.x, np.y);
                 map[np.y-1][np.x] = '.';
