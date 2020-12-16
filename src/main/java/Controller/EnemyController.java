@@ -4,7 +4,8 @@ import engine.Pair;
 import maxxam.App;
 import object.Enemy;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * 0: do nothing -> 1 2 3 5 6
@@ -397,16 +398,72 @@ public class EnemyController {
             switch (enemy.action) {
                 case 0:
                     int i = rand_int_in(100);
-                    if (0 <= i && i < 30) {
-                        get_1(enemy, absolutePairEnemy, map);
-                    } else if (30 <= i && i < 69) {
-                        get_2(enemy, absolutePairEnemy, map);
-                    } else if (69 <= i && i < 70) {
-                        get_3(enemy);
-                    } else if (70 <= i && i < 95) {
-                        get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
-                    } else if (95 <= i && i < 100) {
-                        get_6(enemy, absolutePairEnemy, map);
+
+                    if (enemy.id == 0) {
+                        if (0 <= i && i < 60) {
+                            get_1(enemy, absolutePairEnemy, map);
+                        } else if (60 <= i && i < 70) {
+                            get_2(enemy, absolutePairEnemy, map);
+                        } else if (70 <= i && i < 80) {
+                            get_3(enemy);
+                        } else if (80 <= i && i < 90) {
+                            get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
+                        } else if (90 <= i && i < 100) {
+                            get_6(enemy, absolutePairEnemy, map);
+                        }
+
+                    } else if (enemy.id == 1) {
+                        if (0 <= i && i < 10) {
+                            get_1(enemy, absolutePairEnemy, map);
+                        } else if (10 <= i && i < 70) {
+                            get_2(enemy, absolutePairEnemy, map);
+                        } else if (70 <= i && i < 80) {
+                            get_3(enemy);
+                        } else if (80 <= i && i < 90) {
+                            get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
+                        } else if (90 <= i && i < 100) {
+                            get_6(enemy, absolutePairEnemy, map);
+                        }
+
+                    } else if (enemy.id == 2) {
+                        if (0 <= i && i < 10) {
+                            get_1(enemy, absolutePairEnemy, map);
+                        } else if (10 <= i && i < 20) {
+                            get_2(enemy, absolutePairEnemy, map);
+                        } else if (20 <= i && i < 80) {
+                            get_3(enemy);
+                        } else if (80 <= i && i < 90) {
+                            get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
+                        } else if (90 <= i && i < 100) {
+                            get_6(enemy, absolutePairEnemy, map);
+                        }
+
+                    } else if (enemy.id == 3) {
+                        if (0 <= i && i < 10) {
+                            get_1(enemy, absolutePairEnemy, map);
+                        } else if (10 <= i && i < 20) {
+                            get_2(enemy, absolutePairEnemy, map);
+                        } else if (20 <= i && i < 30) {
+                            get_3(enemy);
+                        } else if (30 <= i && i < 90) {
+                            get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
+                        } else if (90 <= i && i < 100) {
+                            get_6(enemy, absolutePairEnemy, map);
+                        }
+
+                    } else if (enemy.id == 4) {
+                        if (0 <= i && i < 10) {
+                            get_1(enemy, absolutePairEnemy, map);
+                        } else if (10 <= i && i < 20) {
+                            get_2(enemy, absolutePairEnemy, map);
+                        } else if (20 <= i && i < 30) {
+                            get_3(enemy);
+                        } else if (30 <= i && i < 40) {
+                            get_5(enemy, absolutePairEnemy, relativePairPlayer, map);
+                        } else if (40 <= i && i < 100) {
+                            get_6(enemy, absolutePairEnemy, map);
+                        }
+
                     }
                     break;
                 case 1:
