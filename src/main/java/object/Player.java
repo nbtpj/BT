@@ -52,7 +52,7 @@ public class Player extends Sprite implements Collision {
         node.setTranslateX(x);
         node.setTranslateY(y);
         collisionBound = new Rectangle();
-        this.setupRectangleBound((Rectangle) collisionBound, x, y, height, width - 8);
+        this.setupRectangleBound((Rectangle) collisionBound, x, y, height -1, width - 8);
     }
 
     @Override

@@ -238,6 +238,15 @@ public class TheGame extends GameWorld {
                 if (c == 'x') {
                     Box.init(j, i, true);
                 }
+                if (c == 'B') {
+                    PowerUpBombs.init(j, i);
+                }
+                if (c == 'F') {
+                    PowerUpFlames.init(j, i);
+                }
+                if (c == 'S') {
+                    PowerUpSpeed.init(j, i);
+                }
                 System.out.print(c);
             }
             System.out.println("");
