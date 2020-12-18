@@ -85,6 +85,16 @@ public class Simple_Data implements Serializable {
                 return new Appear(this);
             case ("Gobject.Core"):
                 return new Core(this);
+            case ("Gobject.Rage"):
+                return new Rage(this);
+            case ("Gobject.Healing"):
+                return new Healing(this);
+            case ("Gobject.Invisible"):
+                return new Invisible(this);
+            case ("Gobject.Invincible"):
+                return new Invincible(this);
+            case ("Gobject.Poison"):
+                return new Poison(this);
             default:
                 return new Wall(this);
         }

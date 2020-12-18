@@ -12,6 +12,10 @@ public class Invincible extends  Effect{
         super( "Invincible"+System.nanoTime(), pos);
     }
 
+    public Invincible(Simple_Data data) {
+        super(data);
+    }
+
     @Override
     public List<Gobject> update(double t) {
         index-=t;
